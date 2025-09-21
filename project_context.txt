@@ -1,0 +1,535 @@
+--- \n// FILE: ./src/app/settings/page.tsx \n---
+// SERVER COMPONENT - Settings page that renders static content on the server
+// Displays application settings and configuration interface
+export default function SettingsPage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Settings</h1>
+      <div className="bg-white  dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          Manage your application settings, preferences, and configuration options. 
+          Customize your experience and control how the application behaves.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/pipeline/page.tsx \n---
+// SERVER COMPONENT - Pipeline page that renders static content on the server
+// Displays pipeline management and lead tracking interface
+export default function ProfilePage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Pipeline</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          View and manage your user profile information. Update your personal details, 
+          account settings, and manage your user preferences.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/calendar/page.tsx \n---
+// SERVER COMPONENT - Calendar page that renders on the server
+// Imports and renders the client-side Calendar component for interactive functionality
+import Calendar from "@/app/components/Client/ClientCalendar";
+
+export default function Page() {
+  return (
+    <main>
+      <h1 className="text-4xl glowing-text mb-6 mt-6 text-center">My Calendar</h1>
+      <div className="self-center m-10">
+        <Calendar /> 
+        {/* safe to use, because Calendar is a client component */}
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/phone/page.tsx \n---
+// SERVER COMPONENT - SMS page that renders static content on the server
+// Displays SMS management and communication interface
+export default function SMSPage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">SMSPage</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          View and manage your user profile information. Update your personal details, 
+          account settings, and manage your user preferences.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/artists/page.tsx \n---
+// SERVER COMPONENT - Artists page that renders static content on the server
+// Displays artist information and management interface
+export default function ProfilePage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Profile</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          View and manage your user profile information. Update your personal details, 
+          account settings, and manage your user preferences.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/data/page.tsx \n---
+// SERVER COMPONENT - Data page that renders static content on the server
+// Displays data management and analytics interface
+export default function DataPage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Data</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          Access and manage your data, analytics, and reports. View insights, 
+          export data, and monitor your application's performance metrics.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/content/email/page.tsx \n---
+// SERVER COMPONENT - Email page that renders static content on the server
+// Displays email management and communication interface
+export default function EmailPage() {
+  return (
+    <main className="p-4 md:p-8 space-y-4">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">EmailPage</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <p className="text-gray-600 dark:text-gray-300">
+          View and manage your user profile information. Update your personal details, 
+          account settings, and manage your user preferences.
+        </p>
+      </div>
+    </main>
+  );
+}
+--- \n// FILE: ./src/app/components/Server/ServerSection.tsx \n---
+// SERVER COMPONENT - Pure presentational component for content sections
+// Provides flexible section wrapper with optional className styling
+// components/Section.tsx
+export default function Section({className = "",children,}: { className?: string; children: React.ReactNode;}) 
+{
+  return <section className={className}>{children}</section>;
+}
+--- \n// FILE: ./src/app/components/Server/navlinks.tsx \n---
+// SERVER COMPONENT - Pure presentational component for navigation links
+// No client-side state or interactions, just renders navigation items
+import React from 'react'
+import Link from 'next/link';
+
+function NavLinks({ href, text, isActive, icon, isExpanded}: { 
+  href: string; 
+  text: string; 
+  isActive: boolean;
+  icon: React.ReactNode;
+  isExpanded: boolean;
+}) {
+  return (
+    <Link href={href} className={isActive ? 'active glowing-text' : 'inactive' }>
+        <div className='box-shadow-custom white-pulsing-element text-xl text-center pt-7 pb-7'>
+        
+                {icon} {isExpanded && text}
+            
+        </div>
+    </Link>
+  );
+}
+
+export default NavLinks;
+--- \n// FILE: ./src/app/components/Server/ServerContainer.tsx \n---
+// SERVER COMPONENT - Pure layout component with no client-side functionality
+// Provides grid layout structure for page content organization
+// components/Container.tsx
+export default function ServerContainer({ children }: { children: React.ReactNode }, ) {
+  return (
+    <div className="page-container">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">{children}</div>
+    </div>
+  );
+}
+--- \n// FILE: ./src/app/components/CardComponent.tsx \n---
+// SERVER COMPONENT - Pure presentational component with no client-side functionality
+// Used for displaying card layouts with title, subtitle, and content
+// components/Card.tsx
+export default function Card({
+  title,
+  subtitle,
+  right,
+  children,
+}: {
+  title?: string;
+  subtitle?: string;
+  right?: React.ReactNode; // actions (filters, link)
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="surface p-4 md:p-5">
+      {(title || right) && (
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            {title && <h3 className="text-lg font-semibold text-gray-900">{title}</h3>}
+            {subtitle && <p className="text-sm text-gray-600">{subtitle}</p>}
+          </div>
+          {right}
+        </div>
+      )}
+      {children}
+    </div>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/navbar/navbar.tsx \n---
+'use client'
+// CLIENT COMPONENT - Uses React hooks (useState, useEffect) for interactive navbar functionality
+// Manages expand/collapse state and body overflow control for mobile navigation
+import NavLinks from "@/app/components/Server/navlinks";
+import { useState, useEffect } from "react";
+
+export default function Navbar({ links }: { links: Array<{href: string, text: string, isActive: boolean, icon: React.ReactNode}> }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isExpanded]);
+
+  return (
+    <nav className={`h-screen transition-all duration-600 ease-in-out ease- flex flex-col
+       ${isExpanded ? 'w-64 border-white border-r-2' : 'w-20  '}`}>
+      <button 
+        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg " 
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <p className=" pt-5 pb-4 transition-transform duration-200">
+          {!isExpanded ? <i className="fi fi-ts-grip-lines text-4xl"></i> :  <i className="fi fi-ts-grip-lines-vertical text-4xl"></i> }
+        </p>
+      </button>
+      
+      <div className="transition-opacity duration-300 flex-1 flex flex-col justify-evenly ">
+        {links.map((link) => (
+          <NavLinks 
+            key={link.href} 
+            href={link.href} 
+            text={link.text} 
+            isActive={link.isActive} 
+            icon={link.icon}
+            isExpanded={isExpanded}
+          />
+        ))}
+      </div>
+    </nav>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/navbar/navbar-wrapper.tsx \n---
+'use client'
+// CLIENT COMPONENT - Uses usePathname hook to determine active navigation state
+// Bridges server-side routing with client-side navigation highlighting
+import { usePathname } from 'next/navigation';
+import Navbar from './navbar';
+
+export default function NavbarWrapper() {
+  const pathname = usePathname();
+  
+  // Define your links data with dynamic active state
+  const linksData = [
+    { href: "/", text: "Dashboard", isActive: pathname === "/", icon: <i className="fi fi-ts-dashboard" style={{fontSize: '24px'}}></i> },
+    { href: "/content/pipeline", text: "Pipelines", isActive: pathname === "/content/pipeline", icon: <i className="fi fi-ts-lead-funnel"></i> },
+    { href: "/content/data", text: "Data", isActive: pathname === "/content/data", icon: <i className="fi fi-ts-database"></i> },
+    { href: "/content/calendar", text: "Calendar", isActive: pathname === "/content/calendar", icon: <i className="fi fi-ts-calendar-clock"></i> },
+    { href: "/content/email", text: "Emailing", isActive: pathname === "/content/email", icon: <i className="fi fi-ts-email-feedback"></i> },
+    { href: "/content/phone", text: "SMS", isActive: pathname === "/content/phone", icon: <i className="fi  fi-ts-reservation-smartphone"></i> },
+    { href: "/content/artists", text: "Artists", isActive: pathname === "/content/content/profile", icon: <i className="fi fi-ts-circle-user"></i> },
+    { href: "/settings", text: "Settings", isActive: pathname === "/settings", icon: <i className="fi fi-ts-settings-window"></i> },
+  ];
+
+
+  return <Navbar links={linksData} />;
+}
+    --- \n// FILE: ./src/app/components/Client/pipeline/ClientPipeBoard.tsx \n---
+import React, { Component } from 'react'
+import {DndContext} from '@dnd-kit/core';
+import {Draggable} from './Draggable';
+import {Droppable} from './Droppable';
+
+// CLIENT COMPONENT - Uses DnD Kit library for drag-and-drop functionality
+// Handles interactive drag-and-drop features for pipeline board
+// Requires client-side state management for drag-and-drop interactions
+export default class ClientPipeBoard extends Component {
+  render() {
+    return (
+     <DndContext>
+      <Draggable id="draggable-1">
+        <div className="p-4 bg-white rounded shadow mb-4">Draggable Item 1</div>
+      </Draggable>
+      <Droppable id="droppable-1">
+        <div className="p-4 bg-gray-100 rounded shadow h-64">Drop Here</div>
+      </Droppable>
+     </DndContext>    )
+  }
+}
+--- \n// FILE: ./src/app/components/Client/ClientCalendar.tsx \n---
+"use client";
+// CLIENT COMPONENT - Uses FullCalendar library which requires browser APIs and DOM manipulation
+// Handles interactive calendar features: date selection, event dragging, clicking, etc.
+// Requires client-side state management for calendar interactions
+
+import React from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+
+type CalEvent = { id?: string; title: string; start: string; end?: string; allDay?: boolean };
+
+export default function CalendarClient({
+  events = [], onDateClick, onEventClick, onEventDrop, }: {events?: CalEvent[]; onDateClick?: (info: any) => void; onEventClick?: (info: any) => void; onEventDrop?: (info: any) => void;}) {
+  return (
+    <div className="surface p-4 md:p-6">
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="timeGridWeek"
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
+        }}
+        buttonText={{
+          today: "Today",
+          month: "Month",
+          week: "Week",
+          day: "Day",
+        
+        }}
+        selectable
+        editable
+        droppable={true}
+        height="auto"
+        events={events}
+        dateClick={onDateClick}
+        eventClick={onEventClick}
+        eventDrop={onEventDrop}
+        // quick styling hooks
+        eventClassNames={() => "rounded-md border border-black/5 shadow-sm"}
+        dayHeaderClassNames={() => "text-black"}
+      />
+    </div>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/ClientCheckList.tsx \n---
+"use client";
+// CLIENT COMPONENT - Uses interactive checkboxes that require client-side state
+// Handles user interactions for marking tasks as complete/incomplete
+import Card from "../CardComponent";
+
+export function ClientCheckList({ items, titleName }: { items: { label: string; done?: boolean }[], titleName:string }) {
+  return (
+    <Card title={titleName}>
+      <ul className="space-y-3">
+        {items.map((i, idx) => (
+          <li key={idx} className="flex items-center gap-3">
+            <input type="checkbox" defaultChecked={i.done} className="size-4 rounded" />
+            <span className="text-gray-800">{i.label}</span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/Reminders.tsx \n---
+"use client";
+// CLIENT COMPONENT - Displays dynamic data that may need real-time updates
+// Could be enhanced with interactive features like clicking to view details
+import Card from "../CardComponent";
+
+export function Reminders({ data }: { data: { emails: number; sms: number; urgent: number } }) {
+  return (
+    <Card title="Reminders">
+      <div className="grid grid-cols-3 gap-3 text-center">
+        <div className="surface-muted p-3 rounded-xl">
+          <div className="text-2xl font-bold">{data.emails}</div>
+          <div className="text-sm text-gray-600">Emails</div>
+        </div>
+        <div className="surface-muted p-3 rounded-xl">
+          <div className="text-2xl font-bold">{data.sms}</div>
+          <div className="text-sm text-gray-600">SMS</div>
+        </div>
+        <div className="surface-muted p-3 rounded-xl">
+          <div className="text-2xl font-bold">{data.urgent}</div>
+          <div className="text-sm text-gray-600">Urgent</div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/ClientModalCard.tsx \n---
+// components/ClientCard.tsx
+"use client";
+
+export type Client = {
+  id: string;
+  name: string;
+  contact: string;
+  artist?: string;
+  nextAction?: string;   // e.g., date text
+  session?: number;
+  notes?: string;
+};
+
+export default function ClientCard({ c, onOpen }: { c: Client; onOpen?: (id: string) => void }) {
+  return (
+    <button
+      onClick={() => onOpen?.(c.id)}
+      className="w-full text-left rounded-lg bg-white border p-3 shadow-sm hover:shadow-md transition"
+    >
+      <div className="font-semibold">{c.name}</div>
+      <div className="text-sm text-gray-600">{c.contact}</div>
+      {c.artist && <div className="text-sm">🎨 {c.artist}</div>}
+      {c.nextAction && <div className="text-xs text-gray-500">Next: {c.nextAction}</div>}
+      {c.notes && <div className="text-xs text-gray-500 line-clamp-2">{c.notes}</div>}
+    </button>
+  );
+}
+--- \n// FILE: ./src/app/components/Client/PipelineStats.tsx \n---
+"use client";
+// CLIENT COMPONENT - Performs calculations and dynamic styling based on props
+// Uses Math.round and dynamic style calculations that benefit from client-side rendering
+import Card from "../CardComponent";
+
+export function PipelineStats({ flakers, finished }: { flakers: number; finished: number }) {
+  const total = flakers + finished || 1;
+  const finishedPct = Math.round((finished / total) * 100);
+
+  return (
+    <Card title="Pipeline Stats">
+      <div className="flex items-center gap-4">
+        <div
+          className="relative size-20 rounded-full"
+          style={{
+            background: `conic-gradient(var(--neon-purple) 0 ${finishedPct}%, rgba(0,0,0,0.08) ${finishedPct}% 100%)`,
+          }}
+        />
+        <div>
+          <div className="text-2xl font-bold">{finishedPct}%</div>
+          <div className="text-sm text-gray-600">Finished</div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+--- \n// FILE: ./src/app/layout.tsx \n---
+// SERVER COMPONENT - Root layout component that renders on the server
+// Defines global metadata and HTML structure for the entire application
+import type { Metadata } from "next";
+import NavbarWrapper from "./components/Client/navbar/navbar-wrapper";
+import "./globals.css";
+
+
+
+
+
+export const metadata: Metadata = {
+  title: "Simple Ink Studios",
+  description: "Keeping your managment simple.",
+  authors: [{ name: "davin preble" }],
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="stylesheet" href="/uicons-thin-straight.css" />
+      </head>
+      <body className="flex app-canvas ">
+        <NavbarWrapper />
+        <main className="flex-1 flex ">
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}
+--- \n// FILE: ./src/app/page.tsx \n---
+// SERVER COMPONENT - Main dashboard page that fetches data on the server
+// Uses async function to prepare data before rendering, then passes to client components
+import ServerContainer from "@/app/components/Server/ServerContainer";
+import Section from "@/app/components/Server/ServerSection";
+import Card from "@/app/components/CardComponent";
+import { ClientCheckList } from "@/app/components/Client/ClientCheckList";
+import { Reminders } from "@/app/components/Client/Reminders";
+import { PipelineStats } from "@/app/components/Client/PipelineStats";
+import ClientCard from "./components/Client/ClientModalCard";
+
+export default async function Page() {
+  // Later: fetch from Supabase; mock for now
+  const working = [
+    { label: "Apts" }, { label: "Meetings" }, { label: "Inventory" }, { label: "Cold Calling" },{label:"Test", done:true }
+  ];
+  const testList =[
+    {label:"test"}
+  ];
+
+  const reminders = { emails: 3, sms: 2, urgent: 3 };
+  const stats = { flakers: 1, finished: 1 };
+
+  return (
+    <main className="app-canvas min-h-dvh">
+      <div className="page-container ml-10">
+        <h1 className="text-white/90 text-2xl font-semibold mb-4">Dashboard</h1>
+
+        <ServerContainer>
+          {/* Left column (sidebar area in your sketch) */}
+          <Section  className="lg:col-span-3 space-y-6">
+            <ClientCheckList titleName="Development Completed Things" items={working}/>
+            <Card title="Artists" subtitle="Who's on the page today">
+              <ul className="space-y-2 text-gray-800">
+                <li>Jules - 3 sessions</li>
+                <li>Mako - 2 sessions</li>
+                <li>Nova - 1 session</li>
+                <li>Test</li>
+              </ul>
+            </Card>
+
+          </Section>
+
+          {/* Middle column (main content) */}
+          <Section className="lg:col-span-6 space-y-6">
+            <Card title="What You've Done" subtitle="Today">
+              <ul className="space-y-2 text-gray-800">
+                <li>• 2 appointments booked</li>
+                <li>• 1 consult scheduled</li>
+                <li>• 3 follow-ups sent</li>
+              </ul>
+            </Card>
+
+            <Card title="Calendar Summary">
+              <div className="text-gray-700">Mini calendar or list preview goes here.</div>
+            </Card>
+
+            <ClientCheckList titleName="" items={testList} />
+          </Section>
+
+          {/* Right column (reminders + stats) */}
+          <Section className="lg:col-span-3 space-y-6">
+            <Reminders data={reminders} />
+            <PipelineStats flakers={stats.flakers} finished={stats.finished} />
+          </Section>
+        </ServerContainer>
+
+
+      </div>
+    </main>
+  );
+}

@@ -11,24 +11,29 @@ import ClientCard from "./components/Client/ClientModalCard";
 export default async function Page() {
   // Later: fetch from Supabase; mock for now
   const working = [
-    { label: "Apts" }, { label: "Meetings" }, { label: "Inventory" }, { label: "Cold Calling" },{label:"Test", done:true }
+    { label: "Apts" },
+    { label: "Meetings" },
+    { label: "Inventory" },
+    { label: "Cold Calling" },
+    { label: "Test", done: true },
   ];
-  const testList =[
-    {label:"test"}
-  ];
+  const testList = [{ label: "test" }];
 
   const reminders = { emails: 3, sms: 2, urgent: 3 };
   const stats = { flakers: 1, finished: 1 };
 
   return (
-    <main className="app-canvas min-h-dvh">
+    <main className="min-h-dvh">
       <div className="page-container ml-10">
         <h1 className="text-white/90 text-2xl font-semibold mb-4">Dashboard</h1>
 
         <ServerContainer>
           {/* Left column (sidebar area in your sketch) */}
-          <Section  className="lg:col-span-3 space-y-6">
-            <ClientCheckList titleName="Development Completed Things" items={working}/>
+          <Section className="lg:col-span-3 space-y-6">
+            <ClientCheckList
+              titleName="Development Completed Things"
+              items={working}
+            />
             <Card title="Artists" subtitle="Who's on the page today">
               <ul className="space-y-2 text-gray-800">
                 <li>Jules - 3 sessions</li>
@@ -37,7 +42,6 @@ export default async function Page() {
                 <li>Test</li>
               </ul>
             </Card>
-
           </Section>
 
           {/* Middle column (main content) */}
@@ -51,7 +55,9 @@ export default async function Page() {
             </Card>
 
             <Card title="Calendar Summary">
-              <div className="text-gray-700">Mini calendar or list preview goes here.</div>
+              <div className="text-gray-700">
+                Mini calendar or list preview goes here.
+              </div>
             </Card>
 
             <ClientCheckList titleName="" items={testList} />
@@ -63,8 +69,6 @@ export default async function Page() {
             <PipelineStats flakers={stats.flakers} finished={stats.finished} />
           </Section>
         </ServerContainer>
-
-
       </div>
     </main>
   );

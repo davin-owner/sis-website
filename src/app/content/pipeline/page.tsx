@@ -1,14 +1,19 @@
 // SERVER COMPONENT - Pipeline page that renders static content on the server
 // Displays pipeline management and lead tracking interface
-export default function ProfilePage() {
+import React from "react";
+import ServerPipelineBoard from "@components/Server/ServerPipelineBoard";
+import { initialColumns } from "@/lib/mock-data";
+
+// SERVER COMPONENT - Fetches data and passes it to the client
+export default async function PipelinePage() {
+  // Later, this will be: const data = await supabase.from(...)
   return (
-    <main className="p-4 md:p-8 space-y-4">
-      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Pipeline</h1>
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <p className="text-gray-600 dark:text-gray-300">
-          View and manage your user profile information. Update your personal details, 
-          account settings, and manage your user preferences.
-        </p>
+    <main className="min-h-dvh">
+      <div className="page-container">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+          Client Pipeline
+        </h1>
+        <ServerPipelineBoard initialColumns={initialColumns} />
       </div>
     </main>
   );

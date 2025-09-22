@@ -7,6 +7,7 @@ import { ClientCheckList } from "@/app/components/Client/ClientCheckList";
 import { Reminders } from "@/app/components/Client/Reminders";
 import { PipelineStats } from "@/app/components/Client/PipelineStats";
 import ClientCard from "./components/Client/ClientModalCard";
+import DragDropExample from "@/app/components/Examples/DragDropExample";
 
 export default async function Page() {
   // Later: fetch from Supabase; mock for now
@@ -23,10 +24,13 @@ export default async function Page() {
   const stats = { flakers: 1, finished: 1 };
 
   return (
-    <main className="min-h-dvh">
-      <div className="page-container ml-10">
+    <div className="min-h-dvh">
+      <div className="page-container">
         <h1 className="text-white/90 text-2xl font-semibold mb-4">Dashboard</h1>
-
+        <div className="p-4">
+          <h1>Drag & Drop Demo</h1>
+          <DragDropExample />
+        </div>
         <ServerContainer>
           {/* Left column (sidebar area in your sketch) */}
           <Section className="lg:col-span-3 space-y-6">
@@ -70,6 +74,6 @@ export default async function Page() {
           </Section>
         </ServerContainer>
       </div>
-    </main>
+    </div>
   );
 }

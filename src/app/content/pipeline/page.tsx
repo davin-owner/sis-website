@@ -8,13 +8,13 @@ import { initialColumns } from "@/lib/mock-data";
 export default async function PipelinePage() {
   // Later, this will be: const data = await supabase.from(...)
   return (
-    <main className="min-h-dvh">
+    <div className="min-h-dvh">
       <div className="page-container">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
           Client Pipeline
         </h1>
         <ServerPipelineBoard initialColumns={initialColumns} />
       </div>
-    </main>
+    </div>
   );
 }

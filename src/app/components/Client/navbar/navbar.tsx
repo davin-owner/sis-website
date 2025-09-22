@@ -26,11 +26,12 @@ export default function Navbar({
 
   return (
     <nav
-      className={`h-screen transition-all duration-600 ease-in-out ease- flex flex-col
-       ${isExpanded ? "w-64 border-white border-r-2" : "w-20  "}`}
+      className={`h-screen flex-none transition-all duration-600 ease-in-out flex flex-col
+       ${isExpanded ? "w-64 border-white border-r-2 " : "w-20 "}`}
+      style={{ minHeight: "100vh" }}
     >
       <button
-        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg "
+        className="w-full pulse-element transition-colors duration-200 hover:darkcyanbg"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <p className=" pt-5 pb-4 transition-transform duration-200">

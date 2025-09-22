@@ -190,7 +190,7 @@ body {
 /*#endregion*/
 
 /* Animation you had for pulsing/nav glow */
-@keyframes puslse-element {
+@keyframes pulse-element {
   0% {
     box-shadow: 0 0 5px rgba(255, 255, 225, 1);
     border: 1px solid rgba(255, 255, 225, 1);
@@ -205,9 +205,8 @@ body {
   }
 }
 .white-pulsing-element:hover {
-  animation: puslse-element 3s infinite alternate;
+  animation: pulse-element 3s infinite alternate;
 }
-
 /* Glow text: your version used an undefined --color-white; switch to #fff */
 .glowing-text {
   color: #fff;

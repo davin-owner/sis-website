@@ -1,7 +1,7 @@
 "use client";
 // CLIENT COMPONENT - Performs calculations and dynamic styling based on props
 // Uses Math.round and dynamic style calculations that benefit from client-side rendering
-import Card from "@/components/template/CardComponent";
+import Card from "@/components/studio/Card.server";
 
 export function PipelineStats({
   flakers,

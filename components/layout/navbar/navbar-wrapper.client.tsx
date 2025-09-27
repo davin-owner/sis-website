@@ -15,7 +15,7 @@ export default function NavbarWrapper() {
     { href: "/content/calendar", text: "Calendar", isActive: pathname === "/content/calendar", icon: <i className="fi fi-ts-calendar-clock"></i> },
     { href: "/content/email", text: "Emailing", isActive: pathname === "/content/email", icon: <i className="fi fi-ts-email-feedback"></i> },
     { href: "/content/phone", text: "SMS", isActive: pathname === "/content/phone", icon: <i className="fi  fi-ts-reservation-smartphone"></i> },
-    { href: "/content/artists", text: "Artists", isActive: pathname === "/content/content/profile", icon: <i className="fi fi-ts-circle-user"></i> },
+    { href: "/content/artists", text: "Artists", isActive: pathname === "/content/artists", icon: <i className="fi fi-ts-circle-user"></i> },
     { href: "/settings", text: "Settings", isActive: pathname === "/settings", icon: <i className="fi fi-ts-settings-window"></i> },
   ];
 

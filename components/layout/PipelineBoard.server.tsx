@@ -11,7 +11,7 @@
  * - Render static SEO-friendly content
  */
 import React from "react";
-import PipelineBoard from "@/components/studio/pipeline/PipelineBoard.client";
+import ClientPipelineBoard from "@/components/studio/pipeline/PipelineBoard.client";
 import { Column } from "@/lib/types";
 
 // Define the props the component will accept
@@ -22,7 +22,7 @@ type PipelineBoardProps = {
 export default function PipelineBoard(props: PipelineBoardProps) {
   return (
     <div>
-      <PipelineBoard initialColumns={props.initialColumns} />
+      <ClientPipelineBoard initialColumns={props.initialColumns} />
     </div>
   );
 }

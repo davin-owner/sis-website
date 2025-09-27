@@ -22,7 +22,7 @@
  */
 import type { Metadata } from "next";
 import { NavbarProvider } from "@/lib/contexts/navbar-context";
-import NavbarWrapper from "../components/layout/navbar/navbar-wrapper";
+import NavbarWrapper from "../components/layout/navbar/navbar-wrapper.client";
 import "./globals.css";
 
 export const metadata: Metadata = {

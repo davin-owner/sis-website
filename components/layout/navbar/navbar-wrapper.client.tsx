@@ -2,7 +2,7 @@
 // CLIENT COMPONENT - Uses usePathname hook to determine active navigation state
 // Bridges server-side routing with client-side navigation highlighting
 import { usePathname } from 'next/navigation';
-import Navbar from './navbar';
+import Navbar from './navbar.client';
 
 export default function NavbarWrapper() {
   const pathname = usePathname();

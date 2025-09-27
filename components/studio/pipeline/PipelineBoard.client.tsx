@@ -1,11 +1,11 @@
 /**
- * CLIENT PIPELINE BOARD - Interactive Drag & Drop Pipeline Management
+ * PIPELINE BOARD (.client) - Interactive Drag & Drop Pipeline Management
  *
  * This is the main interactive component for managing client sales pipeline.
  * It provides drag-and-drop functionality for moving clients between pipeline stages.
  *
  * Data Flow:
- * 1. Receives initialColumns from ServerPipelineBoard (server component)
+ * 1. Receives initialColumns from PipelineBoard.server (server component)
  * 2. Manages local state for columns and clients using React useState
  * 3. Handles drag events to update pipeline state
  * 4. Uses navbar context for responsive layout adjustments
@@ -41,8 +41,8 @@ import {
   closestCenter,
   DragOverlay,
 } from "@dnd-kit/core";
-import ClientPipelineColumns from "@/components/studio/pipeline/ClientPipelineColumns";
-import DraggableClientCard from "./DraggableClientCard";
+import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
+import DraggableCard from "./DraggableCard.client";
 import { Column, Client } from "@/lib/types";
 import { useNavbar } from "@/lib/contexts/navbar-context";
 import {
@@ -191,14 +191,14 @@ export default function ClientPipelineBoard({
         }`}
         id="client-pipeline-columns"
       >
-        <ClientPipelineColumns columns={columns} onMove={handleMove} />
+        <PipelineColumns columns={columns} onMove={handleMove} />
       </div>
 
       {/* DragOverlay shows a preview of the dragged item */}
       <DragOverlay>
         {activeId ? (
           <div className="opacity-80">
-            <DraggableClientCard
+            <DraggableCard
               client={findClientById(activeId) || columns[0].clients[0]}
               columnId=""
             />

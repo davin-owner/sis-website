@@ -3,7 +3,7 @@
 import React from "react";
 import { Column } from "@/lib/types";
 import { useDroppable } from "@dnd-kit/core";
-import DraggableClientCard from "./DraggableClientCard";
+import DraggableCard from "./DraggableCard.client";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -42,7 +42,7 @@ function DroppableColumn({ column }: { column: Column }) {
         </h2>
         <div className="space-y-3 transition-all duration-200">
           {column.clients.map((client) => (
-            <DraggableClientCard
+            <DraggableCard
               key={client.id}
               client={client}
               columnId={column.id}

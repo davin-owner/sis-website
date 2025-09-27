@@ -1,6 +1,6 @@
 // SERVER COMPONENT - Calendar page that renders on the server
 // Imports and renders the client-side Calendar component for interactive functionality
-import Calendar from "@/components/Client/ClientCalendar";
+import Calendar from "@/components/studio/ClientCalendar";
 
 export default function Page() {
   return (

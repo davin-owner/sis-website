@@ -1,8 +1,28 @@
-// SERVER COMPONENT - Root layout component that renders on the server
-// Defines global metadata and HTML structure for the entire application
+/**
+ * ROOT LAYOUT - Simple Ink Studios Management Platform
+ *
+ * This is the main layout component that wraps the entire application.
+ * It runs on the server and defines the global HTML structure and metadata.
+ *
+ * Features:
+ * - Global CSS imports (Tailwind + custom styles)
+ * - Navbar context provider for shared navigation state
+ * - Persistent sidebar navigation
+ * - Responsive flex layout (navbar + main content)
+ *
+ * Layout Structure:
+ * <html>
+ *   <body className="flex app-canvas">
+ *     <NavbarProvider>          // Global state for navbar expansion
+ *       <NavbarWrapper />       // Left sidebar navigation (always visible)
+ *       <main>{children}</main> // Page content area
+ *     </NavbarProvider>
+ *   </body>
+ * </html>
+ */
 import type { Metadata } from "next";
 import { NavbarProvider } from "@/lib/contexts/navbar-context";
-import NavbarWrapper from "../components/Client/navbar/navbar-wrapper";
+import NavbarWrapper from "../components/layout/navbar/navbar-wrapper";
 import "./globals.css";
 
 export const metadata: Metadata = {

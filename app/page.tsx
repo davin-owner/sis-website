@@ -1,5 +1,26 @@
-// SERVER COMPONENT - Dashboard page that renders static content on the server
-// Main dashboard for Simple Ink Studios management interface
+/**
+ * DASHBOARD PAGE - Simple Ink Studios Management Platform
+ *
+ * This is the main dashboard that users see after successful authentication.
+ * It provides an overview of key business metrics and quick access to main features.
+ *
+ * Authentication:
+ * - Protected route: Users must be logged in to access
+ * - Automatic redirect to /auth/login if not authenticated
+ * - Uses Supabase auth.getClaims() for server-side verification
+ *
+ * Features:
+ * - Pipeline overview card with metrics
+ * - Calendar integration preview
+ * - Communications tools summary
+ * - Responsive grid layout for different screen sizes
+ *
+ * Future Enhancements:
+ * - Real-time business metrics
+ * - Recent activity feed
+ * - Quick action buttons
+ * - Customizable dashboard widgets
+ */
 import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 // CLIENT COMPONENT - Uses React hooks (useState, useEffect) for interactive navbar functionality
 // Manages expand/collapse state and body overflow control for mobile navigation
-import NavLinks from "@/components/Server/navlinks";
+import NavLinks from "@/components/layout/navlinks";
 import { useNavbar } from "@/lib/contexts/navbar-context";
 
 export default function Navbar({

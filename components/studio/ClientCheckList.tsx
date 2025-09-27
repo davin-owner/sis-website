@@ -1,7 +1,7 @@
 "use client";
 // CLIENT COMPONENT - Uses interactive checkboxes that require client-side state
 // Handles user interactions for marking tasks as complete/incomplete
-import Card from "@/components/template/CardComponent";
+import Card from "@/components/studio/CardComponent";
 
 export function ClientCheckList({
   items,

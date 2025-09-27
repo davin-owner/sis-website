@@ -1,7 +1,7 @@
 // SERVER COMPONENT - Renders the server-side part of the pipeline board
 // This component can fetch data and pass it to the client component
 import React from "react";
-import ClientPipelineBoard from "../Client/pipeline/ClientPipelineBoard";
+import ClientPipelineBoard from "@/components/studio/pipeline/ClientPipelineBoard";
 import { Column } from "@/lib/types";
 
 // Define the props the component will accept

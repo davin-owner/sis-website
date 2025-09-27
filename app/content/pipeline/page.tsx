@@ -1,7 +1,7 @@
 // SERVER COMPONENT - Pipeline page that renders static content on the server
 // Displays pipeline management and lead tracking interface
 import React from "react";
-import ServerPipelineBoard from "@/components/Server/ServerPipelineBoard";
+import ServerPipelineBoard from "@/components/layout/ServerPipelineBoard";
 import { initialColumns } from "@/lib/mock-data";
 
 // SERVER COMPONENT - Fetches data and passes it to the client

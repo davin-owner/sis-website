@@ -1,25 +1,15 @@
-/**
- * AUTH BUTTON (.server) - Server-Side Authentication Status Display
- *
- * This server component checks authentication status and displays appropriate buttons.
- * Shows user info + logout when authenticated, or login/signup buttons when not.
- *
- * Features:
- * - Server-side authentication check with Supabase
- * - Conditional rendering based on auth status
- * - Integrates with logout functionality
- * - Clean button styling with shadcn/ui
- */
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { LogoutButton } from "./logout-button";
 
 export async function AuthButton() {
   const supabase = await createClient();
 
-  // Check if user is authenticated
-  const { data: { user } } = await supabase.auth.getUser();
+  // You can also use getUser() which will be slower.
+  const { data } = await supabase.auth.getClaims();
+
+  const user = data?.claims;
 
   return user ? (
     <div className="flex items-center gap-4">

@@ -186,9 +186,7 @@ export default function ClientPipelineBoard({
       collisionDetection={closestCenter}
     >
       <div
-        className={`flex justify-between items-start w-full gap-6 p-6 mt-16 ${
-          isNavbarExpanded ? "ml-64" : "ml-20"
-        }`}
+        className="flex justify-center items-start w-full gap-6 p-6"
         id="client-pipeline-columns"
       >
         <PipelineColumns columns={columns} onMove={handleMove} />

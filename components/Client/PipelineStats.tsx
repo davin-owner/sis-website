@@ -1,9 +1,15 @@
 "use client";
 // CLIENT COMPONENT - Performs calculations and dynamic styling based on props
 // Uses Math.round and dynamic style calculations that benefit from client-side rendering
-import Card from "../CardComponent";
+import Card from "@/components/template/CardComponent";
 
-export function PipelineStats({ flakers, finished }: { flakers: number; finished: number }) {
+export function PipelineStats({
+  flakers,
+  finished,
+}: {
+  flakers: number;
+  finished: number;
+}) {
   const total = flakers + finished || 1;
   const finishedPct = Math.round((finished / total) * 100);
 

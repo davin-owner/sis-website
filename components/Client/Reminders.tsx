@@ -1,9 +1,13 @@
 "use client";
 // CLIENT COMPONENT - Displays dynamic data that may need real-time updates
 // Could be enhanced with interactive features like clicking to view details
-import Card from "../CardComponent";
+import Card from "@/components/template/CardComponent";
 
-export function Reminders({ data }: { data: { emails: number; sms: number; urgent: number } }) {
+export function Reminders({
+  data,
+}: {
+  data: { emails: number; sms: number; urgent: number };
+}) {
   return (
     <Card title="Reminders">
       <div className="grid grid-cols-3 gap-3 text-center">

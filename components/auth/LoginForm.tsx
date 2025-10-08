@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import {
   Card,
@@ -32,13 +32,15 @@ export function LoginForm({
     setError(null);
 
     try {
+      const supabase = createClient();
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) throw error;
       // Redirect to Simple Ink Studios dashboard after successful login
-      router.push("/");
+      router.push("/dashboard");
+      router.refresh(); // Force refresh to update middleware
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {

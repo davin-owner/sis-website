@@ -77,7 +77,7 @@ export async function middleware(request: NextRequest) {
 
   // RULE 2: NOT logged in user visits /dashboard or other protected routes
   // → Redirect them to "/" (landing page - they need to sign up first)
-  if (!user && (path.startsWith("/dashboard") || path.startsWith("/pipeline") || path.startsWith("/calendar"))) {
+  if (!user && (path.startsWith("/dashboard") || path.startsWith("/content") || path.startsWith("/settings"))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

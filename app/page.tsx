@@ -23,16 +23,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import WaitlistModal from "@/components/waitlist/WaitlistModal.client";
+import ContactModal from "@/components/contact/ContactModal.client";
 
 export default function LandingPage() {
   // State to control if modal is open or closed
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [IsWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false);
+  const [IsContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-6">
       {/* Main Content Container */}
       <div className="max-w-4xl w-full text-center space-y-8">
-
         {/* Hero Section */}
         <div className="space-y-4">
           {/* Main Headline - White with glow effect */}
@@ -57,13 +58,21 @@ export default function LandingPage() {
         </div>
 
         {/* CTA Button */}
-        <div className="pt-8">
+        <div className="pt-8 bg-black flex flex-col space-y-5 ">
           <Button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsWaitlistModalOpen(true)}
             size="lg"
-            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold"
+            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold w-1/2 self-center "
           >
             Join the Waitlist
+          </Button>
+
+          <Button
+            onClick={() => setIsContactModalOpen(true)}
+            size="lg"
+            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold w-1/2 self-center "
+          >
+            Contact Us!
           </Button>
         </div>
 
@@ -74,9 +83,16 @@ export default function LandingPage() {
       </div>
 
       {/* Waitlist Modal */}
+
       <WaitlistModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={IsWaitlistModalOpen}
+        onClose={() => setIsWaitlistModalOpen(false)}
+      />
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={IsContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
     </div>
   );

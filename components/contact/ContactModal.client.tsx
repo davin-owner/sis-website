@@ -9,7 +9,7 @@ interface ContactModalProps {
 }
 
 export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
-  const businessEmail = "contact@simpleinkstudios.com"; // Replace with your actual business email
+  const businessEmail = "davin@simpleinkstudios.com"; // Replace with your actual business email
 
   const handleEmailClick = () => {
     window.location.href = `mailto:${businessEmail}?subject=Question about Simple Ink Studios`;
@@ -35,7 +35,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           <p className="text-white/90 text-lg">
-            Have questions about Simple Ink Studios? We&apos;d love to hear from you!
+            Have questions about Simple Ink Studios? We&apos;d love to hear from
+            you!
           </p>
 
           <div className="bg-white/10 p-4 rounded-lg">

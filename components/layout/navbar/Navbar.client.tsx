@@ -26,11 +26,12 @@ export default function Navbar({
        ${isExpanded ? "w-64 border-white border-r-2 " : "w-20 "}`}
       style={{ minHeight: "100vh" }}
     >
+      {/* Toggle button at top */}
       <button
-        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg"
+        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <p className=" pt-5 pb-4 transition-transform duration-200">
+        <p className="pt-5 pb-4 transition-transform duration-200">
           {!isExpanded ? (
             <i className="fi fi-ts-grip-lines text-4xl"></i>
           ) : (
@@ -39,7 +40,8 @@ export default function Navbar({
         </p>
       </button>
 
-      <div className="transition-opacity duration-300 flex-1 flex flex-col justify-evenly ">
+      {/* Main navigation links - centered and evenly spaced */}
+      <div className="flex-1 flex flex-col justify-center py-8 gap-2">
         {links.map((link) => (
           <NavLinks
             key={link.href}
@@ -50,10 +52,13 @@ export default function Navbar({
             isExpanded={isExpanded}
           />
         ))}
+      </div>
 
+      {/* Bottom buttons - fixed at bottom with spacing */}
+      <div className="flex flex-col flex-shrink-0 mb-4 gap-2">
         <button
           onClick={() => setIsContactModalOpen(true)}
-          className="white-pulsing-element box-shadow-custom text-xl text-center pt-7 pb-7 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400"
+          className="white-pulsing-element box-shadow-custom text-xl text-center py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400"
         >
           <i className="fi fi-ts-envelope" style={{ fontSize: '24px' }}></i>
           {isExpanded && <span className="ml-2">Get Info</span>}

@@ -44,7 +44,6 @@ import {
 import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
 import DraggableCard from "./DraggableCard.client";
 import { Column, Client } from "@/lib/types";
-import { useNavbar } from "@/lib/contexts/navbar-context";
 import {
   arrayMove,
 } from "@dnd-kit/sortable";
@@ -61,7 +60,6 @@ type ClientPipeBoardProps = {
 export default function ClientPipelineBoard({
   initialColumns,
 }: ClientPipeBoardProps) {
-  const { isExpanded: isNavbarExpanded } = useNavbar();
   // State for managing columns and the currently dragged client
   const [columns, setColumns] = useState<Column[]>(initialColumns);
   const [activeId, setActiveId] = useState<string | null>(null);

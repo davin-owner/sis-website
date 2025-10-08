@@ -23,7 +23,6 @@
  * - Container.server.tsx: Layout wrapper
  * - Card.server.tsx: Content cards
  */
-import { useState } from "react";
 import Container from "@/components/layout/Container.server";
 import Section from "@/components/layout/Section.server";
 import Card from "@/components/studio/Card.server";

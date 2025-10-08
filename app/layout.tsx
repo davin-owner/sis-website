@@ -26,6 +26,7 @@ import ConditionalNavbar from "../components/layout/ConditionalNavbar.client";
 import "./globals.css";
 import Loading from "./loading";
 import { Suspense } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Simple Ink Studios",
@@ -40,6 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <SpeedInsights />
       <body className="flex app-canvas ">
         <NavbarProvider>
           <ConditionalNavbar />

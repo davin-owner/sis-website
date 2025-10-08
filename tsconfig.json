@@ -21,12 +21,12 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@lib/*": ["./lib/*"],
-      "@components/*": ["./components/*"],
       "@app/*": ["./app/*"],
-      "@draggable/*" :["./components/draggable/*"],
-      "@droppable/*" :["./components/droppable/*"],
-      "@supabase/*": ["./lib/supabase/*"]
+      "@lib/*": ["./lib/*"],
+      "@api/*": ["./api/"],
+      "@components/*": ["./components/*"],
+      "@draggable/*": ["./components/draggable/*"],
+      "@droppable/*": ["./components/droppable/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

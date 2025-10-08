@@ -1,7 +1,8 @@
 "use client";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 // CLIENT COMPONENT - Uses React hooks (useState, useEffect) for interactive navbar functionality
 // Manages expand/collapse state and body overflow control for mobile navigation
-import NavLinks from "@/components/layout/navlinks.server";
+import NavLinks from "@/components/layout/NavLinks.server";
 import { useNavbar } from "@/lib/contexts/navbar-context";
 
 export default function Navbar({
@@ -23,7 +24,7 @@ export default function Navbar({
       style={{ minHeight: "100vh" }}
     >
       <button
-        className="w-full pulse-element transition-colors duration-200 hover:darkcyanbg"
+        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <p className=" pt-5 pb-4 transition-transform duration-200">
@@ -46,6 +47,7 @@ export default function Navbar({
             isExpanded={isExpanded}
           />
         ))}
+        <LogoutButton className="white-pulsing-element"></LogoutButton>
       </div>
     </nav>
   );

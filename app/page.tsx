@@ -1,115 +1,83 @@
 /**
- * DASHBOARD PAGE - Simple Ink Studios Management Platform
+ * LANDING PAGE - Waitlist Lead Generation
  *
- * This is the main dashboard that users see after successful authentication.
- * Features interactive checkbox trackers, reminders, pipeline stats, and business overview.
+ * PURPOSE:
+ * This is the FIRST page new visitors see (before they have an account)
+ * Goal: Capture leads for Simple Ink Studios
  *
- * Authentication:
- * - Protected route: Users must be logged in to access
- * - Automatic redirect to /auth/login if not authenticated
- * - Uses Supabase auth.getUser() for server-side verification
+ * FLOW:
+ * 1. Visitor sees this landing page
+ * 2. Clicks "Join Waitlist" button
+ * 3. Modal opens with signup form
+ * 4. They submit their info
+ * 5. Saved to Supabase waitlist table
+ * 6. Modal closes, shows thank you message
  *
- * Features:
- * - Interactive checkbox task trackers
- * - Reminders and notifications
- * - Pipeline statistics
- * - Artist assignments and calendar summary
- * - Responsive 3-column grid layout
- *
- * Components Used:
- * - CheckList.client.tsx: Interactive checkbox lists
- * - Reminders.client.tsx: Notification counters
- * - PipelineStats.client.tsx: Business metrics
- * - Container.server.tsx: Layout wrapper
- * - Card.server.tsx: Content cards
+ * MIDDLEWARE PROTECTION:
+ * - If user IS logged in → middleware auto-redirects to /dashboard
+ * - If user NOT logged in → sees this page
  */
-import React from "react";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import Container from "@/components/layout/Container.server";
-import Section from "@/components/layout/Section.server";
-import Card from "@/components/studio/Card.server";
-import { ClientCheckList } from "@/components/studio/CheckList.client";
-import { Reminders } from "@/components/studio/Reminders.client";
-import { PipelineStats } from "@/components/studio/PipelineStats.client";
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
+"use client";
 
-  // Check if user is authenticated
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) {
-    redirect("/auth/login");
-  }
+import { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import WaitlistModal from "@/components/waitlist/WaitlistModal.client";
 
-  // Mock data for dashboard widgets (later: fetch from Supabase)
-  const workingTasks = [
-    { label: "Book appointments", done: false },
-    { label: "Follow up with leads", done: true },
-    { label: "Update inventory", done: false },
-    { label: "Cold calling session", done: false },
-    { label: "Social media posts", done: true },
-  ];
-
-  const todayTasks = [
-    { label: "Review new inquiries", done: false },
-    { label: "Prepare consultation materials", done: false },
-  ];
-
-  const reminderData = { emails: 3, sms: 2, urgent: 1 };
-  const statsData = { flakers: 2, finished: 5 };
+export default function LandingPage() {
+  // State to control if modal is open or closed
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="min-h-dvh">
-      <div className="page-container">
-        <h1 className="text-white/90 text-2xl font-semibold mb-4">Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-6">
+      {/* Main Content Container */}
+      <div className="max-w-4xl w-full text-center space-y-8">
 
-        <Container>
-          {/* Left column - Task trackers and artist info */}
-          <Section className="lg:col-span-3 space-y-6">
-            <ClientCheckList
-              titleName="Daily Tasks"
-              items={workingTasks}
-            />
-            <Card title="Artists" subtitle="Who's working today">
-              <ul className="space-y-2 text-gray-800">
-                <li>Jules - 3 sessions scheduled</li>
-                <li>Mako - 2 sessions scheduled</li>
-                <li>Nova - 1 session scheduled</li>
-                <li>Available for walk-ins</li>
-              </ul>
-            </Card>
-          </Section>
+        {/* Hero Section */}
+        <div className="space-y-4">
+          {/* Main Headline - White with glow effect */}
+          <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+            Simple Ink Studios
+          </h1>
 
-          {/* Middle column - Main content and summary */}
-          <Section className="lg:col-span-6 space-y-6">
-            <Card title="Today's Accomplishments" subtitle="What you've completed">
-              <ul className="space-y-2 text-gray-800">
-                <li>• 4 appointments booked</li>
-                <li>• 2 consultations completed</li>
-                <li>• 6 follow-ups sent</li>
-                <li>• 1 new client onboarded</li>
-              </ul>
-            </Card>
+          {/* Subheadline */}
+          <p className="text-xl md:text-2xl text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            The client tracking system built for tattoo artists
+          </p>
+        </div>
 
-            <Card title="Calendar Summary">
-              <div className="text-gray-700">
-                <p className="mb-2">Today: 8 appointments</p>
-                <p className="mb-2">Tomorrow: 5 appointments</p>
-                <p>This week: 32 total sessions</p>
-              </div>
-            </Card>
+        {/* Value Proposition */}
+        <div className="space-y-3 text-white/80">
+          <p className="text-lg md:text-xl">
+            Stop losing clients in DMs and text threads
+          </p>
+          <p className="text-lg md:text-xl">
+            Track every consultation, deposit, and appointment in one place
+          </p>
+        </div>
 
-            <ClientCheckList titleName="Priority Items" items={todayTasks} />
-          </Section>
+        {/* CTA Button */}
+        <div className="pt-8">
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            size="lg"
+            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold"
+          >
+            Join the Waitlist
+          </Button>
+        </div>
 
-          {/* Right column - Reminders and stats */}
-          <Section className="lg:col-span-3 space-y-6">
-            <Reminders data={reminderData} />
-            <PipelineStats flakers={statsData.flakers} finished={statsData.finished} />
-          </Section>
-        </Container>
+        {/* Social Proof / Urgency (optional) */}
+        <p className="text-sm text-white/60 pt-4">
+          Early access coming soon • Be the first to know
+        </p>
       </div>
+
+      {/* Waitlist Modal */}
+      <WaitlistModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

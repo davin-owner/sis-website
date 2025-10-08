@@ -22,8 +22,10 @@
  */
 import type { Metadata } from "next";
 import { NavbarProvider } from "@/lib/contexts/navbar-context";
-import NavbarWrapper from "../components/layout/navbar/navbar-wrapper.client";
+import ConditionalNavbar from "../components/layout/ConditionalNavbar.client";
 import "./globals.css";
+import Loading from "./loading";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Simple Ink Studios",
@@ -40,8 +42,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex app-canvas ">
         <NavbarProvider>
-          <NavbarWrapper />
-          <main className="flex-1">{children}</main>
+          <ConditionalNavbar />
+          <Suspense fallback={<Loading />}>
+            <main className="flex-1">{children}</main>
+          </Suspense>
         </NavbarProvider>
       </body>
     </html>

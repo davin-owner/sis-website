@@ -13,7 +13,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import NavbarWrapper from "./navbar/Navbar-Wrapper.client";
+import NavbarWrapper from "./navbar/NavbarWrapper.client";
 
 export default function ConditionalNavbar() {
   const pathname = usePathname();

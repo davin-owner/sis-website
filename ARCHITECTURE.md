@@ -19,9 +19,9 @@ All components follow a clear naming pattern to indicate their execution environ
 ```
 components/
 ├── auth/                    # Authentication forms and logic
-│   ├── login-form.tsx       # Client: Interactive login form
-│   ├── signup-form.tsx      # Client: Interactive signup form
-│   └── auth-button.tsx      # Server: Static auth button
+│   ├── LoginForm.tsx       # Client: Interactive login form
+│   ├── SignUpForm.tsx      # Client: Interactive signup form
+│   └── LogoutButton.tsx    # Client: Logout functionality
 ├── studio/                  # Core business logic components
 │   ├── pipeline/            # Client pipeline management
 │   │   ├── PipelineBoard.client.tsx     # Main interactive pipeline
@@ -32,14 +32,14 @@ components/
 │   └── Card.server.tsx      # Static card components
 ├── layout/                  # Navigation and page layout
 │   ├── navbar/              # Navigation components
-│   │   ├── navbar.client.tsx         # Interactive sidebar
-│   │   └── navbar-wrapper.client.tsx # Navigation state wrapper
+│   │   ├── Navbar.client.tsx         # Interactive sidebar
+│   │   └── NavbarWrapper.client.tsx # Navigation state wrapper
 │   ├── PipelineBoard.server.tsx      # Server-side data provider
 │   └── Container.server.tsx          # Page layout wrapper
 └── ui/                      # Reusable UI components
-    ├── button.tsx           # Button variants
-    ├── input.tsx            # Form inputs
-    └── card.tsx             # Card layouts
+    ├── Button.tsx           # Button variants
+    ├── Input.tsx            # Form inputs
+    └── Card.tsx             # Card layouts
 ```
 
 ## 🔄 Application Flow
@@ -59,7 +59,7 @@ graph TD
 
 **Key Files:**
 - `middleware.ts` - Protects routes and checks authentication
-- `components/auth/login-form.tsx` - Handles user input and login logic
+- `components/auth/LoginForm.tsx` - Handles user input and login logic
 - `lib/supabase/client.ts` - Manages Supabase authentication
 
 ### 2. Navigation Flow
@@ -67,16 +67,16 @@ graph TD
 ```mermaid
 graph TD
     A[App Layout] --> B[NavbarProvider Context]
-    B --> C[navbar-wrapper.client.tsx]
-    C --> D[navbar.client.tsx]
+    B --> C[NavbarWrapper.client.tsx]
+    C --> D[Navbar.client.tsx]
     D --> E[Navigation Links]
     E --> F[Page Routing]
 ```
 
 **How Navigation Works:**
 1. **Context State**: `NavbarProvider` manages sidebar expansion state globally
-2. **Path Detection**: `navbar-wrapper.client.tsx` uses `usePathname()` to highlight active page
-3. **Interactive Sidebar**: `navbar.client.tsx` handles expand/collapse and navigation
+2. **Path Detection**: `NavbarWrapper.client.tsx` uses `usePathname()` to highlight active page
+3. **Interactive Sidebar**: `Navbar.client.tsx` handles expand/collapse and navigation
 4. **Responsive Layout**: All pages adjust margin based on navbar state
 
 ### 3. Pipeline Management Flow

@@ -58,7 +58,7 @@ export default function LandingPage() {
         </div>
 
         {/* CTA Button */}
-        <div className="pt-8 bg-black flex flex-col space-y-5 ">
+        <div className="pt-8 flex flex-col space-y-5 ">
           <Button
             onClick={() => setIsWaitlistModalOpen(true)}
             size="lg"

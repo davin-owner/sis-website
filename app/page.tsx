@@ -43,7 +43,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="space-y-4">
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold gradient-text-ink">
+          <h1 className="text-5xl md:text-7xl font-bold text-white dark:gradient-text-ink">
             Simple Ink Studios
           </h1>
 

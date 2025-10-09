@@ -39,6 +39,7 @@ export default function RootLayout({
           attribute="data-theme"
           defaultTheme="dark"
           enableSystem={false}
+          storageKey="sis-theme"
         >
           <NavbarProvider>
             <ConditionalNavbar />

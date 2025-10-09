@@ -129,18 +129,14 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
         ) : (
           // Signup Form
           <form onSubmit={handleSubmit} className="space-y-6">
-            <h2 className="text-2xl font-bold text-center mb-2" style={{
-              background: theme === "dark"
-                ? "linear-gradient(135deg, var(--brand-cyan-bright), var(--brand-pink-bright))"
-                : "var(--color-foreground)",
-              backgroundClip: theme === "dark" ? "text" : "unset",
-              WebkitBackgroundClip: theme === "dark" ? "text" : "unset",
-              WebkitTextFillColor: theme === "dark" ? "transparent" : "unset",
-              color: theme === "dark" ? "transparent" : "var(--color-foreground)"
-            }}>
-              Join the Waitlist
-            </h2>
-            <p className="text-center text-muted-foreground mb-6">Be the first to experience Simple Ink Studios</p>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-center mb-2 gradient-text-ink">
+                Join the Waitlist
+              </h2>
+              <p className="text-center text-muted-foreground">
+                Be the first to experience Simple Ink Studios
+              </p>
+            </div>
 
             {/* Name Field (Required) */}
             <div className="space-y-2">

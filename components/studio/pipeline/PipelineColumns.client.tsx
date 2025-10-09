@@ -34,10 +34,10 @@ function DroppableColumn({ column }: { column: Column }) {
     >
       <div
         ref={setNodeRef}
-        className={`bg-gray-100 dark:bg-gray-800 p-5 rounded-lg flex-1 items-start
+        className={`bg-secondary p-5 rounded-lg flex-1 items-start
         ${isOver ? "white-pulsing-element" : ""}`}
       >
-        <h2 className="border-b-2 border-solid border-gray-300 dark:border-gray-600 font-bold text-lg mb-4 text-gray-800 dark:text-white pb-2 sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">
+        <h2 className="border-b-2 border-solid border-border font-bold text-lg mb-4 text-secondary-foreground pb-2 sticky top-0 bg-secondary z-10">
           {column.title}
         </h2>
         <div className="space-y-3 transition-all duration-200">

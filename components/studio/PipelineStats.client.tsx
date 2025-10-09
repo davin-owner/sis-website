@@ -23,8 +23,8 @@ export function PipelineStats({
           }}
         />
         <div>
-          <div className="text-2xl font-bold">{finishedPct}%</div>
-          <div className="text-sm text-gray-600">Finished</div>
+          <div className="text-2xl font-bold text-foreground">{finishedPct}%</div>
+          <div className="text-sm text-muted-foreground">Finished</div>
         </div>
       </div>
     </Card>

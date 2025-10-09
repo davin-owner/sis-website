@@ -18,7 +18,7 @@ function NavLinks({
 }) {
   return (
     <Link href={href} className={isActive ? "active glowing-text" : "inactive"}>
-      <div className="box-shadow-custom white-pulsing-element text-xl text-center pt-7 pb-7">
+      <div className="box-shadow-custom white-pulsing-element text-xl text-center pt-5 pb-5">
         {icon} {isExpanded && text}
       </div>
     </Link>

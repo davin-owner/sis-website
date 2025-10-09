@@ -20,7 +20,7 @@ export function ClientCheckList({
               defaultChecked={i.done}
               className="size-4 rounded"
             />
-            <span className="text-gray-800">{i.label}</span>
+            <span className="text-foreground">{i.label}</span>
           </li>
         ))}
       </ul>

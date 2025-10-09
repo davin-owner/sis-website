@@ -28,7 +28,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       >
         <div className="text-center space-y-6">
           <div className="space-y-2">
-            <i className="fi fi-ts-envelope text-6xl text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]"></i>
+            <i className="fi fi-ts-envelopes text-6xl text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]"></i>
             <h2 className="text-3xl font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
               Get in Touch
             </h2>
@@ -46,19 +46,19 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 text-neon-purple">
             <Button
               onClick={handleEmailClick}
-              className="w-full bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold"
+              className="w-full bg-black dark:glowing-text hover:bg-black/90 shadow-[0_0_20px_rgba(246,0,247,0.4)] hover:shadow-[0_0_30px_rgba(246,0,247,0.8)] transition-all duration-300 font-semibold"
             >
-              <i className="fi fi-ts-paper-plane mr-2"></i>
+              <i className="fi fi-ts-paper-plane mr-2 dark:glowing-text"></i>
               Send Email
             </Button>
 
             <Button
               onClick={onClose}
               variant="outline"
-              className="w-full border-white/30 text-white hover:bg-white/10"
+              className="w-full border-white/30 text-purple-900 hover:bg-white/10"
             >
               Close
             </Button>

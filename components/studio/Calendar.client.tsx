@@ -9,7 +9,13 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-type CalEvent = { id?: string; title: string; start: string; end?: string; allDay?: boolean };
+type CalEvent = {
+  id?: string;
+  title: string;
+  start: string;
+  end?: string;
+  allDay?: boolean;
+};
 
 interface CalendarClickInfo {
   date: Date;
@@ -49,7 +55,7 @@ export default function CalendarClient({
   onEventDrop?: (info: EventDropInfo) => void;
 }) {
   return (
-    <div className="surface p-4 md:p-6">
+    <div className="bg-card border-2 border-border rounded-xl p-6 shadow-2xl">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
@@ -63,19 +69,20 @@ export default function CalendarClient({
           month: "Month",
           week: "Week",
           day: "Day",
-        
         }}
         selectable
         editable
         droppable={true}
-        height="auto"
+        height="50vh"
+        contentHeight="auto"
+        expandRows={true}
+        slotMinTime="06:00:00"
+        slotMaxTime="22:00:00"
+        scrollTime="09:00:00"
         events={events}
         dateClick={onDateClick}
         eventClick={onEventClick}
         eventDrop={onEventDrop}
-        // quick styling hooks
-        eventClassNames={() => "rounded-md border border-black/5 shadow-sm"}
-        dayHeaderClassNames={() => "text-black"}
       />
     </div>
   );

@@ -42,16 +42,16 @@ export default function DraggableClientCard({
       style={style}
       {...listeners}
       {...attributes}
-      className="bg-white dark:bg-gray-700 p-3 rounded-md shadow cursor-grab touch-none"
+      className="bg-card border border-border p-3 rounded-md shadow cursor-grab touch-none"
     >
-      <p className="font-semibold text-gray-900 dark:text-white">
+      <p className="font-semibold text-card-foreground">
         {client.name}
       </p>
-      <p className="text-sm text-gray-600 dark:text-gray-300">
+      <p className="text-sm text-muted-foreground">
         {client.contact}
       </p>
       {client.artist && (
-        <p className="text-xs text-gray-500 mt-1">Artist: {client.artist}</p>
+        <p className="text-xs text-muted-foreground mt-1">Artist: {client.artist}</p>
       )}
     </div>
   );

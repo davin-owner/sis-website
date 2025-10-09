@@ -12,16 +12,16 @@ export function Reminders({
     <Card title="Reminders">
       <div className="grid grid-cols-3 gap-3 text-center">
         <div className="surface-muted p-3 rounded-xl">
-          <div className="text-2xl font-bold">{data.emails}</div>
-          <div className="text-sm text-gray-600">Emails</div>
+          <div className="text-2xl font-bold text-foreground">{data.emails}</div>
+          <div className="text-sm text-muted-foreground">Emails</div>
         </div>
         <div className="surface-muted p-3 rounded-xl">
-          <div className="text-2xl font-bold">{data.sms}</div>
-          <div className="text-sm text-gray-600">SMS</div>
+          <div className="text-2xl font-bold text-foreground">{data.sms}</div>
+          <div className="text-sm text-muted-foreground">SMS</div>
         </div>
         <div className="surface-muted p-3 rounded-xl">
-          <div className="text-2xl font-bold">{data.urgent}</div>
-          <div className="text-sm text-gray-600">Urgent</div>
+          <div className="text-2xl font-bold text-foreground">{data.urgent}</div>
+          <div className="text-sm text-muted-foreground">Urgent</div>
         </div>
       </div>
     </Card>

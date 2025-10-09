@@ -1,95 +1,154 @@
-/* ----------------------------------------------------
-   Tailwind v4 base import (no tailwind.config.js needed)
-   ---------------------------------------------------- */
+/* ============================================================
+   SIMPLE INK STUDIOS - GLOBAL STYLES
+   Organized with collapsible regions for easy navigation
+   ============================================================ */
+
+/*#region IMPORTS */
 @import "tailwindcss";
-
-/* ----------------------------------------------------
-   Flaticon UIcons
-   ---------------------------------------------------- */
 @import "@flaticon/flaticon-uicons/css/all/all.css";
+/*#endregion */
 
-/* ----------------------------------------------------
-   Brand Tokens & Theme (Tailwind v4 CSS-first)
-   - You can reference these with var(--token-name)
-   - Tailwind utilities + your own classes can mix freely
-   ---------------------------------------------------- */
-@theme inline {
-  /* Core palette */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/*#region TAILWIND V4 THEME CONFIGURATION - SINGLE SOURCE OF TRUTH */
+@theme {
+  /* Brand Colors (constants) */
+  --color-darkcyan: #042634;
+  --color-purple: #2a0434;
+  --color-neon-purple: #f600f7;
+  --color-neon-blue: #0de8cd; /* older blue 0da8cd*/
+  --color-brand-gradient-light: #06a9cc, #f600f7;
+  --color-brand-gradient-dark: #042634, #1b1230, #2a0434;
 
-  /* Optional font tokens (keep if you load Geist fonts) */
+  /* Base Colors - Light Mode (default) */
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-surface: #ffffff;
+  --color-surface-2: #f9fafb;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-text-inverse: #ffffff;
+  --color-accent-primary: var(--color-darkcyan);
+  --color-accent-secondary: var(--color-purple);
+  --color-accent-hover: #1a1a1a;
+
+  /* Shadcn/UI Component Tokens - Light Mode */
+  --color-primary: #042634;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f9fafb;
+  --color-secondary-foreground: #171717;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #171717;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #171717;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #042634;
+
+  /* Border Radii */
+  --radius-card: 0.75rem;
+  --radius-pill: 9999px;
+
+  /* Optional font tokens */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+/*#endregion */
 
-/* ----------------------------------------------------
-   Root Variables (brand + surfaces)
-   - Keep your original vars, add a couple for clarity
-   ---------------------------------------------------- */
-:root {
-  /* Your originals */
-  --background: #ffffff;
-  --foreground: #171717;
-  --darkcyan: #042634; /* primary */
-  --purple: #2a0434; /* secondary (deep) */
-  --neon-purple: #f600f7; /* neon accent */
+/*#region DARK MODE OVERRIDES - Updates @theme variables when dark mode active */
+[data-theme="dark"] {
+  /* Base Colors */
+  --color-background: #042634;
+  --color-foreground: #ffffff;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #262626;
+  --color-text: #ffffff;
+  --color-text-muted: #475569;
+  --color-text-inverse: #0f172a;
+  --color-accent-primary: #06a9cc; /* Neon blue instead of purple */
+  --color-accent-secondary: #06a9cc;
+  --color-accent-hover: #06a9cc;
 
-  /* Gradient (documented + used below) */
-  /* Note: store stops without 'linear-gradient(...)' to keep it reusable */
-  --brand-gradient-stops: #042634, #1b1230, #2a0434;
-
-  /* Surfaces & text helpers */
-  --surface: #ffffff; /* white cards */
-  --surface-2: #f9fafb; /* soft gray cards */
-  --text: #0f172a; /* slate-900 */
-  --text-muted: #475569; /* slate-600 */
-  --text-inverse: #ffffff;
-
-  /* Radii */
-  --radius-card: 0.75rem;
-  --radius-pill: 9999px;
+  /* Shadcn/UI Component Tokens */
+  --color-primary: #042634; /* Neon blue */
+  --color-primary-foreground: #0de8cd;
+  --color-secondary: #262626;
+  --color-secondary-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-muted: #1a1a1a;
+  --color-muted-foreground: #94a3b8;
+  --color-accent: #262626;
+  --color-accent-foreground: #ffffff;
+  --color-card: #1a1a1a;
+  --color-card-foreground: #ffffff;
+  --color-popover: #1a1a1a;
+  --color-popover-foreground: #ffffff;
+  --color-border: #333333;
+  --color-input: #333333;
+  --color-ring: #06a9cc; /* Neon blue */
 }
+/*#endregion */
 
-/* Dark scheme fallback (optional, you can remove if not needed) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #171717;
-    --foreground: #ededed;
-  }
-}
-
-/* ----------------------------------------------------
-   Base Page Styles
-   - Keep body using background/foreground so you can swap themes.
-   - Use .app-canvas when you want the brand gradient canvas.
-   ---------------------------------------------------- */
+/*#region BASE STYLES */
 html,
 body {
   height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Brand canvas (apply to a top-level wrapper if you want gradient page) */
+/* Brand canvas - apply to top-level wrapper for gradient page */
 .app-canvas {
-  background-image: linear-gradient(135deg, var(--brand-gradient-stops));
+  background-image: linear-gradient(135deg, var(--color-brand-gradient-light));
   background-attachment: fixed;
-  color: var(--text-inverse);
+  color: var(--color-text);
 }
 
-/* Container css */
+[data-theme="dark"] .app-canvas {
+  background-image: linear-gradient(135deg, var(--color-brand-gradient-dark));
+}
+/*#endregion */
 
+/*#region LAYOUT UTILITIES */
+/* Theme-aware utilities */
+.theme-bg {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.theme-surface {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.theme-accent {
+  color: var(--color-accent-primary);
+}
+
+.theme-hover {
+  transition: all 0.3s ease;
+}
+
+.theme-hover:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Page Containers */
 .page-container {
-  /* tailwind v4 utilities via @apply */
   @apply mx-auto max-w-7xl p-6 md:p-10;
 }
+
 .page-container--narrow {
   @apply mx-auto max-w-3xl p-6 md:p-10;
 }
@@ -97,87 +156,79 @@ body {
 .page-container--wide {
   @apply mx-auto max-w-[120rem] p-6 md:p-10;
 }
+/*#endregion */
 
-/* Quick helpers that you already had (kept intact) */
-.darkcyanbg {
-  background-color: var(--darkcyan);
-}
-.purplebg {
-  background-color: var(--purple);
-}
-.gradientbg {
-  background: linear-gradient(to bottom right, var(--brand-gradient-stops));
-}
-
-/* ----------------------------------------------------
-   Reusable Surfaces (great on top of the dark gradient)
-   ---------------------------------------------------- */
+/*#region SURFACE COMPONENTS */
 .surface {
-  background: color-mix(in oklab, var(--surface) 95%, transparent);
+  background: color-mix(in oklab, var(--color-surface) 95%, transparent);
   border-radius: var(--radius-card);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   outline: 1px solid rgba(0, 0, 0, 0.06);
-  color: var(--text);
+  color: var(--color-text);
 }
 
 .surface-muted {
-  background: var(--surface-2);
-  border: 1px solid rgba(15, 23, 42, 0.06); /* slate-900 @ ~6% */
+  background: var(--color-surface-2);
+  border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: var(--radius-card);
-  color: var(--text);
+  color: var(--color-text);
 }
 
-/* ----------------------------------------------------
-   Buttons
-   ---------------------------------------------------- */
+/* Glass effect - translucent panels on gradients */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-card);
+  color: var(--color-text-inverse);
+}
+/*#endregion */
+
+/*#region BUTTON STYLES */
 .btn-primary {
-  background: var(--neon-purple);
+  background: var(--color-neon-purple);
   color: #fff;
   border-radius: var(--radius-card);
   padding: 0.625rem 1rem;
   font-weight: 600;
   transition: filter 120ms ease;
 }
+
 .btn-primary:hover {
   filter: brightness(0.65);
 }
+
 .btn-primary:active {
   filter: brightness(0.9);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--text-inverse);
+  color: var(--color-text-inverse);
   border-radius: var(--radius-card);
   padding: 0.5rem 0.875rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
+
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.06);
 }
+/*#endregion */
 
-/* ----------------------------------------------------
-   Navbar / Links (kept your styles, tightened a bit)
-   ---------------------------------------------------- */
-/*#region NAVBAR*/
-
+/*#region NAVIGATION STYLES */
 @layer components {
   .box-shadow-custom {
     transition: all 0.5s ease;
     transform: translateY(0);
   }
+
   .box-shadow-custom:hover {
     transform: translateY(-10px);
-    /* Use a softer, more subtle white glow so it looks good on dark */
     box-shadow: 0 12px 24px rgba(255, 255, 255, 0.25);
   }
 
-  /* .navborder{
-    border
-  } */
-
   .navlinks {
-    background-color: var(--foreground);
+    background-color: var(--color-foreground);
     font-size: var(--text-3xl);
     line-height: var(--tw-leading, var(--text-3xl--line-height));
     text-align: center;
@@ -185,16 +236,17 @@ body {
     padding-bottom: calc(var(--spacing) * 5);
   }
 }
+
 .active {
-  color: var(--purple);
+  color: var(--color-purple);
 }
+
 .inactive {
   color: #fff;
 }
+/*#endregion */
 
-/*#endregion*/
-
-/* Animation you had for pulsing/nav glow */
+/*#region ANIMATIONS */
 @keyframes pulse-element {
   0% {
     box-shadow: 0 0 5px rgba(255, 255, 225, 1);
@@ -209,74 +261,221 @@ body {
     border: 1px solid rgba(255, 255, 225, 1);
   }
 }
+
 .white-pulsing-element:hover {
   animation: pulse-element 3s infinite alternate;
 }
-/* Glow text: your version used an undefined --color-white; switch to #fff */
+/*#endregion */
+
+/*#region CUSTOM TEXT EFFECTS */
+
+/* Glows in both modes - bright neon */
 .glowing-text {
   color: #fff;
-  text-shadow: 0 0 10px #fff, 0 0 10px var(--neon-purple),
-    0 0 15px var(--neon-purple), 0 0 20px var(--neon-purple);
+  text-shadow: 0 0 10px #fff, 0 0 10px var(--color-neon-purple),
+    0 0 15px var(--color-neon-purple), 0 0 20px var(--color-neon-purple);
 }
 
-/* ----------------------------------------------------
-   Tiny utilities
-   ---------------------------------------------------- */
+/* Dark mode only - bright neon glow */
+[data-theme="dark"] .DM-glowing-text {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 10px var(--color-neon-purple),
+    0 0 15px var(--color-neon-purple), 0 0 20px var(--color-neon-purple);
+}
+
+/* Light mode only - bright neon glow */
+[data-theme="light"] .LM-glowing-text {
+  color: #fff;
+  text-shadow: 0 0 10px #fff, 0 0 10px var(--color-neon-purple),
+    0 0 15px var(--color-neon-purple), 0 0 20px var(--color-neon-purple);
+}
+
+/*#endregion */
+
+/*#region UTILITY CLASSES */
+/* Background Helpers */
+.darkcyanbg {
+  background-color: var(--color-darkcyan);
+}
+
+.purplebg {
+  background-color: var(--color-purple);
+}
+
+.gradientbg {
+  background: linear-gradient(
+    to bottom right,
+    var(--color-brand-gradient-light)
+  );
+}
+
+[data-theme="dark"] .gradientbg {
+  background: linear-gradient(
+    to bottom right,
+    var(--color-brand-gradient-dark)
+  );
+}
+
 .bg-brand-gradient {
-  background-image: linear-gradient(135deg, var(--brand-gradient-stops));
+  background-image: linear-gradient(135deg, var(--color-brand-gradient-light));
 }
 
-/* Optional: “glass” overlay for translucent panels on the gradient */
-.glass {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-card);
-  color: var(--text-inverse);
+[data-theme="dark"] .bg-brand-gradient {
+  background-image: linear-gradient(135deg, var(--color-brand-gradient-dark));
 }
 
-/*#region   Calendar Styles */
+/* Gradient Text Effect - Only in Dark Mode */
+.gradient-text-ink {
+  color: var(--color-foreground); /* Light mode: normal text */
+}
 
-/* Make toolbar buttons and title match your brand */
+[data-theme="dark"] .gradient-text-ink {
+  background: linear-gradient(135deg, #06a9cc, #f600f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback for browsers that don't support background-clip */
+}
+/*#endregion */
+
+/*#region THIRD-PARTY OVERRIDES - Calendar (FullCalendar) */
+
+/* Toolbar */
 .fc .fc-toolbar-title {
-  color: var(--text);
+  color: var(--color-foreground);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Buttons */
+.fc .fc-button {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.fc .fc-button:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--color-accent-primary);
+  color: #fff;
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(246, 0, 247, 0.2);
+}
+
+/* Calendar Grid */
+.fc .fc-scrollgrid {
+  border-color: var(--color-border);
+  background: var(--color-card);
+}
+
+.fc .fc-col-header-cell,
+.fc .fc-daygrid-day,
+.fc .fc-timegrid-slot {
+  border-color: var(--color-border);
+}
+
+/* Day Headers - Match card background */
+.fc .fc-col-header-cell {
+  background: var(--color-card);
+}
+
+.fc .fc-col-header-cell-cushion {
+  color: var(--color-card-foreground);
+  font-weight: 600;
+  padding: 0.75rem 0;
+}
+
+/* Day Numbers */
+.fc .fc-daygrid-day-number,
+.fc .fc-timegrid-slot-label-cushion {
+  color: var(--color-foreground);
+}
+
+/* Today Highlighting */
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+  background: var(--color-accent);
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.25rem;
   font-weight: 700;
 }
 
-.fc .fc-button {
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 10px;
-  padding: 0.4rem 0.75rem;
-}
-.fc .fc-button:hover {
-  filter: brightness(0.97);
-}
-.fc .fc-button-primary:not(:disabled).fc-button-active,
-.fc .fc-button-primary:not(:disabled):active,
-.fc .fc-button-primary:focus {
-  background: var(--neon-purple);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: none;
-}
-
-/* Today highlight & selection tint */
-.fc .fc-daygrid-day.fc-day-today,
-.fc .fc-timegrid-col.fc-day-today {
-  background: color-mix(in oklab, var(--brand-cyan) 8%, white);
-}
+/* Selection Highlight */
 .fc .fc-highlight {
-  background: color-mix(in oklab, var(--neon-purple) 12%, white);
+  background: var(--color-muted);
+  opacity: 0.5;
 }
 
-/* Event look */
+/* Events */
 .fc .fc-event {
-  background: white;
-  color: var(--text);
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent-primary)
+  );
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
 }
+
+.fc .fc-event:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(246, 0, 247, 0.3);
+}
+
+.fc .fc-event-title {
+  font-weight: 600;
+}
+
+/* Time Grid Lines */
+.fc .fc-timegrid-slot {
+  height: 3rem;
+}
+
+.fc .fc-timegrid-slot-minor {
+  border-top-style: dotted;
+}
+
+/* Dark Mode Specific Enhancements */
+[data-theme="dark"] .fc .fc-scrollgrid {
+  border-color: #444;
+}
+
+[data-theme="dark"] .fc .fc-col-header-cell,
+[data-theme="dark"] .fc .fc-daygrid-day,
+[data-theme="dark"] .fc .fc-timegrid-slot {
+  border-color: #444;
+}
+
+[data-theme="dark"] .fc .fc-daygrid-day.fc-day-today {
+  background: var(--color-accent-primary);
+}
+
+[data-theme="dark"] .fc .fc-event {
+  box-shadow: 0 2px 8px rgba(246, 0, 247, 0.2);
+}
+
 /*#endregion */

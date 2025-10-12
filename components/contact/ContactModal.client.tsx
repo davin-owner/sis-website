@@ -23,25 +23,25 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-gradient-to-br from-purple-900 to-indigo-900 p-8 rounded-lg shadow-2xl max-w-md w-full border-2 border-white/20"
+        className="surface p-8 max-w-md w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-center space-y-6">
-          <div className="space-y-2">
-            <i className="fi fi-ts-envelope text-6xl text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]"></i>
-            <h2 className="text-3xl font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+          <div className="space-y-3">
+            <i className="fi fi-ts-envelopes text-6xl text-accent drop-shadow-[0_0_20px_rgba(13,232,205,0.5)]"></i>
+            <h2 className="text-3xl font-bold gradient-text-ink">
               Get in Touch
             </h2>
           </div>
 
-          <p className="text-white/90 text-lg">
+          <p className="text-foreground text-lg">
             Have questions about Simple Ink Studios? We&apos;d love to hear from
             you!
           </p>
 
-          <div className="bg-white/10 p-4 rounded-lg">
-            <p className="text-white/70 text-sm mb-2">Email us at:</p>
-            <p className="text-white font-mono text-lg break-all">
+          <div className="surface-muted p-5 rounded-xl">
+            <p className="text-muted-foreground text-sm mb-2">Email us at:</p>
+            <p className="font-mono text-lg break-all font-semibold" style={{ color: 'var(--color-accent-foreground)' }}>
               {businessEmail}
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           <div className="flex flex-col gap-3">
             <Button
               onClick={handleEmailClick}
-              className="w-full bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold"
+              className="w-full btn-primary"
             >
               <i className="fi fi-ts-paper-plane mr-2"></i>
               Send Email
@@ -58,7 +58,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             <Button
               onClick={onClose}
               variant="outline"
-              className="w-full border-white/30 text-white hover:bg-white/10"
+              className="w-full btn-ghost"
             >
               Close
             </Button>

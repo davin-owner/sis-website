@@ -6,6 +6,7 @@ import { LogoutButton } from "@/components/auth/LogoutButton";
 import NavLinks from "@/components/layout/NavLinks.server";
 import { useNavbar } from "@/lib/contexts/navbar-context";
 import ContactModal from "@/components/contact/ContactModal.client";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function Navbar({
   links,
@@ -22,13 +23,13 @@ export default function Navbar({
 
   return (
     <nav
-      className={`h-screen flex-none transition-all duration-600 ease-in-out flex flex-col
+      className={`h-screen flex-none text-accent dark:text-white transition-all duration-600 ease-in-out flex flex-col
        ${isExpanded ? "w-64 border-white border-r-2 " : "w-20 "}`}
       style={{ minHeight: "100vh" }}
     >
       {/* Toggle button at top */}
       <button
-        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0"
+        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0 dark:text-white"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <p className="pt-5 pb-4 transition-transform duration-200">
@@ -52,25 +53,29 @@ export default function Navbar({
             isExpanded={isExpanded}
           />
         ))}
-      </div>
 
-      {/* Bottom buttons - fixed at bottom with spacing */}
-      <div className="flex flex-col flex-shrink-0 mb-4 gap-2">
+        {/* Theme Toggle */}
+
         <button
           onClick={() => setIsContactModalOpen(true)}
-          className="white-pulsing-element box-shadow-custom text-xl text-center py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400"
+          className="white-pulsing-element box-shadow-custom text-xl text-center py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400 dark:text-white"
         >
-          <i className="fi fi-ts-envelope" style={{ fontSize: '24px' }}></i>
-          {isExpanded && <span className="ml-2">Get Info</span>}
+          <i className="fi fi-ts-envelopes" style={{ fontSize: "24px" }}></i>
+          {isExpanded && <span className="ml-2">Contact</span>}
         </button>
 
-        <LogoutButton className="white-pulsing-element"></LogoutButton>
-      </div>
+        <LogoutButton className="white-pulsing-element dark:text-white"></LogoutButton>
 
-      <ContactModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
+        <div className="text-xl text-center py-6 transition-colors duration-200 flex items-center justify-center dark:text-white">
+          <ThemeToggle />
+          {isExpanded && <span className="ml-3">Theme</span>}
+        </div>
+
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+        />
+      </div>
     </nav>
   );
 }

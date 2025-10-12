@@ -34,6 +34,7 @@ interface WaitlistModalProps {
 }
 
 export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
+
   // Form state - stores user input
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -111,107 +112,98 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     >
       {/* Modal Content */}
       <div
-        className="bg-gradient-to-br from-purple-900 to-indigo-900 p-8 rounded-lg shadow-2xl max-w-md w-full border-2 border-white/20"
+        className="surface p-8 max-w-md w-full"
         onClick={(e) => e.stopPropagation()} // Don't close when clicking inside modal
       >
         {/* Success Message */}
         {showSuccess ? (
           <div className="text-center space-y-4">
-            <h2 className="text-3xl font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-              Thank You! 🎉
-            </h2>
-            <p className="text-white/90 text-lg">
-              You&apos;re on the list!
-            </p>
-            <p className="text-white/70">
+            <h2 className="text-3xl font-bold text-accent">Thank You! 🎉</h2>
+            <p className="text-accent text-lg">You&apos;re on the list!</p>
+            <p className="text-muted-foreground">
               Stand by for email updates about early access.
             </p>
           </div>
         ) : (
           // Signup Form
           <form onSubmit={handleSubmit} className="space-y-6">
-            <h2 className="text-2xl font-bold text-white text-center drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
-              Join the Waitlist
-            </h2>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-center mb-2 gradient-text-ink">
+                Join the Waitlist
+              </h2>
+              <p className="text-center text-muted-foreground">
+                Be the first to experience Simple Ink Studios
+              </p>
+            </div>
 
             {/* Name Field (Required) */}
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-white">
-                Name *
-              </Label>
+              <Label htmlFor="name">Name *</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
                 required
+                className="dark:bg-accent"
               />
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white">
-                Email
-              </Label>
+              <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                className="dark:bg-accent"
               />
             </div>
 
             {/* Phone Field */}
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-white">
-                Phone
-              </Label>
+              <Label htmlFor="phone">Phone</Label>
               <Input
                 id="phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="(555) 123-4567"
-                className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                className="dark:bg-accent"
               />
             </div>
 
-            <p className="text-xs text-white/60">* Email or phone required</p>
+            <p className="text-xs text-accent">* Email or phone required</p>
 
             {/* Shop Name (Optional) */}
             <div className="space-y-2">
-              <Label htmlFor="shopName" className="text-white">
-                Shop Name (optional)
-              </Label>
+              <Label htmlFor="shopName">Shop Name (optional)</Label>
               <Input
                 id="shopName"
                 value={shopName}
                 onChange={(e) => setShopName(e.target.value)}
                 placeholder="Ink Masters Studio"
-                className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                className="dark:bg-accent"
               />
             </div>
 
             {/* City/State (Optional) */}
             <div className="space-y-2">
-              <Label htmlFor="cityState" className="text-white">
-                City, State (optional)
-              </Label>
+              <Label htmlFor="cityState">City, State (optional)</Label>
               <Input
                 id="cityState"
                 value={cityState}
                 onChange={(e) => setCityState(e.target.value)}
                 placeholder="Los Angeles, CA"
-                className="bg-white/10 border-white/30 text-white placeholder:text-white/50"
+                className="dark:bg-accent"
               />
             </div>
 
             {/* Message Field (Optional) */}
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-white">
+              <Label htmlFor="message">
                 Tell us about your tracking needs (optional)
               </Label>
               <textarea
@@ -220,20 +212,20 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="What interests you? How do you track clients now? What are you looking for?"
                 rows={4}
-                className="w-full px-3 py-2 bg-white/10 border border-white/30 rounded-md text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="w-full px-3 py-2 bg-background dark:bg-accent border border-input rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
 
             {/* Error Message */}
             {error && (
-              <p className="text-red-300 text-sm text-center">{error}</p>
+              <p className="text-destructive text-sm text-center">{error}</p>
             )}
 
             {/* Submit Button */}
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-white text-purple-900 hover:bg-white/90 font-semibold shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+              className="w-full btn-primary"
             >
               {isSubmitting ? "Submitting..." : "Join Waitlist"}
             </Button>
@@ -243,7 +235,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               type="button"
               variant="outline"
               onClick={onClose}
-              className="w-full border-white/30 text-white hover:bg-white/10"
+              className="w-full btn-ghost"
             >
               Cancel
             </Button>

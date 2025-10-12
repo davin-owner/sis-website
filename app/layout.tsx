@@ -9,16 +9,6 @@
  * - Navbar context provider for shared navigation state
  * - Persistent sidebar navigation
  * - Responsive flex layout (navbar + main content)
- *
- * Layout Structure:
- * <html>
- *   <body className="flex app-canvas">
- *     <NavbarProvider>          // Global state for navbar expansion
- *       <NavbarWrapper />       // Left sidebar navigation (always visible)
- *       <main>{children}</main> // Page content area
- *     </NavbarProvider>
- *   </body>
- * </html>
  */
 import type { Metadata } from "next";
 import { NavbarProvider } from "@/lib/contexts/navbar-context";
@@ -27,6 +17,7 @@ import "./globals.css";
 import Loading from "./loading";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Simple Ink Studios",
@@ -40,15 +31,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <SpeedInsights />
-      <body className="flex app-canvas ">
-        <NavbarProvider>
-          <ConditionalNavbar />
-          <Suspense fallback={<Loading />}>
-            <main className="flex-1">{children}</main>
-          </Suspense>
-        </NavbarProvider>
+
+      <body className="flex app-canvas">
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="dark"
+          enableSystem={false}
+          storageKey="sis-theme"
+        >
+          <NavbarProvider>
+            <ConditionalNavbar />
+            <Suspense fallback={<Loading />}>
+              <main className="flex-1">{children}</main>
+            </Suspense>
+          </NavbarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

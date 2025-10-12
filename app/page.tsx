@@ -24,6 +24,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import WaitlistModal from "@/components/waitlist/WaitlistModal.client";
 import ContactModal from "@/components/contact/ContactModal.client";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function LandingPage() {
   // State to control if modal is open or closed
@@ -31,24 +32,29 @@ export default function LandingPage() {
   const [IsContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-6">
+    <div className="min-h-screen flex  items-center justify-center p-6 relative">
+      {/* Theme Toggle - Fixed top right */}
+      <div className="absolute top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
+
       {/* Main Content Container */}
       <div className="max-w-4xl w-full text-center space-y-8">
         {/* Hero Section */}
         <div className="space-y-4">
-          {/* Main Headline - White with glow effect */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+          {/* Main Headline */}
+          <h1 className="text-5xl md:text-7xl font-bold text-white dark:gradient-text-ink">
             Simple Ink Studios
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <p className="text-xl md:text-2xl text-foreground">
             The client tracking system built for tattoo artists
           </p>
         </div>
 
         {/* Value Proposition */}
-        <div className="space-y-3 text-white/80">
+        <div className="space-y-3 text-foreground">
           <p className="text-lg md:text-xl">
             Stop losing clients in DMs and text threads
           </p>
@@ -57,27 +63,27 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* CTA Button */}
-        <div className="pt-8 flex flex-col space-y-5 ">
+        {/* CTA Buttons */}
+        <div className="pt-8 flex flex-col space-y-5 items-center">
           <Button
             onClick={() => setIsWaitlistModalOpen(true)}
-            size="lg"
-            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold w-1/2 self-center "
+            variant={"outline"}
+            className="text-xl px-12 py-6 transition-all duration-300 font-semibold w-1/3"
           >
             Join the Waitlist
           </Button>
 
           <Button
             onClick={() => setIsContactModalOpen(true)}
-            size="lg"
-            className="text-xl px-12 py-6 bg-white text-purple-900 hover:bg-white/90 shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 font-semibold w-1/2 self-center "
+            variant={"outline"}
+            className="text-xl px-12 py-6 transition-all duration-300 text-primary font-semibold w-1/3"
           >
             Contact Us!
           </Button>
         </div>
 
-        {/* Social Proof / Urgency (optional) */}
-        <p className="text-sm text-white/60 pt-4">
+        {/* Social Proof / Urgency */}
+        <p className="text-sm text-muted-background pt-4">
           Early access coming soon • Be the first to know
         </p>
       </div>

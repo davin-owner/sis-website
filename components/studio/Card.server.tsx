@@ -17,8 +17,8 @@ export default function Card({
       {(title || right) && (
         <div className="mb-3 flex items-center justify-between">
           <div>
-            {title && <h3 className="text-lg font-semibold text-gray-900">{title}</h3>}
-            {subtitle && <p className="text-sm text-gray-600">{subtitle}</p>}
+            {title && <h3 className="text-lg font-semibold text-foreground">{title}</h3>}
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
           </div>
           {right}
         </div>

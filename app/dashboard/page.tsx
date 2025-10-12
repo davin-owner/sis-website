@@ -31,6 +31,7 @@ import { Reminders } from "@/components/studio/Reminders.client";
 import { PipelineStats } from "@/components/studio/PipelineStats.client";
 import DebugButtonServer from "@/components/debug/DebugButton.server";
 import { getShopData } from "@/lib/supabase/shop-data";
+import { Button } from "@/components/ui/Button";
 export default async function DashboardPage() {
   // Mock data for dashboard widgets (later: fetch from Supabase)
   const workingTasks = [
@@ -50,16 +51,18 @@ export default async function DashboardPage() {
   const statsData = { flakers: 2, finished: 5 };
 
   return (
-    <div className="min-h-dvh">
-      <div className="page-container">
-        <h1 className="text-white/90 text-2xl font-semibold mb-4">Dashboard</h1>
+    <div className="min-h-dvh app-canvas">
+      <div className="page-container--wide">
+        <h1 className="gradient-text-ink text-4xl font-bold mb-8">
+          Dashboard
+        </h1>
 
-        <Container>
+        <Container size="page-container--wide">
           {/* Left column - Task trackers and artist info */}
           <Section className="lg:col-span-3 space-y-6">
             <ClientCheckList titleName="Daily Tasks" items={workingTasks} />
             <Card title="Artists" subtitle="Who's working today">
-              <ul className="space-y-2 text-gray-800">
+              <ul className="space-y-2">
                 <li>Jules - 3 sessions scheduled</li>
                 <li>Mako - 2 sessions scheduled</li>
                 <li>Nova - 1 session scheduled</li>
@@ -79,7 +82,7 @@ export default async function DashboardPage() {
               title="Today's Accomplishments"
               subtitle="What you've completed"
             >
-              <ul className="space-y-2 text-gray-800">
+              <ul className="space-y-2">
                 <li>• 4 appointments booked</li>
                 <li>• 2 consultations completed</li>
                 <li>• 6 follow-ups sent</li>
@@ -88,7 +91,7 @@ export default async function DashboardPage() {
             </Card>
 
             <Card title="Calendar Summary">
-              <div className="text-gray-700">
+              <div className="">
                 <p className="mb-2">Today: 8 appointments</p>
                 <p className="mb-2">Tomorrow: 5 appointments</p>
                 <p>This week: 32 total sessions</p>
@@ -105,6 +108,12 @@ export default async function DashboardPage() {
               flakers={statsData.flakers}
               finished={statsData.finished}
             />
+            <div className="flex flex-1 flex-col surface items-center p-5">
+              <p className="w-1/4">Test div</p>
+              <Button size="lg" variant="destructive">
+                Test btn
+              </Button>
+            </div>
           </Section>
         </Container>
       </div>

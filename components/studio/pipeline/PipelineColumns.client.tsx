@@ -34,13 +34,18 @@ function DroppableColumn({ column }: { column: Column }) {
     >
       <div
         ref={setNodeRef}
-        className={`bg-secondary p-5 rounded-lg flex-1 items-start
-        ${isOver ? "white-pulsing-element" : ""}`}
+        className={`p-6 flex-1 items-start min-h-[400px] rounded-xl transition-colors duration-300
+        ${isOver ? "ring-2 shadow-[0_0_20px_rgba(13,232,205,0.4)]" : ""}`}
+        style={{
+          background: 'var(--color-card)',
+          border: '1px solid var(--color-border)',
+          borderColor: isOver ? 'var(--color-accent-foreground)' : undefined
+        }}
       >
-        <h2 className="border-b-2 border-solid border-border font-bold text-lg mb-4 text-secondary-foreground pb-2 sticky top-0 bg-secondary z-10">
+        <h2 className="font-bold text-xl mb-5 text-foreground pb-3 sticky top-0 backdrop-blur-lg z-10 -mx-6 px-6" style={{ background: 'var(--color-card)' }}>
           {column.title}
         </h2>
-        <div className="space-y-3 transition-all duration-200">
+        <div className="space-y-4 transition-all duration-300">
           {column.clients.map((client) => (
             <DraggableCard
               key={client.id}

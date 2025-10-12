@@ -23,7 +23,6 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -35,7 +34,6 @@ interface WaitlistModalProps {
 }
 
 export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
-  const { theme } = useTheme();
 
   // Form state - stores user input
   const [name, setName] = useState("");

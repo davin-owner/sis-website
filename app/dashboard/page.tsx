@@ -53,7 +53,7 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-dvh app-canvas">
       <div className="page-container--wide">
-        <h1 className="text-white glowing-text text-3xl font-bold mb-6">
+        <h1 className="gradient-text-ink text-4xl font-bold mb-8">
           Dashboard
         </h1>
 

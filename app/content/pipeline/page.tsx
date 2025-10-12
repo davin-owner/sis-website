@@ -10,7 +10,7 @@ export default async function PipelinePage() {
   return (
     <div className="min-h-dvh app-canvas">
       <div className="page-container">
-        <h1 className="text-3xl font-bold text-white glowing-text mb-6">
+        <h1 className="text-4xl font-bold gradient-text-ink mb-8">
           Client Pipeline
         </h1>
         <PipelineBoard initialColumns={initialColumns} />

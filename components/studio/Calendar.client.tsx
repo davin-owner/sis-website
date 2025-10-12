@@ -55,7 +55,7 @@ export default function CalendarClient({
   onEventDrop?: (info: EventDropInfo) => void;
 }) {
   return (
-    <div className="bg-card border-2 border-border rounded-xl p-6 shadow-2xl">
+    <div className="surface-elevated p-8 transition-all duration-300 hover:shadow-xl">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"

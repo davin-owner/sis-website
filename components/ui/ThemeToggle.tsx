@@ -4,13 +4,14 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
-  }, []);
+    console.log("ThemeToggle mounted - theme:", theme, "resolved:", resolvedTheme);
+  }, [theme, resolvedTheme]);
 
   if (!mounted) {
     return (
@@ -52,7 +53,7 @@ export function ThemeToggle() {
             style={{
               fontSize: "12px",
               position: "absolute",
-              top: "50%",
+              top: "60%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               color: "#4b5563",
@@ -64,7 +65,7 @@ export function ThemeToggle() {
             style={{
               fontSize: "12px",
               position: "absolute",
-              top: "50%",
+              top: "60%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               color: "#f600f7",

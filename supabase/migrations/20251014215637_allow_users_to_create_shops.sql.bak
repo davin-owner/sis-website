@@ -1,0 +1,17 @@
+-- Allow authenticated users to create shops
+-- They can INSERT into shops_tables (which will set them as shop_owner)
+-- Then the trigger will add them to shop_users as owner
+
+-- Create policy for INSERT on shops_tables
+CREATE POLICY "authenticated_users_can_create_shops"
+ON shops_tables
+FOR INSERT
+TO authenticated
+WITH CHECK (auth.uid() = shop_owner);
+
+-- Create policy for INSERT on shop_users (needed for the junction table insert)
+CREATE POLICY "users_can_add_themselves_to_shops"
+ON shop_users
+FOR INSERT
+TO authenticated
+WITH CHECK (auth.uid() = user_id);

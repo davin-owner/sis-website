@@ -5,7 +5,7 @@ import React, { createContext, useContext, ReactNode } from "react";
 interface shopObject {
   shop_id: string;
   role: string;
-  permissions: any;
+  permissions: Record<string, boolean>;
   last_accessed_at: string;
   // nested values for the shop
   shop_name: string;

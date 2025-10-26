@@ -67,8 +67,8 @@ export async function createClientAction(formData: FormData) {
 
     revalidatePath("/content/pipeline");
     return { success: true };
-  } catch (error: any) {
-    return { error: error.message };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -101,8 +101,8 @@ export async function updateClientAction(formData: FormData) {
     await updateShopClient(shopId, user.id, clientId, clientData, supabase);
     revalidatePath("/content/pipeline");
     return { success: true };
-  } catch (error: any) {
-    return { error: error.message };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -125,8 +125,8 @@ export async function updateClientStageAction(
     await updateClientStage(clientId, shopId, user.id, newStage, newSortOrder,supabase);
     revalidatePath('/content/pipeline');
     return{success:true}
-  } catch (error:any) {
-    return {error: error.message}
+  } catch (error: unknown) {
+    return {error: error instanceof Error ? error.message : 'Unknown error'}
   }
 }
 

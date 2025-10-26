@@ -73,7 +73,7 @@ export async function createShop(formData: FormData) {
 
     // Success! Return success status
     return { success: true, shopId: newShop.shop_id }
-  } catch (error: any) {
-    return { error: error?.message || 'An unexpected error occurred' }
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : 'An unexpected error occurred' }
   }
 }

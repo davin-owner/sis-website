@@ -65,7 +65,7 @@ export async function getActiveShop(
  */
 export async function createShopWithOwner(
   userId: string,
-  shopData: any,
+  shopData: { shop_name: string; shop_address: string; amount_of_workers?: number },
   supabase: SupabaseClient
 ) {
   // ===================================================================

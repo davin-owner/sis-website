@@ -5,12 +5,12 @@ import React, { createContext, useContext, ReactNode } from "react";
 interface shopObject {
   shop_id: string;
   role: string;
-  permissions: string;
+  permissions: any;
   last_accessed_at: string;
   // nested values for the shop
   shop_name: string;
   shop_address: string;
-  amount_of_workers: string;
+  amount_of_workers: number;
   created_at: string;
 }
 

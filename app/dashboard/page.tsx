@@ -29,16 +29,12 @@ import Card from "@/components/studio/Card.server";
 import { ClientCheckList } from "@/components/studio/CheckList.client";
 import { Reminders } from "@/components/studio/Reminders.client";
 import { PipelineStats } from "@/components/studio/PipelineStats.client";
-import DebugButtonServer from "@/components/debug/DebugButton.server";
-import { getShopData } from "@/lib/supabase/data/shop-data";
-import { Button } from "@/components/ui/Button";
-import { getShopLeadData } from "@/lib/supabase/data/shop-leads";
 
-import { Redirect } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { getUserShops } from "@lib/supabase/data/user-shops";
+import { getActiveShop } from "@lib/supabase/data/user-shops";
+import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";
-import ShopProvider, { useShop } from "@/lib/contexts/shop-context";
+import ShopProvider from "@/lib/contexts/shop-context";
 
 export default async function DashboardPage() {
   // 1. Make sure we are getting the authentacted user
@@ -52,14 +48,18 @@ export default async function DashboardPage() {
   }
 
   // 2. Check what shops this user can access and if they dont have a shop redirect them to the onboarding page to help create a shop
-  const shops = await getUserShops(user.id, supabase);
-  if (shops.length === 0) {
+  const shopId = await getActiveShopIdFallback(user.id, supabase);
+  if (!shopId) {
     redirect("/onboarding");
   }
 
   // 3. If they have shops get the most recent one and load that to the dashboard and load their data
 
-  const activeShop = shops[0];
+  //const activeShop = shops[0];
+
+  const activeShop = await getActiveShop(user.id, shopId, supabase);
+
+  if (!activeShop) redirect("/onboarding");
 
   // Temp data that will be removed after full database setup and intergration
   // Mock data for dashboard widgets (later: fetch from Supabase)
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
       <div className="min-h-dvh app-canvas">
         <div className="page-container--wide">
           <h1 className="gradient-text-ink text-4xl font-bold mb-8">
-            Dashboard for: {activeShop.shop_name}
+            Dashboard for: {activeShop?.shop_name}
           </h1>
 
           <Container size="page-container--wide">
@@ -100,17 +100,6 @@ export default async function DashboardPage() {
                   <li>Available for walk-ins</li>
                 </ul>
               </Card>
-
-              <DebugButtonServer
-                label="Fetch Shop Leads"
-                dataFunction={getShopLeadData}
-                endpoint="/api/debug/shop_leads"
-              />
-              <DebugButtonServer
-                label="Fetch Shops"
-                dataFunction={getShopData}
-                endpoint="/api/debug/shops"
-              />
             </Section>
 
             {/* Middle column - Main content and summary */}
@@ -145,12 +134,6 @@ export default async function DashboardPage() {
                 flakers={statsData.flakers}
                 finished={statsData.finished}
               />
-              <div className="flex flex-1 flex-col surface items-center p-5">
-                <p className="w-1/4">Test div</p>
-                <Button size="lg" variant="destructive">
-                  Test btn
-                </Button>
-              </div>
             </Section>
           </Container>
         </div>

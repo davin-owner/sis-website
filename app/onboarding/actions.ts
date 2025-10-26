@@ -41,7 +41,6 @@ export async function createShop(formData: FormData) {
       .single()
 
     if (shopError) {
-      console.error('Error creating shop:', shopError)
       return { error: `Failed to create shop: ${shopError.message}` }
     }
 
@@ -63,8 +62,6 @@ export async function createShop(formData: FormData) {
       })
 
     if (junctionError) {
-      console.error('Error adding user to shop_users:', junctionError)
-
       // Rollback: Delete the shop we just created
       await supabase
         .from('shops_tables')
@@ -77,7 +74,6 @@ export async function createShop(formData: FormData) {
     // Success! Return success status
     return { success: true, shopId: newShop.shop_id }
   } catch (error: any) {
-    console.error('Unexpected error creating shop:', error)
     return { error: error?.message || 'An unexpected error occurred' }
   }
 }

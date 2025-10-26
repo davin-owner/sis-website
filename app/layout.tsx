@@ -37,7 +37,7 @@ export default function RootLayout({
       <body className="flex app-canvas">
         <ThemeProvider
           attribute="data-theme"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           storageKey="sis-theme"
         >

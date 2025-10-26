@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // Enable strict mode if desired (helps catch React issues)
   reactStrictMode: true,
 
+  // Allow network access from local devices during development (iPad, phone, etc.)
+  allowedDevOrigins: ['192.168.1.194:3000'],
+
   // Optimize images served from known external hosts
   images: {
     remotePatterns: [

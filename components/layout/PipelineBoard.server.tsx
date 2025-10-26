@@ -10,19 +10,16 @@
  * - Handle server-side authentication and data validation
  * - Render static SEO-friendly content
  */
-import React from "react";
 import ClientPipelineBoard from "@/components/studio/pipeline/PipelineBoard.client";
-import { Column } from "@/lib/types";
+import { PipelineColumn } from "@/lib/database";
 
 // Define the props the component will accept
 type PipelineBoardProps = {
-  initialColumns: Column[];
+  initialColumns: PipelineColumn[];
 };
 
 export default function PipelineBoard(props: PipelineBoardProps) {
   return (
-    <div>
       <ClientPipelineBoard initialColumns={props.initialColumns} />
-    </div>
   );
 }

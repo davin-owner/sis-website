@@ -63,6 +63,7 @@ USING (shop_id IN (
   SELECT shop_id FROM shop_users
   WHERE user_id = auth.uid()
 ));
+-- Using == is a if command a boolean it will only return true only when it used shop id from the shop_users with their auth id
 
 -- Allow shop owners to UPDATE their shops
 CREATE POLICY "owners_can_update_shops"

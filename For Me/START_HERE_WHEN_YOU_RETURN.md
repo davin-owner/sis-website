@@ -1,353 +1,334 @@
-# 👋 START HERE - When You Return
+# 🚀 Start Here When You Return
 
-**Last Updated:** October 26, 2025
-**Status:** PERFORMANCE OPTIMIZED! Landing Page Next.
-**MVP Launch:** November 1, 2025 (5 DAYS!)
-
----
-
-## 🎉 WHAT YOU ACCOMPLISHED TODAY (October 26, 2025):
-
-### **PERFORMANCE OPTIMIZATION COMPLETE!**
-
-You completed a comprehensive performance audit and optimization of the entire application.
-
-#### ✅ **Major Performance Fixes**
-
-1. **Fixed N+1 Sorting Algorithm** (`lib/supabase/data/pipeline-data.ts:44-48`)
-   - **Problem:** Sort was running INSIDE the client loop - 100 clients = 100 × 5 = 500 sort operations!
-   - **Solution:** Moved sort OUTSIDE the loop - now only 5 sort operations total
-   - **Impact:** 80-95% faster pipeline loading with large client lists
-   - **Before:** O(n²) complexity
-   - **After:** O(n) complexity
-
-2. **Removed All Console.logs** (9 files cleaned)
-   - `app/content/pipeline/page.tsx` - Removed 3 console.logs that ran on every page load
-   - `lib/supabase/data/shop-leads-data.ts` - Removed 6 console statements from CRUD operations
-   - `lib/supabase/data/user-shops.ts` - Removed 4 console statements
-   - `app/onboarding/actions.ts` - Removed 3 console.errors
-   - `components/studio/pipeline/*.tsx` - Removed console.errors from drag-and-drop
-   - **Impact:** 10-20% faster server rendering, cleaner production logs
-
-3. **Removed Debug Components** (`app/dashboard/page.tsx:108-119`)
-   - Removed DebugButtonServer components (2 instances)
-   - Removed test div/button (lines 154-159)
-   - **Impact:** Cleaner React tree, faster renders, more professional
-
-#### ✅ **Documentation Created**
-
-1. **PERFORMANCE_AUDIT.md** - Comprehensive performance analysis
-   - Lists all issues found with explanations
-   - Documents fixes applied
-   - Includes technical explanations (why N+1 is bad, why console.logs are slow)
-   - Expected results and impact
-
-2. **MONTHLY_GOALS_OCTOBER_NOVEMBER.md** - MVP launch tracker
-   - October goals and progress (85% complete!)
-   - November goals with day-by-day breakdown
-   - Launch day checklist
-   - Growth metrics and milestones
-   - Daily tracker format
-
-3. **Updated MISSION_TRACKER.md** - Accurate progress tracking
-   - Phase 1: Database Foundation - ✅ COMPLETE
-   - Phase 2: Interactive Features - ✅ COMPLETE
-   - Phase 2.5: Performance & Polish - ✅ COMPLETE
-   - MVP Remaining: Landing Page, Deployment, Launch
-   - Updated from 60% to 85% complete
-
-4. **Updated For Me/README.md** - Documentation index
-   - Added Monthly Goals to navigation
-   - Added Performance Audit to navigation
-   - Updated current status to 85% complete
-   - Organized all documentation files
-   - Launch checklist
+**Last Updated:** October 27, 2024  
+**Status:** Landing page complete, Appointments system foundation laid  
+**Next Session:** Build out appointments and calendar UI
 
 ---
 
-## 📊 CURRENT STATE (What Works Right Now):
+## ✅ What We Accomplished Today
 
-### ✅ **Fully Functional Features**
+### 1. Landing Page - COMPLETE ✨
+**Location:** `app/page.tsx`
 
-1. **Authentication & Multi-Tenancy**
-   - Sign up / Login / Logout
-   - Shop creation and management
-   - User-shop relationships with roles & permissions
-   - Row Level Security (RLS) enforced
+- Full redesign with professional multi-section layout
+- 4 feature showcases with your recorded GIFs
+- Dashboard screenshot integrated
+- Gradient background (adjustable at line 36)
+- Mobile responsive + Theme support
+- Multiple CTAs for waitlist
 
-2. **Dashboard**
-   - Displays active shop name
-   - Mock widgets for tasks, reminders, stats (will connect later)
-   - ShopProvider context for shop data
+**Live at:** http://localhost:3001/ (when logged out)
 
-3. **Pipeline CRM (COMPLETE!)**
-   - Loads real clients from Supabase
-   - Drag & drop clients between stages
-   - Persists to database (pipeline_stage + sort_order)
-   - Create new clients (AddClientModal)
-   - Edit existing clients (EditClientModal)
-   - Delete clients (optimistic updates for instant feedback)
-   - Form validation: Name required, Email OR Phone required
-   - Optimized performance (N+1 fix applied)
+### 2. Optimistic Updates - COMPLETE ✨
+All pipeline operations now feel instant:
+- ✅ Create client → instant UI update
+- ✅ Edit client → instant UI update  
+- ✅ Delete client → immediate removal
+- ✅ Drag-and-drop → instant movement
 
-4. **Design System**
-   - Dual-theme support (light/dark)
-   - CSS variables for all colors
-   - Responsive layout
-   - Component library (Button, Input, Card, etc.)
+### 3. Database Schema - COMPLETE ✨
+**Migration:** `supabase/migrations/05_enhance_workers_and_appointments.sql`
 
-### 🗄️ **Database Schema**
+New:
+- `appointments` table - Full scheduling system
+- Enhanced `shop_workers` - Added color field
+- `shop_leads.worker_id` - Links clients to artists
 
-- `shops_tables` - Shop information
-- `shop_users` - User-shop relationships (multi-tenancy)
-- `shop_leads` - Client data with pipeline stages
+### 4. TypeScript Types - COMPLETE ✨
+**Location:** `lib/database.ts`
 
-**All tables have RLS policies:** Users can only see data for shops they belong to.
+Added: `Worker`, `Appointment`, `AppointmentWithDetails`
 
 ---
 
-## 🎯 WHAT'S NEXT: Landing Page (Oct 27-28)
+## 📊 Database Schema (What You Need to Know)
 
-**Your next task is the Landing Page - the final piece before MVP launch!**
+### Key Tables
 
-### **Why This Matters:**
-Right now your waitlist modal works, but users see NOTHING about the product. They're signing up blind! You need to show them:
-- What the product looks like (screenshots)
-- How it works (GIF demos)
-- Why they should use it (value proposition)
+**shop_workers** (Artists)
+- `id` (UUID)
+- `first_name`, `last_name`
+- `color` (hex) - NEW! For calendar
+- `specialties` (text array)
 
-### **What To Build:**
+**shop_leads** (Pipeline clients)
+- `id` (bigint)
+- `worker_id` (UUID) - NEW! Links to artist
+- `pipeline_stage` (leads/consultation/etc)
 
-#### **File to Update:** `app/page.tsx`
+**appointments** (NEW!)
+- `id` (UUID)
+- `client_id` → shop_leads
+- `worker_id` → shop_workers
+- `appointment_date`, `start_time`, `end_time`
+- `status` (scheduled/completed/cancelled/no-show)
 
-**Current state:** Shows "Simple Inked Studios" title + waitlist button (very basic)
+---
 
-**New state:** Beautiful landing page with:
+## 🏗️ How Optimistic Updates Work
 
-1. **Hero Section**
-   - Compelling headline (e.g., "The CRM Built for Tattoo Studios")
-   - Subheadline explaining the value
-   - Waitlist CTA button (already have this!)
-
-2. **Product Screenshots**
-   - Screenshot of the Dashboard
-   - Screenshot of the Pipeline CRM
-   - Professional, clean presentation
-
-3. **Product Demo GIFs**
-   - 3-5 second GIF of creating a client
-   - 3-5 second GIF of drag-and-drop in pipeline
-   - Show the product in action
-
-4. **Value Proposition**
-   - 3-5 key benefits (e.g., "Track clients through your sales pipeline", "Never lose a lead again")
-   - Short, punchy copy
-
-5. **Waitlist CTA** (Already have WaitlistModal component!)
-   - Prominent "Join Waitlist" button
-   - Integrates with existing WaitlistModal.client.tsx
-
-### **How To Capture Screenshots:**
-
-1. **Dashboard Screenshot:**
-   - Navigate to `/dashboard` while logged in
-   - Cmd+Shift+4 (Mac) to take screenshot
-   - Crop to show the full dashboard
-   - Save as `public/screenshots/dashboard.png`
-
-2. **Pipeline Screenshot:**
-   - Navigate to `/content/pipeline` while logged in
-   - Make sure you have some test clients in different stages
-   - Cmd+Shift+4 to capture
-   - Save as `public/screenshots/pipeline.png`
-
-### **How To Record GIFs:**
-
-Use a free tool like:
-- **Kap** (Mac) - https://getkap.co/
-- **ScreenToGif** (Windows)
-- **LICEcap** (Cross-platform)
-
-Record:
-1. Creating a new client (click "Create Client", fill form, submit)
-2. Dragging a client between pipeline stages
-
-Save as `public/gifs/create-client.gif` and `public/gifs/drag-drop.gif`
-
-### **Design Inspiration:**
-
-Keep it SIMPLE. You're not trying to win design awards, you're trying to:
-1. Show the product
-2. Explain the value
-3. Get waitlist signups
-
-**Example structure:**
 ```
-┌─────────────────────────────────────┐
-│  Hero: Headline + CTA Button       │
-├─────────────────────────────────────┤
-│  Screenshot: Dashboard              │
-├─────────────────────────────────────┤
-│  Screenshot: Pipeline               │
-├─────────────────────────────────────┤
-│  GIF Demo: Create Client            │
-├─────────────────────────────────────┤
-│  GIF Demo: Drag & Drop              │
-├─────────────────────────────────────┤
-│  Value Props (3 boxes)              │
-├─────────────────────────────────────┤
-│  Final CTA: Join Waitlist           │
-└─────────────────────────────────────┘
+User clicks "Create" 
+  ↓
+UI updates immediately (optimistic)
+  ↓
+Server saves in background
+  ↓
+If success: Done! UI already updated
+If error: Revert or show error
 ```
 
-**Time budget:** 1 day max! Don't overthink it.
+**Why it's good:** Feels instant, like Twitter/Linear/Notion
 
----
+### Example Flow:
 
-## 🚀 LAUNCH TIMELINE (5 Days!)
+1. **User submits form**
+```tsx
+const result = await createClientAction(formData);
+if (result?.client) {
+  onOptimisticAdd(result.client); // UI updates HERE
+}
+```
 
-| Date | Task | Status |
-|------|------|--------|
-| **Oct 27-28** | Landing page with screenshots/GIFs | ⬜ Next |
-| **Oct 29** | Production deployment & testing | ⬜ Pending |
-| **Oct 30** | Final polish & bug fixes | ⬜ Pending |
-| **Nov 1** | **LAUNCH MVP** 🎉 | ⬜ Pending |
-
----
-
-## 💡 KEY CONCEPTS TO REMEMBER
-
-### **Server Actions Pattern:**
+2. **Server validates & saves**
 ```typescript
-// Client Component
-async function handleSubmit(formData: FormData) {
-  const result = await createClientAction(formData);
-  if (result.error) setError(result.error);
-  else router.refresh();
-}
-
-// Server Action (app/content/pipeline/actions.ts)
-export async function createClientAction(formData: FormData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const shopId = await getActiveShopIdFallback(user.id, supabase);
-
-  // Extract form data
-  const clientData = { ... };
-
-  // Call data function
-  await createShopClient(shopId, user.id, clientData, supabase);
-
-  revalidatePath('/content/pipeline');
-  return { success: true };
-}
+const newClient = await createShopClient(...);
+return { success: true, client: newClient };
 ```
 
-### **Optimistic Updates Pattern:**
+3. **UI already updated, user happy** 😊
+
+---
+
+## 🎯 Next Steps (When You Return)
+
+### Priority 1: Workers Data Layer (30 min)
+**Create:** `lib/supabase/data/workers-data.ts`
+
 ```typescript
-// 1. Update UI immediately
-onOptimisticDelete(client.id);
+export async function getShopWorkers(shopId, supabase)
+export async function createWorker(shopId, workerData, supabase)
+export async function updateWorker(workerId, shopId, workerData, supabase)
+export async function deleteWorker(workerId, shopId, supabase)
+```
 
-// 2. Call server in background
-try {
-  await deleteClientAction(client.id.toString());
-} catch (error) {
-  router.refresh(); // Revert if fails
+**Pattern:** Copy from `shop-leads-data.ts` and modify
+
+### Priority 2: Appointments Data Layer (30 min)
+**Create:** `lib/supabase/data/appointments-data.ts`
+
+```typescript
+export async function getShopAppointments(shopId, startDate, endDate, supabase)
+export async function createAppointment(shopId, appointmentData, supabase)
+export async function updateAppointment(appointmentId, shopId, appointmentData, supabase)
+export async function deleteAppointment(appointmentId, shopId, supabase)
+```
+
+### Priority 3: Update Client Modal (15 min)
+**Modify:** `components/studio/AddClientModal.client.tsx`
+
+- Replace artist text input with dropdown
+- Fetch workers from database
+- Save `worker_id` instead of text
+
+### Priority 4: Simple Calendar View (1-2 hours)
+
+**Option A - MVP:** List view
+- Show appointments sorted by date
+- Add/Edit/Delete buttons
+- Filter by worker
+
+**Option B - Full:** Grid calendar
+- Week/month view
+- Visual blocks with colors
+- Drag to reschedule
+- (3-4 hours more work)
+
+---
+
+## 🔑 Key Concepts Explained
+
+### 1. Server vs Client Components
+
+**Server (default):**
+- Runs on server
+- Can fetch data directly
+- No useState/useEffect
+- Example: `app/content/pipeline/page.tsx`
+
+**Client ("use client"):**
+- Runs in browser
+- Can use hooks
+- Interactive
+- Example: All modals
+
+### 2. Row Level Security (RLS)
+
+Database-level security in Supabase. Prevents users from accessing other shops' data.
+
+```sql
+-- Users can only see appointments in THEIR shops
+CREATE POLICY "..." ON appointments
+  USING (shop_id IN (SELECT id FROM shops WHERE user_id = auth.uid()));
+```
+
+### 3. FormData API
+
+```tsx
+<form onSubmit={handleSubmit}>
+  <input name="client_name" />
+  <input name="client_email" />
+</form>
+
+function handleSubmit(e) {
+  const formData = new FormData(e.currentTarget);
+  // Contains all inputs by name automatically
+  await createClientAction(formData);
 }
 ```
 
-### **Security Pattern:**
-Every data function MUST:
-1. Validate inputs (`if (!shopId) throw new Error(...)`)
-2. Verify access (`verifyShopAccess(userId, shopId, supabase)`)
-3. Filter queries (`eq("shop_id", shopId)`)
-
 ---
 
-## 🔥 PERFORMANCE RULES (NEW!)
-
-1. **NO console.logs in production** - Expensive I/O operations
-2. **Sort AFTER loops, not inside** - Avoid N+1 queries
-3. **Use optimistic updates** - Better UX, industry standard
-4. **Keep bundle size <500KB** - Fast page loads
-
----
-
-## 📂 FILE STRUCTURE
+## 📁 File Structure
 
 ```
 app/
-  auth/             - Login, sign-up, password reset
-  dashboard/        - Main dashboard (after login)
-  onboarding/       - Shop creation flow
-  content/
-    pipeline/       - Pipeline CRM page
-      page.tsx      - Server component (fetches data)
-      actions.ts    - Server actions (CRUD)
-  page.tsx          - Landing page (PUBLIC) ← NEXT TO UPDATE
+├── page.tsx                    ← Landing page ✅
+├── dashboard/page.tsx          
+├── content/
+│   ├── pipeline/               ← Pipeline CRM ✅
+│   │   ├── page.tsx           
+│   │   └── actions.ts         
+│   ├── calendar/               ← TODO: Appointments
+│   │   ├── page.tsx           
+│   │   └── actions.ts         
+│   └── artists/                ← TODO: Worker management
+│       ├── page.tsx           
+│       └── actions.ts         
 
 components/
-  auth/             - Login/signup forms
-  layout/           - Navbar, containers
-  studio/           - Business logic components
-    AddClientModal.client.tsx     - Create client form
-    EditClientModal.client.tsx    - Edit client form
-    pipeline/
-      PipelineBoard.client.tsx    - Main drag-drop board
-      PipelineColumns.client.tsx  - Column containers
-      DraggableCard.client.tsx    - Individual client cards
-  ui/               - Reusable components (Button, Input, etc.)
-  waitlist/
-    WaitlistModal.client.tsx      - Waitlist signup modal
+├── studio/
+│   ├── AddClientModal ✅
+│   ├── EditClientModal ✅
+│   ├── pipeline/ ✅
+│   └── workers/                ← TODO
+└── ui/                         ← Reusable components
 
 lib/
-  supabase/
-    data/
-      shop-leads-data.ts    - Client CRUD functions
-      pipeline-data.ts      - Pipeline formatting
-      user-shops.ts         - Shop management
-  utils/
-    active-shop.ts          - Shop cookie management
-  database.ts               - TypeScript types
+├── database.ts                 ← Types ✅
+└── supabase/data/
+    ├── shop-leads-data.ts ✅
+    ├── workers-data.ts         ← TODO
+    └── appointments-data.ts    ← TODO
 
-For Me/                     - Documentation folder
-  START_HERE_WHEN_YOU_RETURN.md (this file)
-  MISSION_TRACKER.md
-  MONTHLY_GOALS_OCTOBER_NOVEMBER.md
-  PERFORMANCE_AUDIT.md
-  DATABASE_GUIDE.md
-  ... (see README.md for full list)
+supabase/migrations/
+└── 05_enhance_workers_and_appointments.sql ✅
 ```
 
 ---
 
-## 🎯 REMEMBER:
+## 🛠️ Development Commands
 
-**Progress:** 85% Complete
-**Days to Launch:** 5 days
-**Next Task:** Landing Page (1 day)
-**After That:** Deploy & Launch (Nov 1)
+```bash
+# Start dev server
+npm run dev
 
-**You've built:**
-- ✅ Full authentication system
-- ✅ Multi-tenant database with RLS
-- ✅ Complete pipeline CRM with CRUD
-- ✅ Drag-and-drop with persistence
-- ✅ Optimized performance
-- ✅ Professional design system
+# Reset database
+supabase db reset
 
-**You need:**
-- ⬜ Landing page with product showcase
-- ⬜ Production deployment
-- ⬜ Launch! 🚀
+# Open database GUI
+supabase studio
+
+# Type check
+npx tsc --noEmit
+```
 
 ---
 
-**Last Session Duration:** ~6 hours of performance optimization
-**Energy Level:** 🔥🔥🔥 HIGH - Major performance wins!
-**Next Session Goal:** Ship landing page in 1 day
+## 🐛 Common Issues
 
-*"The mission is family, discipline, and freedom. The SaaS is the vehicle."*
+**"Not authenticated"**
+```typescript
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) throw new Error("Not authenticated");
+```
 
-**MVP LAUNCH: NOVEMBER 1, 2025**
+**RLS blocking data**
+- Check policies in Supabase Studio
+- Local dev has RLS disabled (migration 04)
 
+**TypeScript errors**
+- Update `lib/database.ts` to match schema
+
+**Optimistic update not showing**
+```tsx
+if (result?.client) {
+  onOptimisticAdd(result.client); // Don't forget this!
+}
+```
+
+---
+
+## 🎨 Design System
+
+**Colors:**
+- Primary: `#0DE8CD` (teal/cyan)
+- Gradient formula:
+```tsx
+className="bg-gradient-to-br from-background/1 via-primary/10 to-accent/20"
+//                                           ^^           ^^           ^^
+//                                        Adjust these numbers (0-100)
+```
+
+**Spacing:** Uses Tailwind scale (p-4, mb-6, gap-8, etc.)
+
+---
+
+## 💡 Tips for Tomorrow
+
+1. **Start with data layer** - Test queries in Supabase Studio first
+2. **Copy existing patterns** - Use shop-leads-data.ts as template
+3. **One feature at a time** - Don't try to build everything
+4. **Commit often** - Small commits easier to debug
+5. **Test optimistic updates** - Make sure callbacks are called
+
+---
+
+## 📝 MVP Scope (Must Have)
+
+✅ Landing page  
+✅ Pipeline with optimistic updates  
+⏳ Basic appointment list  
+⏳ Worker dropdown in client modal  
+⏳ Create/edit/delete appointments  
+
+**Can wait:**
+- Full calendar grid
+- Dashboard widgets
+- Drag-to-reschedule
+- Email reminders
+
+---
+
+## 🚀 Ready to Continue?
+
+1. Open `lib/supabase/data/workers-data.ts` (create new file)
+2. Copy pattern from `shop-leads-data.ts`
+3. Build CRUD functions for workers
+4. Test in Supabase Studio
+5. Move to appointments-data.ts
+
+**You've got the hard parts done. What's left is repeating patterns you know!**
+
+---
+
+**Files to check:**
+- `For Me/APPOINTMENTS_PLAN.md` - Detailed implementation plan
+- `For Me/LANDING_PAGE_STATUS.md` - Landing page details
+- `supabase/migrations/05_*.sql` - Database schema
+
+**Last commit:** `7046e03`  
+**Branch:** `dev`
+
+**Good luck tomorrow! 💪**

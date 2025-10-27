@@ -12,12 +12,14 @@ interface EditClientModalProps {
   isOpen: boolean;
   onClose: () => void;
   client: ShopLeads;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
 }
 
 export default function EditClientModal({
   isOpen,
   onClose,
   client,
+  onOptimisticEdit,
 }: EditClientModalProps) {
   const router = useRouter();
 
@@ -68,9 +70,23 @@ export default function EditClientModal({
         return;
       }
 
-      // Success - close modal and refresh data
-      onClose();
-      router.refresh(); // Refresh to show updated data
+      // Success - update UI immediately (optimistic)
+      const updatedClient: ShopLeads = {
+        ...client,
+        name,
+        contact_email: contactEmail,
+        contact_phone: contactPhone,
+        notes,
+        artists,
+        session_count: sessionCount,
+        deposit_status: depositStatus,
+      };
+
+      onOptimisticEdit(updatedClient); // Update UI immediately
+      onClose(); // Close modal
+
+      // Refresh in background to sync with server
+      router.refresh();
     } catch (err) {
       setError("Something went wrong");
     } finally {

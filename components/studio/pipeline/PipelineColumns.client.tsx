@@ -7,7 +7,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { PipelineColumn } from "@/lib/database";
+import { PipelineColumn, ShopLeads } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
 import AddClientModal from "@/components/studio/AddClientModal.client";
 import EditClientModal from "../EditClientModal.client";
@@ -21,15 +21,19 @@ import EditClientModal from "../EditClientModal.client";
 type ClientPipelineColumnsProps = {
   columns: PipelineColumn[];
   onOptimisticDelete: (clientId: number) => void;
+  onOptimisticAdd: (newClient: ShopLeads) => void;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
 };
 
 // Separate component for each droppable column
 function DroppableColumn({
   column,
   onOptimisticDelete,
+  onOptimisticEdit,
 }: {
   column: PipelineColumn;
   onOptimisticDelete: (clientId: number) => void;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: column.id,
@@ -61,6 +65,7 @@ function DroppableColumn({
               client={client}
               columnId={column.id}
               onOptimisticDelete={onOptimisticDelete}
+              onOptimisticEdit={onOptimisticEdit}
             />
           ))}
         </div>
@@ -72,6 +77,8 @@ function DroppableColumn({
 export default function ClientPipelineColumns({
   columns,
   onOptimisticDelete,
+  onOptimisticAdd,
+  onOptimisticEdit,
 }: ClientPipelineColumnsProps) {
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -80,6 +87,7 @@ export default function ClientPipelineColumns({
       <AddClientModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
+        onOptimisticAdd={onOptimisticAdd}
       />
 
       <div>
@@ -101,6 +109,7 @@ export default function ClientPipelineColumns({
               key={column.id}
               column={column}
               onOptimisticDelete={onOptimisticDelete}
+              onOptimisticEdit={onOptimisticEdit}
             />
           ))}
         </div>

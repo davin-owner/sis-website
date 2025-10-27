@@ -10,11 +10,13 @@ import { createClientAction } from "@/app/content/pipeline/actions";
 interface AddClientModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onOptimisticAdd: (newClient: ShopLeads) => void;
 }
 
 export default function AddClientModal({
   isOpen,
   onClose,
+  onOptimisticAdd,
 }: AddClientModalProps) {
   const router = useRouter();
 
@@ -58,7 +60,15 @@ export default function AddClientModal({
         return;
       }
 
-      // Success - reset form, close modal, and refresh data
+      // Success - add client to UI immediately (optimistic)
+      if (result?.client) {
+        onOptimisticAdd(result.client);
+      }
+
+      // Close modal
+      onClose();
+
+      // Reset form
       setName("");
       setContactEmail("");
       setContactPhone("");
@@ -66,8 +76,9 @@ export default function AddClientModal({
       setArtists("");
       setSessionCount(0);
       setDepositStatus("pending");
-      onClose();
-      router.refresh(); // Refresh to show new client
+
+      // Refresh in background to ensure sync
+      router.refresh();
     } catch (err) {
       setError("Something went wrong");
     } finally {

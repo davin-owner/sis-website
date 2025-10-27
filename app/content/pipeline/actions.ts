@@ -63,10 +63,10 @@ export async function createClientAction(formData: FormData) {
     return { error: "Please provide either email or phone number" };
   }
   try {
-    await createShopClient(shopId, user.id, clientData, supabase);
+    const newClient = await createShopClient(shopId, user.id, clientData, supabase);
 
     revalidatePath("/content/pipeline");
-    return { success: true };
+    return { success: true, client: newClient };
   } catch (error: unknown) {
     return { error: error instanceof Error ? error.message : 'Unknown error' };
   }

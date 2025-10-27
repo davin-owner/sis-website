@@ -73,6 +73,34 @@ export default function ClientPipelineBoard({
     );
   };
 
+  // Optimistic update: Add new client to UI immediately
+  const handleOptimisticAdd = (newClient: ShopLeads) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => {
+        // Add to the "leads" column (first column)
+        if (col.id === "leads") {
+          return {
+            ...col,
+            clients: [...col.clients, newClient],
+          };
+        }
+        return col;
+      })
+    );
+  };
+
+  // Optimistic update: Update client in UI immediately
+  const handleOptimisticEdit = (updatedClient: ShopLeads) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => ({
+        ...col,
+        clients: col.clients.map((client) =>
+          client.id === updatedClient.id ? updatedClient : client
+        ),
+      }))
+    );
+  };
+
   // Configure drag sensors with custom activation constraints
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -222,6 +250,8 @@ export default function ClientPipelineBoard({
         <PipelineColumns
           columns={columns}
           onOptimisticDelete={handleOptimisticDelete}
+          onOptimisticAdd={handleOptimisticAdd}
+          onOptimisticEdit={handleOptimisticEdit}
         />
       </div>
 

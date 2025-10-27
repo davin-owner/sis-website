@@ -19,12 +19,14 @@ type DraggableClientCardProps = {
   client: ShopLeads;
   columnId: string;
   onOptimisticDelete: (clientId: number) => void;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
 };
 
 export default function DraggableClientCard({
   client,
   columnId,
   onOptimisticDelete,
+  onOptimisticEdit,
 }: DraggableClientCardProps) {
   const router = useRouter();
 
@@ -63,6 +65,7 @@ export default function DraggableClientCard({
         isOpen={showEditModal}
         onClose={() => setEditModal(false)}
         client={client}
+        onOptimisticEdit={onOptimisticEdit}
       />
       {/* OUTER DIV: Sets up the drag context but NOT draggable itself */}
       <div

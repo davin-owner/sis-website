@@ -1,13 +1,16 @@
 "use client";
 
-import React from "react";
-import { Column } from "@/lib/types";
+import React, { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import DraggableCard from "./DraggableCard.client";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { PipelineColumn, ShopLeads } from "@/lib/database";
+import { Button } from "@/components/ui/Button";
+import AddClientModal from "@/components/studio/AddClientModal.client";
+import EditClientModal from "../EditClientModal.client";
 
 // Data Flow:
 // 1. Receives columns and onMove from ClientPipelineBoard
@@ -16,12 +19,22 @@ import {
 // 4. No local state - parent controls all data
 
 type ClientPipelineColumnsProps = {
-  columns: Column[];
-  onMove: (sourceId: string, destinationId: string, clientId: string) => void;
+  columns: PipelineColumn[];
+  onOptimisticDelete: (clientId: number) => void;
+  onOptimisticAdd: (newClient: ShopLeads) => void;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
 };
 
 // Separate component for each droppable column
-function DroppableColumn({ column }: { column: Column }) {
+function DroppableColumn({
+  column,
+  onOptimisticDelete,
+  onOptimisticEdit,
+}: {
+  column: PipelineColumn;
+  onOptimisticDelete: (clientId: number) => void;
+  onOptimisticEdit: (updatedClient: ShopLeads) => void;
+}) {
   const { setNodeRef, isOver } = useDroppable({
     id: column.id,
     data: { type: "COLUMN" },
@@ -29,7 +42,7 @@ function DroppableColumn({ column }: { column: Column }) {
 
   return (
     <SortableContext
-      items={column.clients.map((client) => client.id)}
+      items={column.clients.map((client) => client.id.toString())}
       strategy={verticalListSortingStrategy}
     >
       <div
@@ -37,12 +50,12 @@ function DroppableColumn({ column }: { column: Column }) {
         className={`p-6 flex-1 items-start min-h-[400px] rounded-xl transition-colors duration-300
         ${isOver ? "ring-2 shadow-[0_0_20px_rgba(13,232,205,0.4)]" : ""}`}
         style={{
-          background: 'var(--color-card)',
-          border: '1px solid var(--color-border)',
-          borderColor: isOver ? 'var(--color-accent-foreground)' : undefined
+          background: "var(--color-card)",
+          border: "1px solid var(--color-border)",
+          borderColor: isOver ? "var(--color-accent-foreground)" : undefined,
         }}
       >
-        <h2 className="font-bold text-xl mb-5 text-foreground pb-3 sticky top-0 backdrop-blur-lg z-10 -mx-6 px-6" style={{ background: 'var(--color-card)' }}>
+        <h2 className="font-bold text-2xl text-center mb-5 text-foreground pb-3 sticky top-0 backdrop-blur-lg z-10 -mx-6 px-6">
           {column.title}
         </h2>
         <div className="space-y-4 transition-all duration-300">
@@ -51,6 +64,8 @@ function DroppableColumn({ column }: { column: Column }) {
               key={client.id}
               client={client}
               columnId={column.id}
+              onOptimisticDelete={onOptimisticDelete}
+              onOptimisticEdit={onOptimisticEdit}
             />
           ))}
         </div>
@@ -61,15 +76,44 @@ function DroppableColumn({ column }: { column: Column }) {
 
 export default function ClientPipelineColumns({
   columns,
+  onOptimisticDelete,
+  onOptimisticAdd,
+  onOptimisticEdit,
 }: ClientPipelineColumnsProps) {
+  const [showAddModal, setShowAddModal] = useState(false);
+
   return (
-    <div
-      className="flex justify-between w-full gap-6 p-6 mt-16"
-      id="client-pipeline-columns"
-    >
-      {columns.map((column) => (
-        <DroppableColumn key={column.id} column={column} />
-      ))}
-    </div>
+    <>
+      <AddClientModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onOptimisticAdd={onOptimisticAdd}
+      />
+
+      <div>
+        <div className="float-end">
+          <Button
+            className=" text-xl p-2 mr-2"
+            size={"lg"}
+            onClick={() => setShowAddModal(true)}
+          >
+            Create Client
+          </Button>
+        </div>
+        <div
+          className="flex justify-between w-full gap-10 p-2 mt-26"
+          id="client-pipeline-columns"
+        >
+          {columns.map((column) => (
+            <DroppableColumn
+              key={column.id}
+              column={column}
+              onOptimisticDelete={onOptimisticDelete}
+              onOptimisticEdit={onOptimisticEdit}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

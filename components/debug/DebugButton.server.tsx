@@ -8,7 +8,8 @@ import DebugButtonClient from "./DebugButton.client";
 
 export default function DebugButtonServer(props: {
   label: string;
+  endpoint: string;
   dataFunction: () => Promise<unknown[]>;
 }) {
-  return <DebugButtonClient label={props.label} />;
+  return <DebugButtonClient label={props.label} endpoint={props.endpoint} />;
 }

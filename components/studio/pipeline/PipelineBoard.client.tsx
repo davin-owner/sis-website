@@ -43,10 +43,9 @@ import {
 } from "@dnd-kit/core";
 import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
 import DraggableCard from "./DraggableCard.client";
-import { Column, Client } from "@/lib/types";
-import {
-  arrayMove,
-} from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/sortable";
+import { PipelineColumn, ShopLeads } from "@/lib/database";
+import { updateClientStageAction } from "@/app/content/pipeline/actions";
 
 // Data Flow:
 // 1. Receives initialColumns from ServerPipelineBoard
@@ -54,15 +53,53 @@ import {
 // 3. Handles drag end events to update state
 // 4. Passes columns and move handler to ClientPipelineColumns
 type ClientPipeBoardProps = {
-  initialColumns: Column[];
+  initialColumns: PipelineColumn[];
 };
 
 export default function ClientPipelineBoard({
   initialColumns,
 }: ClientPipeBoardProps) {
   // State for managing columns and the currently dragged client
-  const [columns, setColumns] = useState<Column[]>(initialColumns);
+  const [columns, setColumns] = useState<PipelineColumn[]>(initialColumns);
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Optimistic update: Remove client from UI immediately
+  const handleOptimisticDelete = (clientId: number) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => ({
+        ...col,
+        clients: col.clients.filter((client) => client.id !== clientId),
+      }))
+    );
+  };
+
+  // Optimistic update: Add new client to UI immediately
+  const handleOptimisticAdd = (newClient: ShopLeads) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => {
+        // Add to the "leads" column (first column)
+        if (col.id === "leads") {
+          return {
+            ...col,
+            clients: [...col.clients, newClient],
+          };
+        }
+        return col;
+      })
+    );
+  };
+
+  // Optimistic update: Update client in UI immediately
+  const handleOptimisticEdit = (updatedClient: ShopLeads) => {
+    setColumns((prevColumns) =>
+      prevColumns.map((col) => ({
+        ...col,
+        clients: col.clients.map((client) =>
+          client.id === updatedClient.id ? updatedClient : client
+        ),
+      }))
+    );
+  };
 
   // Configure drag sensors with custom activation constraints
   const sensors = useSensors(
@@ -76,9 +113,9 @@ export default function ClientPipelineBoard({
   );
 
   // Helper function to find a client by ID across all columns
-  const findClientById = (id: string): Client | undefined => {
+  const findClientById = (id: string): ShopLeads | undefined => {
     for (const column of columns) {
-      const client = column.clients.find((c) => c.id === id);
+      const client = column.clients.find((c) => c.id.toString() === id);
       if (client) return client;
     }
     return undefined;
@@ -92,7 +129,7 @@ export default function ClientPipelineBoard({
   }
 
   // Handle the end of dragging - updates column state
-  function handleDragEnd(event: DragEndEvent) {
+  async function handleDragEnd(event: DragEndEvent) {
     setActiveId(null);
     const { active, over } = event;
     if (!over) return;
@@ -102,23 +139,25 @@ export default function ClientPipelineBoard({
 
     // Find the source and destination columns
     const activeColumn = columns.find((col) =>
-      col.clients.some((client) => client.id === activeId)
+      col.clients.some((client) => client.id.toString() === activeId)
     );
     const overColumn = columns.find(
       (col) =>
-        col.clients.some((client) => client.id === overId) || col.id === overId
+        col.clients.some((client) => client.id.toString() === overId) ||
+        col.id === overId
     );
 
     if (!activeColumn || !overColumn) return;
-
+    let newSortOrder: number;
     // Handle sorting within the same column
     if (activeColumn.id === overColumn.id) {
       const oldIndex = activeColumn.clients.findIndex(
-        (client) => client.id === activeId
+        (client) => client.id.toString() === activeId
       );
       const newIndex = activeColumn.clients.findIndex(
-        (client) => client.id === overId
+        (client) => client.id.toString() === overId
       );
+      newSortOrder = newIndex;
 
       if (oldIndex === newIndex) return;
 
@@ -133,15 +172,28 @@ export default function ClientPipelineBoard({
           return col;
         })
       );
+
+      // Call server action to update sort order
+      try {
+        await updateClientStageAction(
+          activeId.toString(),
+          overColumn.id,
+          newSortOrder
+        );
+      } catch (error) {
+        // Silently fail - UI already updated optimistically
+      }
+      return; // Exit early after handling same column
     }
     // Handle moving between columns
     else {
+      newSortOrder = overColumn.clients.length;
       setColumns((prevColumns) => {
         const sourceColIndex = prevColumns.indexOf(activeColumn);
         const destColIndex = prevColumns.indexOf(overColumn);
 
         const clientToMove = activeColumn.clients.find(
-          (client) => client.id === activeId
+          (client) => client.id.toString() === activeId
         );
 
         if (!clientToMove) return prevColumns;
@@ -158,7 +210,7 @@ export default function ClientPipelineBoard({
         newColumns[sourceColIndex] = {
           ...activeColumn,
           clients: activeColumn.clients.filter(
-            (client) => client.id !== activeId
+            (client) => client.id.toString() !== activeId
           ),
         };
         // Add to destination
@@ -170,12 +222,20 @@ export default function ClientPipelineBoard({
         return newColumns;
       });
     }
+
+    // Call server action AFTER state update (outside setColumns)
+    try {
+      await updateClientStageAction(
+        activeId.toString(),
+        overColumn.id,
+        newSortOrder
+      );
+      // Success! Data saved to database
+    } catch (error) {
+      // TODO: Show error toast to user instead of console logging
+    }
   }
 
-  const handleMove = () => {
-    // Logic to move a client from one column to another
-    // Update the state accordingly
-  };
   return (
     <DndContext
       sensors={sensors}
@@ -184,10 +244,15 @@ export default function ClientPipelineBoard({
       collisionDetection={closestCenter}
     >
       <div
-        className="flex justify-center items-start w-full gap-6 p-6"
+        className="flex mt-0 justify-center items-start w-full gap-6 p-6"
         id="client-pipeline-columns"
       >
-        <PipelineColumns columns={columns} onMove={handleMove} />
+        <PipelineColumns
+          columns={columns}
+          onOptimisticDelete={handleOptimisticDelete}
+          onOptimisticAdd={handleOptimisticAdd}
+          onOptimisticEdit={handleOptimisticEdit}
+        />
       </div>
 
       {/* DragOverlay shows a preview of the dragged item */}
@@ -197,6 +262,7 @@ export default function ClientPipelineBoard({
             <DraggableCard
               client={findClientById(activeId) || columns[0].clients[0]}
               columnId=""
+              onOptimisticDelete={() => {}} // Dummy function for preview
             />
           </div>
         ) : null}

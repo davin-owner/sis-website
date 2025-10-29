@@ -26,7 +26,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { saveWaitlistSignup } from "@/lib/supabase/waitlist-data";
+import { saveWaitlistSignup } from "@/lib/supabase/data/waitlist-data";
 
 interface WaitlistModalProps {
   isOpen: boolean;
@@ -34,7 +34,6 @@ interface WaitlistModalProps {
 }
 
 export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
-
   // Form state - stores user input
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

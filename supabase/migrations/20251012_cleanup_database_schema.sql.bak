@@ -1,0 +1,103 @@
+-- Migration: Clean up database schema
+-- Fix shops_tables primary key, drop duplicate studios table, create leads and shop_workers tables
+
+-- Step 1: Fix shops_tables composite primary key (make shop_id the only primary key)
+-- Drop existing constraints first
+ALTER TABLE public.shops_tables DROP CONSTRAINT IF EXISTS shops_tables_pkey;
+ALTER TABLE public.shops_tables DROP CONSTRAINT IF EXISTS shops_tables_shop_owner_key;
+
+-- Make shop_id the primary key
+ALTER TABLE public.shops_tables ADD PRIMARY KEY (shop_id);
+
+-- Keep shop_owner unique since each user should only have one shop
+ALTER TABLE public.shops_tables ADD CONSTRAINT shops_tables_shop_owner_key UNIQUE (shop_owner);
+
+-- Step 2: Drop the duplicate studios table
+DROP TABLE IF EXISTS public.studios CASCADE;
+
+-- Step 3: Create leads table for YOUR prospective clients (tattoo shops you're trying to sign)
+CREATE TABLE IF NOT EXISTS public.leads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  studio_name TEXT NOT NULL,
+  contact_name TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  address TEXT,
+  city TEXT,
+  state TEXT,
+  zip_code TEXT,
+  status TEXT DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'qualified', 'demo_scheduled', 'proposal_sent', 'converted', 'lost')),
+  source TEXT, -- where you found them (referral, cold outreach, website, etc)
+  notes TEXT,
+  converted_to_shop_id UUID REFERENCES public.shops_tables(shop_id),
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  owner_id UUID REFERENCES auth.users(id) DEFAULT auth.uid() NOT NULL
+);
+
+COMMENT ON TABLE public.leads IS 'Prospective tattoo shops that Simple Ink Studios is trying to sign as clients';
+
+-- Step 4: Create shop_workers table for tattoo artists at each shop
+CREATE TABLE IF NOT EXISTS public.shop_workers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  shop_id UUID REFERENCES public.shops_tables(shop_id) ON DELETE CASCADE NOT NULL,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'on_leave')),
+  hire_date DATE,
+  hourly_rate DECIMAL(10,2),
+  specialties TEXT[], -- array of specialties like 'traditional', 'realism', 'blackwork'
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+);
+
+COMMENT ON TABLE public.shop_workers IS 'Tattoo artists working at each tattoo shop (client studio)';
+
+-- Step 5: Fix shop_leads table - add foreign key to shops_tables
+ALTER TABLE public.shop_leads
+  ADD CONSTRAINT shop_leads_shop_id_fkey
+  FOREIGN KEY (shop_id)
+  REFERENCES public.shops_tables(shop_id)
+  ON DELETE CASCADE;
+
+-- Step 5: Enable RLS on new tables
+ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.shop_workers ENABLE ROW LEVEL SECURITY;
+
+-- Step 6: Create RLS policies for leads table
+-- Only the owner can see/manage their leads
+CREATE POLICY "leads_owner_full_access" ON public.leads
+  FOR ALL
+  USING (owner_id = auth.uid())
+  WITH CHECK (owner_id = auth.uid());
+
+-- Step 7: Create RLS policies for shop_workers table
+-- Shop owners can manage their workers
+CREATE POLICY "shop_workers_owner_access" ON public.shop_workers
+  FOR ALL
+  USING (
+    shop_id IN (
+      SELECT shop_id FROM public.shops_tables
+      WHERE shop_owner = auth.uid()
+    )
+  )
+  WITH CHECK (
+    shop_id IN (
+      SELECT shop_id FROM public.shops_tables
+      WHERE shop_owner = auth.uid()
+    )
+  );
+
+-- Step 8: Grant permissions
+GRANT ALL ON TABLE public.leads TO postgres, anon, authenticated, service_role;
+GRANT ALL ON TABLE public.shop_workers TO postgres, anon, authenticated, service_role;
+
+-- Step 9: Create indexes for better query performance
+CREATE INDEX leads_status_idx ON public.leads(status);
+CREATE INDEX leads_owner_id_idx ON public.leads(owner_id);
+CREATE INDEX leads_created_at_idx ON public.leads(created_at DESC);
+CREATE INDEX shop_workers_shop_id_idx ON public.shop_workers(shop_id);
+CREATE INDEX shop_workers_status_idx ON public.shop_workers(status);

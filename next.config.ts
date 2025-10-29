@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // Enable strict mode if desired (helps catch React issues)
   reactStrictMode: true,
 
+  // Allow network access from local devices during development (iPad, phone, etc.)
+  allowedDevOrigins: ['192.168.1.194:3000'],
+
   // Optimize images served from known external hosts
   images: {
     remotePatterns: [
@@ -39,6 +42,12 @@ const nextConfig: NextConfig = {
 
   // Security and performance headers (CSP and common headers)
   async headers() {
+    // In development, allow localhost connections for local Supabase
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    const connectSrc = isDevelopment
+      ? "'self' https: http://127.0.0.1:* http://localhost:*"
+      : "'self' https:"
+
     return [
       {
         source: '/(.*)',
@@ -53,7 +62,7 @@ const nextConfig: NextConfig = {
             value:
               "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
               "style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; " +
-              "font-src 'self' https: data:; connect-src 'self' https:;",
+              `font-src 'self' https: data:; connect-src ${connectSrc};`,
           },
         ],
       },

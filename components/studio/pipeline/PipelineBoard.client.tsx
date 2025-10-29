@@ -263,6 +263,7 @@ export default function ClientPipelineBoard({
               client={findClientById(activeId) || columns[0].clients[0]}
               columnId=""
               onOptimisticDelete={() => {}} // Dummy function for preview
+              onOptimisticEdit={() => {}} // Dummy function for preview
             />
           </div>
         ) : null}

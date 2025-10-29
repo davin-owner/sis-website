@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { createClientAction } from "@/app/content/pipeline/actions";
+import { ShopLeads } from "@/lib/database";
 
 interface AddClientModalProps {
   isOpen: boolean;

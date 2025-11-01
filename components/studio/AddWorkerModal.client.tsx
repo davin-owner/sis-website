@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { createWorkerAction } from "@/app/content/artists/actions";
 import { Worker } from "@/lib/database";
-import ModalCard from "@/components/studio/ModalCard.client";
 
 interface AddWorkerModalProps {
   isOpen: boolean;
@@ -129,13 +128,20 @@ export default function AddWorkerModal({
   if (!isOpen) return null;
 
   return (
-    <ModalCard
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Add New Artist"
-      icon="fi-ts-circle-user"
+    <div
+      className="fixed inset-0 bg-black/70 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={onClose}
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div
+        className="surface p-8 max-w-2xl w-full border border-border shadow-2xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold gradient-text-ink text-center mb-6">
+          <i className="fi fi-ts-circle-user mr-2"></i>
+          Add New Artist
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Fields */}
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -299,6 +305,7 @@ export default function AddWorkerModal({
           </Button>
         </div>
       </form>
-    </ModalCard>
+      </div>
+    </div>
   );
 }

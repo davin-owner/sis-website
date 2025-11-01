@@ -55,7 +55,7 @@ export default function ArtistsPageClient({
       {/* Header with Add Button */}
       <div className="flex justify-between items-center">
         <p className="text-muted-foreground">
-          Manage your shop's artists and workers
+          Manage your shop&apos;s artists and workers
         </p>
         <Button onClick={() => setIsAddModalOpen(true)}>
           <i className="fi fi-ts-circle-user mr-2"></i>

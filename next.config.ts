@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**.cloudinary.com' },
       { protocol: 'https', hostname: '**.cdn.jsdelivr.net' },
     ],
+    // Fix image quality warnings and optimize
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
 
   // Redirect to canonical host when CANONICAL_HOST env var is set
@@ -71,7 +76,78 @@ const nextConfig: NextConfig = {
 
   // Helpful build-time and runtime flags — keep conservative defaults
   experimental: {
-    // Opt into stable features if needed. Leave empty or add flags here.
+    // React Compiler - automatic memoization and optimization
+    reactCompiler: true,
+
+    // Speed up build and dev server
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-label',
+      '@radix-ui/react-slot',
+      '@fullcalendar/react',
+      '@fullcalendar/daygrid',
+      '@fullcalendar/timegrid',
+      '@fullcalendar/interaction',
+      '@dnd-kit/core',
+      '@dnd-kit/sortable',
+    ],
+    turbo: {
+      // Turbopack optimizations for faster dev server
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+
+  // Compiler optimizations
+  compiler: {
+    // Remove console logs in production
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
+
+  // Output standalone for smaller docker images (optional)
+  // output: 'standalone',
+
+  // Reduce bundle size by optimizing module IDs
+  webpack: (config, { isServer, dev }) => {
+    // Optimize module IDs for better caching
+    config.optimization = {
+      ...config.optimization,
+      moduleIds: 'deterministic',
+    };
+
+    // Split large libraries into separate chunks for better caching
+    if (!isServer && !dev) {
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        chunks: 'all',
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          fullcalendar: {
+            test: /[\\/]node_modules[\\/]@fullcalendar[\\/]/,
+            name: 'fullcalendar',
+            priority: 20,
+          },
+          dndkit: {
+            test: /[\\/]node_modules[\\/]@dnd-kit[\\/]/,
+            name: 'dnd-kit',
+            priority: 20,
+          },
+          radix: {
+            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
+            name: 'radix-ui',
+            priority: 20,
+          },
+        },
+      };
+    }
+
+    return config;
   },
 }
 

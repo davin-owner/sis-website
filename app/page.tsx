@@ -111,6 +111,7 @@ export default function LandingPage() {
                     placeholderIcon="fi-ts-mobile-notch"
                     placeholderText="Pipeline Demo"
                     placeholderPath="public/gifs/drag-drop.gif"
+                    priority
                   />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-foreground">

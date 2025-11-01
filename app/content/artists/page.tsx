@@ -1,22 +1,42 @@
-// SERVER COMPONENT - Artists page that renders static content on the server
-// Displays artist information and management interface
-export default function ProfilePage() {
+// SERVER COMPONENT - Artists/Workers management page
+// Fetches worker data and passes to client component
+
+import { createClient } from "@/lib/supabase/server";
+import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
+import { redirect } from "next/navigation";
+import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
+import ArtistsPageClient from "@/components/studio/ArtistsPage.client";
+
+export default async function ArtistsPage() {
+  // 1. Auth check
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/auth/login");
+  }
+
+  // 2. Get shop
+  const shopId = await getActiveShopIdFallback(user.id, supabase);
+  if (!shopId) {
+    redirect("/onboarding");
+  }
+
+  // 3. Fetch workers
+  const workers = await getShopWorkerData(shopId, user.id, supabase);
+
   return (
-    <div className="min-h-dvh">
+    <main className="min-h-screen app-canvas">
       <div className="page-container">
-        <main className="p-4 md:p-8 space-y-4">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Profile
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold gradient-text-ink">
+            Artists & Workers
           </h1>
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <p className="text-gray-600 dark:text-gray-300">
-              View and manage your user profile information. Update your
-              personal details, account settings, and manage your user
-              preferences.
-            </p>
-          </div>
-        </main>
+        </div>
+        <ArtistsPageClient initialWorkers={workers} shopId={shopId} />
       </div>
-    </div>
+    </main>
   );
 }

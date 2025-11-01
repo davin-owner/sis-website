@@ -16,26 +16,28 @@ interface AppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
   appointment?: Appointment | null; // If provided, we're editing
-  clients: ShopLeads[];
-  workers: Worker[];
+  clients?: ShopLeads[];
+  workers?: Worker[];
   onOptimisticCreate?: (newAppointment: Appointment) => void;
   onOptimisticEdit?: (updatedAppointment: Appointment) => void;
   onOptimisticDelete?: (appointmentId: string) => void;
   prefilledDate?: string; // YYYY-MM-DD
   prefilledTime?: string; // HH:MM
+  preselectedClientId?: string; // Pre-select a client (from pipeline)
 }
 
 export default function AppointmentModal({
   isOpen,
   onClose,
   appointment,
-  clients,
-  workers,
+  clients = [],
+  workers = [],
   onOptimisticCreate,
   onOptimisticEdit,
   onOptimisticDelete,
   prefilledDate,
   prefilledTime,
+  preselectedClientId,
 }: AppointmentModalProps) {
   const router = useRouter();
   const isEditMode = !!appointment;
@@ -72,7 +74,7 @@ export default function AppointmentModal({
       setStatus(appointment.status);
     } else {
       // Create mode - use prefilled values or defaults
-      setClientId("");
+      setClientId(preselectedClientId || "");
       setWorkerId("");
       setAppointmentDate(prefilledDate || "");
       setStartTime(prefilledTime || "");
@@ -82,7 +84,7 @@ export default function AppointmentModal({
       setLocation("");
       setStatus("scheduled");
     }
-  }, [appointment, prefilledDate, prefilledTime]);
+  }, [appointment, prefilledDate, prefilledTime, preselectedClientId]);
 
   const handleDelete = async () => {
     if (!appointment) return;

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Mail, Send } from 'lucide-react';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -28,7 +29,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       >
         <div className="text-center space-y-6">
           <div className="space-y-3">
-            <i className="fi fi-ts-envelopes text-6xl text-accent drop-shadow-[0_0_20px_rgba(13,232,205,0.5)]"></i>
+            <Mail size={60} className="mx-auto text-accent drop-shadow-[0_0_20px_rgba(13,232,205,0.5)]" />
             <h2 className="text-3xl font-bold gradient-text-ink">
               Get in Touch
             </h2>
@@ -51,7 +52,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               onClick={handleEmailClick}
               className="w-full btn-primary"
             >
-              <i className="fi fi-ts-paper-plane mr-2"></i>
+              <Send size={18} className="mr-2" />
               Send Email
             </Button>
 

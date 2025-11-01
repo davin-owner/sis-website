@@ -67,8 +67,11 @@ export async function createClientAction(formData: FormData) {
 
     revalidatePath("/content/pipeline");
     return { success: true, client: newClient };
-  } catch (error: unknown) {
-    return { error: error instanceof Error ? error.message : 'Unknown error' };
+  } catch (error: any) {
+    // Handle Supabase errors and standard errors
+    const errorMessage = error?.message || error?.error_description || String(error);
+    console.error('Create client error:', errorMessage, error);
+    return { error: errorMessage };
   }
 }
 
@@ -101,8 +104,10 @@ export async function updateClientAction(formData: FormData) {
     await updateShopClient(shopId, user.id, clientId, clientData, supabase);
     revalidatePath("/content/pipeline");
     return { success: true };
-  } catch (error: unknown) {
-    return { error: error instanceof Error ? error.message : 'Unknown error' };
+  } catch (error: any) {
+    const errorMessage = error?.message || error?.error_description || String(error);
+    console.error('Update client error:', errorMessage, error);
+    return { error: errorMessage };
   }
 }
 
@@ -125,8 +130,10 @@ export async function updateClientStageAction(
     await updateClientStage(clientId, shopId, user.id, newStage, newSortOrder,supabase);
     revalidatePath('/content/pipeline');
     return{success:true}
-  } catch (error: unknown) {
-    return {error: error instanceof Error ? error.message : 'Unknown error'}
+  } catch (error: any) {
+    const errorMessage = error?.message || error?.error_description || String(error);
+    console.error('Update client stage error:', errorMessage, error);
+    return {error: errorMessage}
   }
 }
 

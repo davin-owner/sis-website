@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { createClientAction } from "@/app/content/pipeline/actions";
 import { ShopLeads } from "@/lib/database";
+import { useWorkers } from "@/lib/contexts/workers-context";
 
 interface AddClientModalProps {
   isOpen: boolean;
@@ -19,7 +20,14 @@ export default function AddClientModal({
   onClose,
   onOptimisticAdd,
 }: AddClientModalProps) {
+  const workers = useWorkers();
   const router = useRouter();
+
+  // Memoize active workers filter to avoid recomputation on every render
+  const activeWorkers = useMemo(
+    () => workers.filter((worker) => worker.status === "active"),
+    [workers]
+  );
 
   // Form state (match your database fields!)
   const [name, setName] = useState("");
@@ -147,13 +155,20 @@ export default function AddClientModal({
             {/* Row 2 - Field 1: Preferred Artist */}
             <div className="space-y-2">
               <Label htmlFor="client_prefered_artists">Preferred Artist</Label>
-              <Input
+              <select
                 id="client_prefered_artists"
                 name="client_prefered_artists"
                 value={artists}
                 onChange={(e) => setArtists(e.target.value)}
-                placeholder="Artist name"
-              />
+                className="w-full px-3 py-2 bg-background border border-input rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors"
+              >
+                <option value="">Select an artist...</option>
+                {activeWorkers.map((worker) => (
+                  <option key={worker.id} value={`${worker.first_name} ${worker.last_name}`}>
+                    {worker.first_name} {worker.last_name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Row 2 - Field 2: Session Count */}

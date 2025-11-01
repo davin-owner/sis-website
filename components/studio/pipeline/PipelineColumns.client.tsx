@@ -10,10 +10,9 @@ import {
 import { PipelineColumn, ShopLeads } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
 import AddClientModal from "@/components/studio/AddClientModal.client";
-import EditClientModal from "../EditClientModal.client";
 
 // Data Flow:
-// 1. Receives columns and onMove from ClientPipelineBoard
+// 1. Receives columns and callbacks from ClientPipelineBoard
 // 2. Each column is a droppable target
 // 3. Each client card is draggable (will add useDraggable)
 // 4. No local state - parent controls all data

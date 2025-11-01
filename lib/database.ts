@@ -117,3 +117,74 @@ export type AppointmentWithDetails = Appointment & {
   worker_name?: string;
   worker_color?: string;
 };
+
+export type DailyTask = {
+  /*
+  id uuid
+  shop_id uuid
+  created_by_user_id uuid
+  label text
+  done boolean
+  sort_order integer
+  created_at timestamptz
+  updated_at timestamptz
+  */
+  id: string;
+  shop_id: string;
+  created_by_user_id: string;
+  label: string;
+  done: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Accomplishment = {
+  /*
+  id uuid
+  shop_id uuid
+  created_by_user_id uuid
+  description text
+  accomplishment_date date
+  is_automated boolean
+  automation_source text
+  created_at timestamptz
+  */
+  id: string;
+  shop_id: string;
+  created_by_user_id: string;
+  description: string;
+  accomplishment_date: string; // YYYY-MM-DD
+  is_automated: boolean;
+  automation_source: string | null;
+  created_at: string;
+};
+
+export type Reminder = {
+  /*
+  id uuid
+  shop_id uuid
+  created_by_user_id uuid
+  title text
+  description text
+  type text ('reminder', 'goal', 'urgent')
+  due_date date
+  is_completed boolean
+  completed_at timestamptz
+  priority integer
+  created_at timestamptz
+  updated_at timestamptz
+  */
+  id: string;
+  shop_id: string;
+  created_by_user_id: string;
+  title: string;
+  description: string | null;
+  type: 'reminder' | 'goal' | 'urgent';
+  due_date: string | null; // YYYY-MM-DD
+  is_completed: boolean;
+  completed_at: string | null;
+  priority: number;
+  created_at: string;
+  updated_at: string;
+};

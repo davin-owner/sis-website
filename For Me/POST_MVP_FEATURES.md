@@ -1,104 +1,79 @@
 # Post-MVP Features Roadmap
 
-**Last Updated:** October 30, 2024
-**Current Version:** MVP 1.0
-**Next Version:** MVP 1.1 (Week of Nov 4-10)
+**Last Updated:** November 1, 2025
+**Current Version:** MVP 1.0 - LIVE IN PRODUCTION ✅
+**Next Version:** MVP 1.1 (Week of Nov 4-10) - Payment Integration
 
 ---
 
-## 🎯 MVP 1.0 (Launching Tomorrow - Oct 31)
+## ✅ MVP 1.0 (DEPLOYED - Nov 1, 2025)
 
-**Includes:**
-- ✅ Landing page + waitlist
-- ✅ Authentication
-- ✅ Multi-tenancy (shops)
-- ✅ Pipeline CRM
-- ✅ Basic appointments (calendar page only)
+**Shipped Features:**
+- ✅ Landing page with production signup flow (changed from waitlist)
+- ✅ Authentication (signup/login/logout)
+- ✅ Multi-tenancy (shops with RLS)
+- ✅ Pipeline CRM (drag-and-drop, full CRUD, optimistic updates)
+- ✅ Workers/Artists Management (/content/artists with full CRUD)
+- ✅ Calendar with FullCalendar (month/week/day views)
+- ✅ Appointment scheduling from pipeline cards
+- ✅ Performance optimizations (React Compiler, chunk splitting)
+- ✅ Production build and deployment
 
 ---
 
-## 🚀 MVP 1.1 - Immediate Next Features
+## 🚀 MVP 1.1 - Payment Integration (Week of Nov 4-10) - CURRENT PRIORITY
 
-### 1. Appointments UX Improvements
-**Priority:** HIGH
-**Effort:** 2-3 hours
+### 1. ✅ Appointments UX Improvements - COMPLETE
+**Status:** SHIPPED IN MVP 1.0
 
-- [ ] "Schedule Appointment" button on pipeline cards
+- [x] "Schedule Appointment" button on pipeline cards
   - Opens appointment modal with client pre-selected
   - Primary workflow for booking appointments
-  - Reuses existing AddAppointmentModal
+  - Integrated with existing AppointmentModal
 
-- [ ] Show appointment indicator on client cards
+- [ ] Show appointment indicator on client cards (DEFERRED)
   - Small badge showing "Scheduled for Nov 5 @ 2pm"
   - Visual confirmation client has upcoming appointment
-
-**Why:** Makes appointment scheduling feel natural in the workflow
+  - **Decision:** Defer to MVP 1.2, not critical for launch
 
 ---
 
-### 2. Payment Processing - CRITICAL DECISION NEEDED
+### 2. 💰 Payment Processing with Polar - NEXT PRIORITY
 **Priority:** CRITICAL (blocks revenue)
 **Effort:** 4-6 hours for basic setup
+**Decision:** USE POLAR (made Oct 31)
 
-#### Option A: Stripe
-**Pros:**
-- Industry standard
-- Excellent documentation
-- Full control
-
-**Cons:**
-- You handle tax compliance (sales tax, VAT, etc.)
-- More complex setup
-- Need to track nexus (where you owe taxes)
-
-**Tax handling:**
-- Stripe Tax (add-on, ~0.5% extra) - Handles calculations
-- Still need to file/remit yourself OR use Stripe Tax + auto-filing
-
-#### Option B: Polar
-**Pros:**
-- Built for SaaS creators
+#### Why Polar:
 - Handles taxes automatically (like Gumroad)
-- Simpler setup
-- Clean merchant of record model
+- Simpler setup for first revenue
+- Can migrate to Stripe later at $5k+ MRR
 
-**Cons:**
-- Higher fees (~5% vs Stripe's ~3%)
-- Less customization
-- Smaller ecosystem
+#### Implementation Tasks:
+- [ ] Set up Polar account and get API keys
+- [ ] **DECISION NEEDED:** Pricing strategy
+  - Option A: Single tier ($79/mo, unlimited)
+  - Option B: Multiple tiers ($49/$99/$199)
+- [ ] Create pricing page in app
+- [ ] Add checkout flow
+- [ ] Webhook handler for subscription events
+- [ ] Update database schema for subscriptions
+- [ ] Feature gates (if using tiered pricing)
+- [ ] Test payment flow end-to-end
 
-#### Recommendation: START WITH POLAR
-**Why for MVP 1.1:**
-- Get revenue flowing FAST
-- Don't worry about tax compliance yet
-- Simple integration
-- Can always migrate to Stripe later when you're making $5k+/month
-
-**When to switch to Stripe:**
-- Making $5k+ MRR (fees become significant)
-- Want custom billing features
-- Have accountant/bookkeeper to handle taxes
-
-**Implementation:**
-- [ ] Set up Polar account
-- [ ] Create pricing tiers ($49/mo, $99/mo, $199/mo)
-- [ ] Add checkout links to app
-- [ ] Webhook for subscription events
-- [ ] Feature gates based on subscription
+**Goal:** First paying customer by end of week (Nov 8)
 
 ---
 
-### 3. Workers/Artists Management Page
-**Priority:** MEDIUM
-**Effort:** 3-4 hours
+### 3. ✅ Workers/Artists Management Page - COMPLETE
+**Status:** SHIPPED IN MVP 1.0
 
-- [ ] `/content/artists` page
-- [ ] List all workers
-- [ ] Add/Edit/Delete worker modal
-- [ ] Assign colors for calendar
-- [ ] Track specialties (realism, traditional, etc.)
-
-**Why:** Right now workers are in database but no UI to manage them
+- [x] `/content/artists` page
+- [x] List all workers with sorting (active first)
+- [x] Add/Edit/Delete worker modals
+- [x] Color picker for calendar visualization
+- [x] Specialty tags (Realism, Traditional, Japanese, etc.)
+- [x] Status tracking (active/inactive/on_leave)
+- [x] Contact info, hire date, hourly rate
 
 ---
 
@@ -116,18 +91,19 @@
 
 ---
 
-## 🎨 MVP 1.2 - Enhanced Features
+## 🎨 MVP 1.2 - Enhanced Features (Future)
 
-### 1. Calendar Grid View
-**Priority:** MEDIUM
-**Effort:** 8-10 hours
+### 1. ✅ Calendar Grid View - COMPLETE
+**Status:** SHIPPED IN MVP 1.0
 
-- [ ] Week/month view instead of just list
-- [ ] Visual blocks for appointments
-- [ ] Color-coded by artist
-- [ ] Drag to reschedule
+- [x] Month/week/day views with FullCalendar
+- [x] Visual blocks for appointments
+- [x] Color-coded by worker/artist
+- [x] Click to view/edit appointments
+- [x] Drag to reschedule
+- [x] Today highlighting
 
-**Note:** Current MVP has list view only
+**Note:** Full FullCalendar implementation shipped in MVP 1.0
 
 ---
 
@@ -204,10 +180,30 @@
 
 ---
 
-## 🎯 Pricing Strategy (For Discussion)
+## 🎯 Pricing Strategy - DECISION NEEDED
 
-### Suggested Tiers:
+### Option A: Simple Single Tier (RECOMMENDED FOR MVP 1.1)
+**Simple Ink Studios - $79/mo**
+- Unlimited clients
+- Unlimited workers
+- Full calendar features
+- Pipeline CRM
+- 14-day free trial
+- Email support
 
+**Pros:**
+- Easier to explain and sell
+- No complexity in code (no feature gates)
+- Can launch payment TODAY
+- Can add tiers later based on demand
+
+**Cons:**
+- May leave money on table from high-value customers
+- Can't upsell within product
+
+---
+
+### Option B: Three-Tier Approach
 **Starter - $49/mo**
 - 1 shop location
 - Up to 100 clients
@@ -217,59 +213,85 @@
 **Professional - $99/mo** ⭐ RECOMMENDED
 - 1 shop location
 - Unlimited clients
-- SMS reminders (100/mo included)
-- Advanced reporting
+- SMS reminders (100/mo included, post-MVP 1.2)
+- Advanced reporting (post-MVP 1.2)
 - Priority support
 
 **Studio - $199/mo**
 - Multi-location (up to 3)
 - Unlimited everything
-- White-label option
-- API access
+- White-label option (future)
+- API access (future)
 - Phone support
 
-**Add-ons:**
+**Add-ons (Future):**
 - Extra locations: +$50/mo each
 - Extra SMS: $20 per 100 messages
+
+**Pros:**
+- Captures different customer segments
+- Upsell opportunities
+- Higher potential revenue
+
+**Cons:**
+- More complex to implement (feature gates required)
+- Delays payment launch by 2-3 hours
+- More testing required
+
+---
+
+### Recommendation: Start with Option A
+Ship single tier ASAP, add tiers in MVP 1.2 if demand shows need
 
 ---
 
 ## 📝 Launch Checklist (Post-MVP)
 
-**Week 1 (Nov 1-7):**
-- [ ] Monitor for bugs/crashes
-- [ ] Collect user feedback
-- [ ] Fix critical issues only
-- [ ] DON'T add features yet
+**Week 1 (Nov 1-7): CURRENT WEEK** ✅
+- [x] MVP 1.0 deployed to production (Nov 1)
+- [x] Monitor for bugs/crashes - ONGOING
+- [x] "Schedule" button to pipeline - SHIPPED
+- [x] Workers management page - SHIPPED
+- [ ] Collect user feedback (as users sign up)
+- [ ] Fix critical issues only (none reported yet)
 
-**Week 2 (Nov 8-14):**
-- [ ] Implement payment processing (Polar)
-- [ ] Add "Schedule" button to pipeline
-- [ ] Workers management page
-
-**Week 3 (Nov 15-21):**
+**Week 2 (Nov 4-10): PAYMENT INTEGRATION**
+- [ ] Set up Polar account
+- [ ] Decide pricing (single vs tiered)
+- [ ] Implement payment flow
+- [ ] Test checkout end-to-end
 - [ ] First paying customer 🎉
-- [ ] SMS/Email notifications
+
+**Week 3 (Nov 11-17): GROWTH & POLISH**
 - [ ] Dashboard improvements
+- [ ] Appointment indicators on client cards
+- [ ] User feedback iteration
+- [ ] Marketing/outreach
+
+**Week 4+ (Nov 18+): AUTOMATION**
+- [ ] SMS/Email notifications
+- [ ] Automated reminders
+- [ ] Advanced reporting
 
 ---
 
-## 🚨 Critical Decisions Needed
+## 🚨 Critical Decisions Status
 
-1. **Payment processor:** Polar vs Stripe
-   - **Recommendation:** Start with Polar, migrate to Stripe at $5k MRR
+1. **Payment processor:** ✅ DECIDED - Polar
+   - Migrate to Stripe at $5k+ MRR
 
-2. **Pricing:** What to charge?
-   - **Recommendation:** $49/$99/$199 tiers above
+2. **Pricing:** ⚠️ DECISION NEEDED FOR WEEK 2
+   - Option A: Single tier $79/mo (RECOMMENDED - ship fast)
+   - Option B: Three tiers $49/$99/$199 (more revenue potential)
 
-3. **Free trial:** How long?
-   - **Recommendation:** 14 days (industry standard for B2B SaaS)
+3. **Free trial:** ✅ DECIDED - 14 days
+   - Already messaging on landing page
+   - No credit card required
 
-4. **Feature gates:** What's behind paywall?
-   - **Recommendation:** All features available, limit by client count
-   - Starter = 100 clients max
-   - Pro+ = unlimited
+4. **Feature gates:** ⚠️ DEPENDS ON PRICING DECISION
+   - If single tier: No gates needed
+   - If tiered: Limit by client count (Starter = 100 max, Pro+ = unlimited)
 
 ---
 
-**Next Update:** After MVP launch (Nov 1)
+**Next Update:** After payment integration (Week of Nov 4-10)

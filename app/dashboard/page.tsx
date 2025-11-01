@@ -26,13 +26,20 @@
 import Container from "@/components/layout/Container.server";
 import Section from "@/components/layout/Section.server";
 import Card from "@/components/studio/Card.server";
-import { ClientCheckList } from "@/components/studio/CheckList.client";
-import { Reminders } from "@/components/studio/Reminders.client";
 import { PipelineStats } from "@/components/studio/PipelineStats.client";
+import DashboardInfoBanner from "@/components/studio/DashboardInfoBanner.client";
+import DailyTasksList from "@/components/studio/DailyTasksList.client";
+import AccomplishmentsList from "@/components/studio/AccomplishmentsList.client";
+import RemindersList from "@/components/studio/RemindersList.client";
 
 import { createClient } from "@/lib/supabase/server";
 import { getActiveShop } from "@lib/supabase/data/user-shops";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
+import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
+import { fetchShopLeadData } from "@/lib/supabase/data/shop-leads-data";
+import { getShopDailyTasks } from "@/lib/supabase/data/dashboard-tasks-data";
+import { getShopAccomplishments } from "@/lib/supabase/data/dashboard-accomplishments-data";
+import { getShopReminders } from "@/lib/supabase/data/dashboard-reminders-data";
 import { redirect } from "next/navigation";
 import ShopProvider from "@/lib/contexts/shop-context";
 
@@ -61,23 +68,17 @@ export default async function DashboardPage() {
 
   if (!activeShop) redirect("/onboarding");
 
-  // Temp data that will be removed after full database setup and intergration
-  // Mock data for dashboard widgets (later: fetch from Supabase)
-  const workingTasks = [
-    { label: "Book appointments", done: false },
-    { label: "Follow up with leads", done: true },
-    { label: "Update inventory", done: false },
-    { label: "Cold calling session", done: false },
-    { label: "Social media posts", done: true },
-  ];
+  // 4. Fetch real data from database
+  const workers = await getShopWorkerData(shopId, user.id, supabase);
+  const leads = await fetchShopLeadData(shopId, user.id, supabase);
+  const dailyTasks = await getShopDailyTasks(shopId, user.id, supabase);
+  const accomplishments = await getShopAccomplishments(shopId, user.id, supabase);
+  const reminders = await getShopReminders(shopId, user.id, supabase, false);
 
-  const todayTasks = [
-    { label: "Review new inquiries", done: false },
-    { label: "Prepare consultation materials", done: false },
-  ];
-
-  const reminderData = { emails: 3, sms: 2, urgent: 1 };
-  const statsData = { flakers: 2, finished: 5 };
+  // Calculate pipeline stats from real data
+  const completedLeads = leads.filter((lead) => lead.pipeline_stage === "completed").length;
+  const lostLeads = leads.filter((lead) => lead.pipeline_stage === "lost").length;
+  const statsData = { flakers: lostLeads, finished: completedLeads };
 
   return (
     // We have this shop provieder so we can load the shop they are in and it passes the variable active shop
@@ -88,48 +89,63 @@ export default async function DashboardPage() {
             Dashboard for: {activeShop?.shop_name}
           </h1>
 
+          {/* Info Banner about local/staged data */}
+          <DashboardInfoBanner />
+
           <Container size="page-container--wide">
             {/* Left column - Task trackers and artist info */}
             <Section className="lg:col-span-3 space-y-6">
-              <ClientCheckList titleName="Daily Tasks" items={workingTasks} />
-              <Card title="Artists" subtitle="Who's working today">
-                <ul className="space-y-2">
-                  <li>Jules - 3 sessions scheduled</li>
-                  <li>Mako - 2 sessions scheduled</li>
-                  <li>Nova - 1 session scheduled</li>
-                  <li>Available for walk-ins</li>
-                </ul>
+              <DailyTasksList initialTasks={dailyTasks} titleName="Daily Tasks" />
+              <Card title="Artists" subtitle="Your team">
+                {workers.length > 0 ? (
+                  <ul className="space-y-2">
+                    {workers
+                      .filter((worker) => worker.status === "active")
+                      .map((worker) => (
+                        <li key={worker.id} className="flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: worker.color }}
+                          ></div>
+                          <span>
+                            {worker.first_name} {worker.last_name}
+                          </span>
+                          {worker.specialties && worker.specialties.length > 0 && (
+                            <span className="text-xs text-muted-foreground">
+                              - {worker.specialties[0]}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    No artists added yet.{" "}
+                    <a href="/content/artists" className="text-accent hover:underline">
+                      Add your first artist
+                    </a>
+                  </p>
+                )}
               </Card>
             </Section>
 
             {/* Middle column - Main content and summary */}
             <Section className="lg:col-span-6 space-y-6">
-              <Card
-                title="Today's Accomplishments"
-                subtitle="What you've completed"
-              >
-                <ul className="space-y-2">
-                  <li>• 4 appointments booked</li>
-                  <li>• 2 consultations completed</li>
-                  <li>• 6 follow-ups sent</li>
-                  <li>• 1 new client onboarded</li>
-                </ul>
-              </Card>
+              <AccomplishmentsList initialAccomplishments={accomplishments} />
 
               <Card title="Calendar Summary">
                 <div className="">
-                  <p className="mb-2">Today: 8 appointments</p>
-                  <p className="mb-2">Tomorrow: 5 appointments</p>
-                  <p>This week: 32 total sessions</p>
+                  <p className="mb-2">Coming soon: Calendar integration</p>
+                  <p className="text-sm text-muted-foreground">
+                    Today's appointments, week overview, and more
+                  </p>
                 </div>
               </Card>
-
-              <ClientCheckList titleName="Priority Items" items={todayTasks} />
             </Section>
 
             {/* Right column - Reminders and stats */}
             <Section className="lg:col-span-3 space-y-6">
-              <Reminders data={reminderData} />
+              <RemindersList initialReminders={reminders} />
               <PipelineStats
                 flakers={statsData.flakers}
                 finished={statsData.finished}

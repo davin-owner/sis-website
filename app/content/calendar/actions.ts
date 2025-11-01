@@ -44,6 +44,18 @@ export async function createAppointmentAction(formData: FormData) {
     return { error: "Client is required to make an appointment!" };
   }
 
+  // SECURITY: Verify client belongs to user's shop
+  const { data: clientCheck } = await supabase
+    .from("shop_leads")
+    .select("id")
+    .eq("id", appointmentData.client_id)
+    .eq("shop_id", shopId)
+    .single();
+
+  if (!clientCheck) {
+    return { error: "Client not found or does not belong to your shop" };
+  }
+
   if (!appointmentData.appointment_date) {
     return { error: "A date is required to make an appointment!" };
   }
@@ -110,6 +122,18 @@ export async function updateAppointmentAction(formData: FormData) {
 
   if (!appointmentData.client_id) {
     return { error: "Client is required!" };
+  }
+
+  // SECURITY: Verify client belongs to user's shop
+  const { data: clientCheck } = await supabase
+    .from("shop_leads")
+    .select("id")
+    .eq("id", appointmentData.client_id)
+    .eq("shop_id", shopId)
+    .single();
+
+  if (!clientCheck) {
+    return { error: "Client not found or does not belong to your shop" };
   }
 
   if (!appointmentData.appointment_date) {

@@ -20,7 +20,6 @@ export async function createShop(formData: FormData) {
   // Extract form data
   const shopName = formData.get('shop_name') as string
   const shopAddress = formData.get('shop_address') as string
-  const amountOfWorkers = parseInt(formData.get('amount_of_workers') as string) || 1
 
   // Validate inputs
   if (!shopName || !shopAddress) {
@@ -28,13 +27,13 @@ export async function createShop(formData: FormData) {
   }
 
   try {
-    // Step 1: Create the shop
+    // Step 1: Create the shop (workers will be added via Artists page)
     const { data: newShop, error: shopError } = await supabase
       .from('shops_tables')
       .insert({
         shop_name: shopName,
         shop_address: shopAddress,
-        amount_of_workers: amountOfWorkers,
+        amount_of_workers: 0, // Default to 0, will update when workers are added
         shop_owner: user.id,
       })
       .select()

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import EditClientModal from "../EditClientModal.client";
 import AppointmentModal from "../AppointmentModal.client";
 import { deleteClientAction } from "@/app/content/pipeline/actions";
+import { GripHorizontal, Calendar } from 'lucide-react';
 
 // Data Flow:
 // 1. Receives client data and columnId from ClientPipelineColumns
@@ -88,7 +89,7 @@ export default function DraggableClientCard({
         >
           <div className="flex items-center justify-between">
             <p className="font-semibold text-foreground">{client.name}</p>
-            <i className="fi fi-ts-grip-lines text-muted-foreground"></i>
+            <GripHorizontal size={20} className="text-muted-foreground" />
           </div>
         </div>
 
@@ -121,7 +122,7 @@ export default function DraggableClientCard({
             size={"sm"}
             onClick={() => setShowScheduleModal(true)}
           >
-            <i className="fi fi-ts-calendar mr-2"></i>
+            <Calendar size={16} className="mr-2" />
             Schedule
           </Button>
 

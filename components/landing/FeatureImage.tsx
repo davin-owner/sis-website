@@ -7,11 +7,12 @@
  */
 
 import Image from "next/image";
+import { LucideIcon } from "lucide-react";
 
 interface FeatureImageProps {
   src?: string; // Path to image (e.g., "/screenshots/pipeline.png")
   alt: string;
-  placeholderIcon: string; // Flaticon class (e.g., "fi-ts-mobile-notch")
+  placeholderIcon?: LucideIcon; // Lucide icon component
   placeholderText: string; // Text to show in placeholder
   placeholderPath: string; // File path hint for placeholder
   priority?: boolean; // Load image with priority (for above-the-fold images)
@@ -49,10 +50,12 @@ export default function FeatureImage({
   }
 
   // Placeholder view
+  const IconComponent = placeholderIcon;
+
   return (
     <div className="aspect-video bg-muted/30 rounded-lg flex items-center justify-center border border-border/50">
       <div className="text-center space-y-2">
-        <i className={`${placeholderIcon} text-6xl text-muted-foreground`}></i>
+        {IconComponent && <IconComponent size={64} className="text-muted-foreground mx-auto" />}
         <p className="text-sm text-muted-foreground">{placeholderText}</p>
         <p className="text-xs text-muted-foreground/70">{placeholderPath}</p>
       </div>

@@ -3,7 +3,7 @@
 // Optimized for visibility and ease of use across all views
 // Translucent worker-colored appointments with consistent styling
 
-import React from "react";
+import React, { useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -69,6 +69,15 @@ export default function CalendarClient({
   onEventClick?: (info: EventClickInfo) => void;
   onEventDrop?: (info: EventDropInfo) => void;
 }) {
+  const calendarRef = useRef<FullCalendar>(null);
+
+  const handleTodayClick = () => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (calendarApi) {
+      calendarApi.today();
+    }
+  };
+
   return (
     <div className="surface-elevated p-6 rounded-xl">
       <style jsx global>{`
@@ -287,16 +296,21 @@ export default function CalendarClient({
         }
       `}</style>
       <FullCalendar
+        ref={calendarRef}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
-        initialDate={new Date()}
         headerToolbar={{
-          left: "prev,next today",
+          left: "prev,next customToday",
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
+        customButtons={{
+          customToday: {
+            text: "Today",
+            click: handleTodayClick,
+          },
+        }}
         buttonText={{
-          today: "Today",
           month: "Month",
           week: "Week",
           day: "Day",

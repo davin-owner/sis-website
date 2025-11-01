@@ -7,6 +7,7 @@ import NavLinks from "@/components/layout/NavLinks.server";
 import { useNavbar } from "@/lib/contexts/navbar-context";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Menu, PanelLeftClose, Mail } from 'lucide-react';
 
 export default function Navbar({
   links,
@@ -34,9 +35,9 @@ export default function Navbar({
       >
         <p className="pt-5 pb-4 transition-transform duration-200">
           {!isExpanded ? (
-            <i className="fi fi-ts-grip-lines text-4xl"></i>
+            <Menu size={36} />
           ) : (
-            <i className="fi fi-ts-grip-lines-vertical text-4xl"></i>
+            <PanelLeftClose size={36} />
           )}
         </p>
       </button>
@@ -60,7 +61,7 @@ export default function Navbar({
           onClick={() => setIsContactModalOpen(true)}
           className="white-pulsing-element box-shadow-custom text-xl text-center py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400 dark:text-white"
         >
-          <i className="fi fi-ts-envelopes" style={{ fontSize: "24px" }}></i>
+          <Mail size={24} />
           {isExpanded && <span className="ml-2">Contact</span>}
         </button>
 

@@ -44,20 +44,22 @@ import {
 import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
 import DraggableCard from "./DraggableCard.client";
 import { arrayMove } from "@dnd-kit/sortable";
-import { PipelineColumn, ShopLeads } from "@/lib/database";
+import { PipelineColumn, ShopLeads, Worker } from "@/lib/database";
 import { updateClientStageAction } from "@/app/content/pipeline/actions";
 
 // Data Flow:
-// 1. Receives initialColumns from ServerPipelineBoard
+// 1. Receives initialColumns and workers from ServerPipelineBoard
 // 2. Manages state of columns and clients
 // 3. Handles drag end events to update state
-// 4. Passes columns and move handler to ClientPipelineColumns
+// 4. Passes columns, workers, and move handler to ClientPipelineColumns
 type ClientPipeBoardProps = {
   initialColumns: PipelineColumn[];
+  workers: Worker[];
 };
 
 export default function ClientPipelineBoard({
   initialColumns,
+  workers,
 }: ClientPipeBoardProps) {
   // State for managing columns and the currently dragged client
   const [columns, setColumns] = useState<PipelineColumn[]>(initialColumns);

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { createWorkerAction } from "@/app/content/artists/actions";
 import { Worker } from "@/lib/database";
+import { UserCircle2 } from 'lucide-react';
 
 interface AddWorkerModalProps {
   isOpen: boolean;
@@ -136,8 +137,8 @@ export default function AddWorkerModal({
         className="surface p-8 max-w-2xl w-full border border-border shadow-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold gradient-text-ink text-center mb-6">
-          <i className="fi fi-ts-circle-user mr-2"></i>
+        <h2 className="text-2xl font-bold gradient-text-ink text-center mb-6 flex items-center justify-center gap-2">
+          <UserCircle2 size={28} />
           Add New Artist
         </h2>
 

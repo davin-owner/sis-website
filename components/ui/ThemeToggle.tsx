@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Moon, Sun } from 'lucide-react';
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -10,7 +11,6 @@ export function ThemeToggle() {
   // Avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
-    console.log("ThemeToggle mounted - theme:", theme, "resolved:", resolvedTheme);
   }, [theme, resolvedTheme]);
 
   if (!mounted) {
@@ -26,11 +26,6 @@ export function ThemeToggle() {
       onClick={() => {
         const newTheme = theme === "dark" ? "light" : "dark";
         setTheme(newTheme);
-        console.log("Theme switched to:", newTheme);
-        console.log(
-          "Current HTML data-theme:",
-          document.documentElement.getAttribute("data-theme")
-        );
       }}
       className="w-14 h-7 rounded-full relative transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
       style={{
@@ -42,35 +37,15 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
     >
       <div
-        className="w-5 h-5 rounded-full bg-white absolute top-1 transition-all duration-300 shadow-lg"
+        className="w-5 h-5 rounded-full bg-white absolute top-1 transition-all duration-300 shadow-lg flex items-center justify-center"
         style={{
           left: theme === "dark" ? "calc(100% - 1.5rem)" : "0.25rem",
         }}
       >
         {theme === "dark" ? (
-          <i
-            className="fi fi-ts-moon"
-            style={{
-              fontSize: "12px",
-              position: "absolute",
-              top: "60%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "#4b5563",
-            }}
-          ></i>
+          <Moon size={12} color="#4b5563" />
         ) : (
-          <i
-            className="fi fi-ts-sun"
-            style={{
-              fontSize: "12px",
-              position: "absolute",
-              top: "60%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "#f600f7",
-            }}
-          ></i>
+          <Sun size={12} color="#f600f7" />
         )}
       </div>
     </button>

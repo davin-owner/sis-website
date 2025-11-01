@@ -23,8 +23,8 @@ export default function OnboardingPage() {
         setError(result.error);
         setIsSubmitting(false);
       } else if (result?.success) {
-        // Success! Redirect to dashboard
-        window.location.href = '/dashboard';
+        // Success! Redirect to Artists page to add first artist
+        window.location.href = '/content/artists?onboarding=true';
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -65,17 +65,6 @@ export default function OnboardingPage() {
               type="text"
               autoComplete="address"
               placeholder="123 Main Street"
-              required
-              disabled={isSubmitting}
-            />
-          </div>
-          <div className="p-5">
-            <Label className="text-1xl">Amount Of Workers</Label>
-            <Input
-              name="amount_of_workers"
-              type="number"
-              min="1"
-              defaultValue="1"
               required
               disabled={isSubmitting}
             />

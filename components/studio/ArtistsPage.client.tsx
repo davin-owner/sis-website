@@ -2,11 +2,13 @@
 // CLIENT COMPONENT - Artists/Workers management interface
 // Displays workers list and handles CRUD operations
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Worker } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
 import AddWorkerModal from "@/components/studio/AddWorkerModal.client";
 import EditWorkerModal from "@/components/studio/EditWorkerModal.client";
+import { UserCircle2, Mail, Smartphone } from 'lucide-react';
 
 interface ArtistsPageClientProps {
   initialWorkers: Worker[];
@@ -17,9 +19,20 @@ export default function ArtistsPageClient({
   initialWorkers,
   shopId,
 }: ArtistsPageClientProps) {
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding") === "true";
+
   const [workers, setWorkers] = useState<Worker[]>(initialWorkers);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingWorker, setEditingWorker] = useState<Worker | null>(null);
+  const [showWelcomeBanner, setShowWelcomeBanner] = useState(isOnboarding);
+
+  // Auto-open add modal if coming from onboarding
+  useEffect(() => {
+    if (isOnboarding && workers.length === 0) {
+      setIsAddModalOpen(true);
+    }
+  }, [isOnboarding, workers.length]);
 
   // Callback when worker is added
   const handleWorkerAdded = (newWorker: Worker) => {
@@ -54,11 +67,11 @@ export default function ArtistsPageClient({
     <div className="space-y-6">
       {/* Header with Add Button */}
       <div className="flex justify-between items-center">
-        <p className="text-muted-foreground">
+        <p className="text-foreground">
           Manage your shop&apos;s artists and workers
         </p>
         <Button onClick={() => setIsAddModalOpen(true)}>
-          <i className="fi fi-ts-circle-user mr-2"></i>
+          <UserCircle2 size={18} className="mr-2" />
           Add Artist
         </Button>
       </div>
@@ -66,13 +79,13 @@ export default function ArtistsPageClient({
       {/* Workers Grid */}
       {sortedWorkers.length === 0 ? (
         <div className="surface-elevated rounded-xl p-12 text-center">
-          <i className="fi fi-ts-circle-user text-6xl text-muted-foreground mb-4"></i>
+          <UserCircle2 size={60} className="mx-auto text-muted-foreground mb-4" />
           <h3 className="text-xl font-semibold mb-2">No artists yet</h3>
           <p className="text-muted-foreground mb-6">
             Add your first artist to start managing appointments
           </p>
           <Button onClick={() => setIsAddModalOpen(true)}>
-            <i className="fi fi-ts-circle-user mr-2"></i>
+            <UserCircle2 size={18} className="mr-2" />
             Add Artist
           </Button>
         </div>
@@ -117,13 +130,13 @@ export default function ArtistsPageClient({
               <div className="space-y-2 text-sm">
                 {worker.email && (
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <i className="fi fi-ts-envelopes"></i>
+                    <Mail size={16} />
                     <span className="truncate">{worker.email}</span>
                   </div>
                 )}
                 {worker.phone && (
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <i className="fi fi-ts-mobile-notch"></i>
+                    <Smartphone size={16} />
                     <span>{worker.phone}</span>
                   </div>
                 )}

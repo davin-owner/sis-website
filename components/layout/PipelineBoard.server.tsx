@@ -11,15 +11,19 @@
  * - Render static SEO-friendly content
  */
 import ClientPipelineBoard from "@/components/studio/pipeline/PipelineBoard.client";
-import { PipelineColumn } from "@/lib/database";
+import { PipelineColumn, Worker } from "@/lib/database";
 
 // Define the props the component will accept
 type PipelineBoardProps = {
   initialColumns: PipelineColumn[];
+  workers: Worker[];
 };
 
 export default function PipelineBoard(props: PipelineBoardProps) {
   return (
-      <ClientPipelineBoard initialColumns={props.initialColumns} />
+      <ClientPipelineBoard
+        initialColumns={props.initialColumns}
+        workers={props.workers}
+      />
   );
 }

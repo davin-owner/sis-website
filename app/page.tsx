@@ -26,6 +26,7 @@ import Link from "next/link";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import FeatureImage from "@/components/landing/FeatureImage";
+import { Smartphone, Settings, UserCircle, Mail, LayoutDashboard, Image as ImageIcon, GripVertical } from "lucide-react";
 
 export default function LandingPage() {
   // State to control if modal is open or closed
@@ -108,7 +109,7 @@ export default function LandingPage() {
                   <FeatureImage
                     src="/gifs/drag-drop.gif"
                     alt="Pipeline view showing client stages with drag and drop"
-                    placeholderIcon="fi-ts-mobile-notch"
+                    placeholderIcon={GripVertical}
                     placeholderText="Pipeline Demo"
                     placeholderPath="public/gifs/drag-drop.gif"
                     priority
@@ -133,7 +134,7 @@ export default function LandingPage() {
                   <FeatureImage
                     src="/gifs/create-client.gif"
                     alt="Creating new clients with instant updates"
-                    placeholderIcon="fi-ts-circle-user"
+                    placeholderIcon={UserCircle}
                     placeholderText="Create Client Demo"
                     placeholderPath="public/gifs/create-client.gif"
                   />
@@ -156,7 +157,7 @@ export default function LandingPage() {
                   <FeatureImage
                     src="/gifs/edit-client.gif"
                     alt="Editing client information with instant updates"
-                    placeholderIcon="fi-ts-grip-lines"
+                    placeholderIcon={GripVertical}
                     placeholderText="Edit Client Demo"
                     placeholderPath="public/gifs/edit-client.gif"
                   />
@@ -179,7 +180,7 @@ export default function LandingPage() {
                   <FeatureImage
                     src="/screenshots/dashboard.png"
                     alt="Dashboard showing business overview and metrics"
-                    placeholderIcon="fi-ts-dashboard"
+                    placeholderIcon={LayoutDashboard}
                     placeholderText="Dashboard Screenshot"
                     placeholderPath="public/screenshots/dashboard.png"
                   />
@@ -207,7 +208,7 @@ export default function LandingPage() {
           <div className="grid sm:grid-cols-2 gap-8 mt-12">
             <div className="surface p-6 rounded-xl border border-border">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <i className="fi fi-ts-mobile-notch text-2xl text-accent-foreground"></i>
+                <Smartphone size={28} className="text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-foreground">
                 Mobile-First Design
@@ -220,7 +221,7 @@ export default function LandingPage() {
 
             <div className="surface p-6 rounded-xl border border-border">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <i className="fi fi-ts-settings text-2xl text-accent-foreground"></i>
+                <Settings size={28} className="text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-foreground">
                 Simple & Powerful
@@ -233,7 +234,7 @@ export default function LandingPage() {
 
             <div className="surface p-6 rounded-xl border border-border">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <i className="fi fi-ts-circle-user text-2xl text-accent-foreground"></i>
+                <UserCircle size={28} className="text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-foreground">
                 Client-Focused
@@ -246,7 +247,7 @@ export default function LandingPage() {
 
             <div className="surface p-6 rounded-xl border border-border">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <i className="fi fi-ts-envelopes text-2xl text-accent-foreground"></i>
+                <Mail size={28} className="text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-foreground">
                 Built for You

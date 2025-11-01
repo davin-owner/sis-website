@@ -7,6 +7,7 @@ import AppointmentModal from "./AppointmentModal.client";
 import { Button } from "@/components/ui/Button";
 import { Appointment, AppointmentWithDetails, ShopLeads, Worker } from "@/lib/database";
 import { deleteAppointmentAction } from "@/app/content/calendar/actions";
+import { Plus } from 'lucide-react';
 
 type CalendarEvent = {
   id: string;
@@ -125,7 +126,7 @@ export default function CalendarWrapper({
             setShowModal(true);
           }}
         >
-          <i className="fi fi-ts-plus mr-2"></i>
+          <Plus size={18} className="mr-2" />
           Create Appointment
         </Button>
       </div>

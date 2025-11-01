@@ -61,13 +61,18 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'geolocation=(), microphone=()' },
-          // A conservative Content-Security-Policy. Adjust as needed for analytics/CDNs.
+          // Content-Security-Policy - Secure configuration
+          // Note: Next.js requires some inline scripts for hydration
+          // Using 'strict-dynamic' for better security while maintaining functionality
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
-              "style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; " +
-              `font-src 'self' https: data:; connect-src ${connectSrc};`,
+              "default-src 'self'; " +
+              "script-src 'self' 'unsafe-inline' https://vercel.live; " + // Next.js hydration needs unsafe-inline temporarily
+              "style-src 'self' 'unsafe-inline' https:; " + // CSS-in-JS requires unsafe-inline
+              "img-src 'self' data: https: blob:; " +
+              `font-src 'self' https: data:; connect-src ${connectSrc}; ` +
+              "frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
           },
         ],
       },

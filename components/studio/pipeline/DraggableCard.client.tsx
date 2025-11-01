@@ -8,6 +8,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { ShopLeads } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
 import EditClientModal from "../EditClientModal.client";
+import AppointmentModal from "../AppointmentModal.client";
 import { deleteClientAction } from "@/app/content/pipeline/actions";
 
 // Data Flow:
@@ -45,6 +46,7 @@ export default function DraggableClientCard({
       }
     : undefined;
   const [showEditModal, setEditModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const handleDelete = async () => {
     // OPTIMISTIC UPDATE: Remove from UI immediately
@@ -66,6 +68,11 @@ export default function DraggableClientCard({
         onClose={() => setEditModal(false)}
         client={client}
         onOptimisticEdit={onOptimisticEdit}
+      />
+      <AppointmentModal
+        isOpen={showScheduleModal}
+        onClose={() => setShowScheduleModal(false)}
+        preselectedClientId={client.id.toString()}
       />
       {/* OUTER DIV: Sets up the drag context but NOT draggable itself */}
       <div
@@ -106,22 +113,37 @@ export default function DraggableClientCard({
         </div>
 
         {/* BUTTONS: Fully clickable now! */}
-        <div className="flex flex-1 w-full pt-2">
+        <div className="space-y-2 pt-2">
+          {/* Schedule Appointment Button - Primary Action */}
           <Button
-            className="w-1/2 mr-1.5"
-            variant={"destructive"}
-            size={"icon"}
-            onClick={handleDelete}
+            className="w-full"
+            variant={"default"}
+            size={"sm"}
+            onClick={() => setShowScheduleModal(true)}
           >
-            Delete
+            <i className="fi fi-ts-calendar mr-2"></i>
+            Schedule
           </Button>
-          <Button
-            className="w-1/2 ml-1.5"
-            size={"icon"}
-            onClick={() => setEditModal(true)}
-          >
-            Edit
-          </Button>
+
+          {/* Edit and Delete - Secondary Actions */}
+          <div className="flex gap-2">
+            <Button
+              className="flex-1"
+              variant={"outline"}
+              size={"sm"}
+              onClick={() => setEditModal(true)}
+            >
+              Edit
+            </Button>
+            <Button
+              className="flex-1"
+              variant={"destructive"}
+              size={"sm"}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </>

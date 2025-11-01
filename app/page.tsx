@@ -22,14 +22,13 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import WaitlistModal from "@/components/waitlist/WaitlistModal.client";
+import Link from "next/link";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import FeatureImage from "@/components/landing/FeatureImage";
 
 export default function LandingPage() {
   // State to control if modal is open or closed
-  const [IsWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false);
   const [IsContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
@@ -64,13 +63,14 @@ export default function LandingPage() {
 
           {/* CTA Buttons */}
           <div className="pt-8 flex flex-col sm:flex-row gap-5 items-center justify-center">
-            <Button
-              onClick={() => setIsWaitlistModalOpen(true)}
-              variant={"default"}
-              className="text-xl px-12 py-6 transition-all duration-300 font-semibold w-full sm:w-auto"
-            >
-              Join the Waitlist
-            </Button>
+            <Link href="/auth/sign-up" className="w-full sm:w-auto">
+              <Button
+                variant={"default"}
+                className="text-xl px-12 py-6 transition-all duration-300 font-semibold w-full"
+              >
+                Get Started Free
+              </Button>
+            </Link>
 
             <Button
               onClick={() => setIsContactModalOpen(true)}
@@ -83,7 +83,7 @@ export default function LandingPage() {
 
           {/* Social Proof / Urgency */}
           <p className="text-sm text-muted-foreground pt-4">
-            Early access coming soon • Be the first to know
+            14-day free trial • No credit card required
           </p>
         </div>
       </section>
@@ -111,6 +111,7 @@ export default function LandingPage() {
                     placeholderIcon="fi-ts-mobile-notch"
                     placeholderText="Pipeline Demo"
                     placeholderPath="public/gifs/drag-drop.gif"
+                    priority
                   />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-foreground">
@@ -266,20 +267,20 @@ export default function LandingPage() {
             Ready to simplify your business?
           </h2>
           <p className="text-xl text-foreground">
-            Join the waitlist and be among the first to experience Simple Ink
-            Studios
+            Start managing your clients better today
           </p>
           <div className="pt-4">
-            <Button
-              onClick={() => setIsWaitlistModalOpen(true)}
-              variant={"default"}
-              className="text-xl px-12 py-6 transition-all duration-300 font-semibold"
-            >
-              Join the Waitlist
-            </Button>
+            <Link href="/auth/sign-up">
+              <Button
+                variant={"default"}
+                className="text-xl px-12 py-6 transition-all duration-300 font-semibold"
+              >
+                Get Started Free
+              </Button>
+            </Link>
           </div>
           <p className="text-sm text-foreground">
-            No credit card required • Early access coming soon
+            14-day free trial • No credit card required
           </p>
         </div>
       </section>
@@ -298,11 +299,6 @@ export default function LandingPage() {
       </footer>
 
       {/* Modals */}
-      <WaitlistModal
-        isOpen={IsWaitlistModalOpen}
-        onClose={() => setIsWaitlistModalOpen(false)}
-      />
-
       <ContactModal
         isOpen={IsContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}

@@ -3,6 +3,7 @@
  *
  * Displays either a placeholder or actual screenshot/GIF for landing page features
  * Makes it easy to swap between placeholder and real images
+ * Optimized for performance with Next.js Image component
  */
 
 import Image from "next/image";
@@ -13,6 +14,7 @@ interface FeatureImageProps {
   placeholderIcon: string; // Flaticon class (e.g., "fi-ts-mobile-notch")
   placeholderText: string; // Text to show in placeholder
   placeholderPath: string; // File path hint for placeholder
+  priority?: boolean; // Load image with priority (for above-the-fold images)
 }
 
 export default function FeatureImage({
@@ -21,19 +23,26 @@ export default function FeatureImage({
   placeholderIcon,
   placeholderText,
   placeholderPath,
+  priority = false,
 }: FeatureImageProps) {
   // If src is provided and file exists, show the image
   // Otherwise show placeholder
 
   if (src) {
+    // Check if it's a GIF (animated images should not be optimized by Next.js)
+    const isGif = src.endsWith('.gif');
+
     return (
-      <div className="aspect-video bg-muted/30 rounded-lg overflow-hidden border border-border/50">
+      <div className="aspect-video bg-muted/30 rounded-lg overflow-hidden border border-border/50 relative">
         <Image
           src={src}
           alt={alt}
-          width={1920}
-          height={1080}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+          priority={priority}
+          unoptimized={isGif} // Don't optimize GIFs to preserve animation
+          quality={isGif ? 100 : 90}
         />
       </div>
     );

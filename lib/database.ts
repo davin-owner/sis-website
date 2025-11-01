@@ -98,7 +98,7 @@ export type Appointment = {
   */
   id: string;
   shop_id: string;
-  client_id: number;
+  client_id: number | string;
   worker_id: string | null;
   appointment_date: string; // YYYY-MM-DD
   start_time: string; // HH:MM

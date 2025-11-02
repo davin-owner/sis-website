@@ -1,7 +1,7 @@
 "use client";
 // CLIENT COMPONENT - Displays dynamic data that may need real-time updates
 // Could be enhanced with interactive features like clicking to view details
-import Card from "@/components/studio/Card.server";
+import Card from "@/components/shared/Card.server";
 
 export function Reminders({
   data,

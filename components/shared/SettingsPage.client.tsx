@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import Card from "@/components/studio/Card.server";
+import Card from "@/components/shared/Card.server";
 import {
   updateUserProfileAction,
   updateShopSettingsAction,

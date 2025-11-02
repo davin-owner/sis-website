@@ -23,7 +23,7 @@ import {
 } from "@/app/dashboard/actions";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import Card from "@/components/studio/Card.server";
+import Card from "@/components/shared/Card.server";
 import { Trash2, CornerDownLeft } from 'lucide-react';
 
 interface DailyTasksListProps {

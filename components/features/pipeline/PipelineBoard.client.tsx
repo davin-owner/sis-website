@@ -41,7 +41,7 @@ import {
   closestCenter,
   DragOverlay,
 } from "@dnd-kit/core";
-import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
+import PipelineColumns from "@/components/features/pipeline/PipelineColumns.client";
 import DraggableCard from "./DraggableCard.client";
 import { arrayMove } from "@dnd-kit/sortable";
 import { PipelineColumn, ShopLeads } from "@/lib/database";

@@ -10,7 +10,7 @@
  * - Handle server-side authentication and data validation
  * - Render static SEO-friendly content
  */
-import ClientPipelineBoard from "@/components/studio/pipeline/PipelineBoard.client";
+import ClientPipelineBoard from "@/components/features/pipeline/PipelineBoard.client";
 import { PipelineColumn } from "@/lib/database";
 
 // Define the props the component will accept

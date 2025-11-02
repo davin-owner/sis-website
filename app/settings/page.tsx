@@ -14,7 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getActiveShop } from "@/lib/supabase/data/user-shops";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
-import SettingsPageClient from "@/components/studio/SettingsPage.client";
+import SettingsPageClient from "@/components/shared/SettingsPage.client";
 
 export default async function SettingsPage() {
   const supabase = await createClient();

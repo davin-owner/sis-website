@@ -78,7 +78,7 @@ export default function CalendarWrapper({
   // Optimistic create
   const handleOptimisticCreate = (newAppointment: Appointment) => {
     // Find worker to get their color
-    const worker = workers.find((w) => w.worker_id === newAppointment.worker_id);
+    const worker = workers.find((w) => w.id === newAppointment.worker_id);
     const workerColor = worker?.color || "#0de8cd";
 
     const newEvent = {
@@ -97,7 +97,7 @@ export default function CalendarWrapper({
   // Optimistic edit
   const handleOptimisticEdit = (updatedAppointment: Appointment) => {
     // Find worker to get their color
-    const worker = workers.find((w) => w.worker_id === updatedAppointment.worker_id);
+    const worker = workers.find((w) => w.id === updatedAppointment.worker_id);
     const workerColor = worker?.color || "#0de8cd";
 
     const updatedEvent = {

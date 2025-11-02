@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { useSortable } from "@dnd-kit/sortable";
 import { ShopLeads } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
-import EditClientModal from "../EditClientModal.client";
-import AppointmentModal from "../AppointmentModal.client";
+import EditClientModal from "@/components/features/clients/EditClientModal.client";
+import AppointmentModal from "@/components/features/calendar/AppointmentModal.client";
 import { deleteClientAction } from "@/app/content/pipeline/actions";
 import { GripHorizontal, Calendar } from 'lucide-react';
 

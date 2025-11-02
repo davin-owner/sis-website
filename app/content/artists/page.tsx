@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";
 import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
-import ArtistsPageClient from "@/components/studio/ArtistsPage.client";
+import ArtistsPageClient from "@/components/features/workers/ArtistsPage.client";
 
 export default async function ArtistsPage() {
   // 1. Auth check

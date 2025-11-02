@@ -9,7 +9,7 @@ import {
 } from "@dnd-kit/sortable";
 import { PipelineColumn, ShopLeads } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
-import AddClientModal from "@/components/studio/AddClientModal.client";
+import AddClientModal from "@/components/features/clients/AddClientModal.client";
 
 // Data Flow:
 // 1. Receives columns and callbacks from ClientPipelineBoard

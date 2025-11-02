@@ -6,8 +6,8 @@ import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Worker } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
-import AddWorkerModal from "@/components/studio/AddWorkerModal.client";
-import EditWorkerModal from "@/components/studio/EditWorkerModal.client";
+import AddWorkerModal from "@/components/features/workers/AddWorkerModal.client";
+import EditWorkerModal from "@/components/features/workers/EditWorkerModal.client";
 import { UserCircle2, Mail, Smartphone } from 'lucide-react';
 
 interface ArtistsPageClientProps {

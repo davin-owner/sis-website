@@ -1,6 +1,6 @@
 // SERVER COMPONENT - Calendar page that renders on the server
 // Fetches appointment, client, and worker data and passes to CalendarWrapper
-import CalendarWrapper from "@/components/studio/CalendarWrapper.client";
+import CalendarWrapper from "@/components/features/calendar/CalendarWrapper.client";
 import { createClient } from "@/lib/supabase/server";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";

@@ -25,12 +25,12 @@
  */
 import Container from "@/components/layout/Container.server";
 import Section from "@/components/layout/Section.server";
-import Card from "@/components/studio/Card.server";
-import { PipelineStats } from "@/components/studio/PipelineStats.client";
-import DashboardInfoBanner from "@/components/studio/DashboardInfoBanner.client";
-import DailyTasksList from "@/components/studio/DailyTasksList.client";
-import AccomplishmentsList from "@/components/studio/AccomplishmentsList.client";
-import RemindersList from "@/components/studio/RemindersList.client";
+import Card from "@/components/shared/Card.server";
+import { PipelineStats } from "@/components/features/pipeline/PipelineStats.client";
+import DashboardInfoBanner from "@/components/features/dashboard/DashboardInfoBanner.client";
+import DailyTasksList from "@/components/features/dashboard/DailyTasksList.client";
+import AccomplishmentsList from "@/components/features/dashboard/AccomplishmentsList.client";
+import RemindersList from "@/components/features/dashboard/RemindersList.client";
 
 import { createClient } from "@/lib/supabase/server";
 import { getActiveShop } from "@lib/supabase/data/user-shops";

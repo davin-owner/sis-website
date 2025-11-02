@@ -43,10 +43,10 @@ export default function RemindersList({
   // Optimistic state
   const [optimisticReminders, setOptimisticReminders] = useOptimistic(
     initialReminders,
-    (state: Reminder[], { action, reminder, reminderId }: any) => {
+    (state: Reminder[], { action, reminder, reminderId }: { action: string; reminder?: Reminder; reminderId?: string }) => {
       switch (action) {
         case "add":
-          return [reminder, ...state];
+          return [reminder!, ...state];
         case "toggle":
           return state.map((r) =>
             r.id === reminderId ? { ...r, is_completed: !r.is_completed } : r

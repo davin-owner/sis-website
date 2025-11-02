@@ -3,6 +3,22 @@
   project for example the columns and clients for the pipeline
 
 */
+
+export type Shop = {
+  /*
+  Combined type from shops_tables + shop_users relationship
+  Used in settings and shop management
+  */
+  shop_id: string;
+  shop_name: string;
+  shop_address: string;
+  amount_of_workers: number;
+  created_at: string;
+  role?: string; // From shop_users junction table
+  permissions?: Record<string, boolean>; // From shop_users junction table
+  last_accessed_at?: string; // From shop_users junction table
+};
+
 export type ShopLeads = {
   /*
   id bigint (auto-generated)

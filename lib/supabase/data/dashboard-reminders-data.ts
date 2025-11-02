@@ -129,7 +129,7 @@ export async function updateReminder(
   if (!hasAccess) throw new Error("Unauthorized");
 
   // Build update object with only provided fields
-  const updateData: any = {};
+  const updateData: Partial<Reminder> & { completed_at?: string | null } = {};
   if (reminderData.title !== undefined) updateData.title = reminderData.title;
   if (reminderData.description !== undefined)
     updateData.description = reminderData.description;

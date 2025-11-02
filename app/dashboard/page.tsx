@@ -137,7 +137,7 @@ export default async function DashboardPage() {
                 <div className="">
                   <p className="mb-2">Coming soon: Calendar integration</p>
                   <p className="text-sm text-muted-foreground">
-                    Today's appointments, week overview, and more
+                    Today&apos;s appointments, week overview, and more
                   </p>
                 </div>
               </Card>

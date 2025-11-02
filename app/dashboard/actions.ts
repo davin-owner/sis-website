@@ -42,9 +42,8 @@ export async function createDailyTaskAction(label: string) {
     );
     revalidatePath("/dashboard");
     return { success: true, task: newTask };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Create daily task error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -70,9 +69,8 @@ export async function toggleDailyTaskAction(taskId: string, currentDone: boolean
     );
     revalidatePath("/dashboard");
     return { success: true };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Toggle daily task error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -92,9 +90,8 @@ export async function deleteDailyTaskAction(taskId: string) {
     await deleteDailyTask(taskId, shopId, user.id, supabase);
     revalidatePath("/dashboard");
     return { success: true };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Delete daily task error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -123,9 +120,8 @@ export async function createAccomplishmentAction(description: string) {
     );
     revalidatePath("/dashboard");
     return { success: true, accomplishment: newAccomplishment };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Create accomplishment error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -145,9 +141,8 @@ export async function deleteAccomplishmentAction(accomplishmentId: string) {
     await deleteAccomplishment(accomplishmentId, shopId, user.id, supabase);
     revalidatePath("/dashboard");
     return { success: true };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Delete accomplishment error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -179,9 +174,8 @@ export async function createReminderAction(
     );
     revalidatePath("/dashboard");
     return { success: true, reminder: newReminder };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Create reminder error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -210,9 +204,8 @@ export async function toggleReminderCompleteAction(
     );
     revalidatePath("/dashboard");
     return { success: true };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Toggle reminder complete error:", errorMessage, error);
     return { error: errorMessage };
   }
@@ -232,9 +225,8 @@ export async function deleteReminderAction(reminderId: string) {
     await deleteReminder(reminderId, shopId, user.id, supabase);
     revalidatePath("/dashboard");
     return { success: true };
-  } catch (error: any) {
-    const errorMessage =
-      error?.message || error?.error_description || String(error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Delete reminder error:", errorMessage, error);
     return { error: errorMessage };
   }

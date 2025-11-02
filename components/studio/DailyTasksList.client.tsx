@@ -42,10 +42,10 @@ export default function DailyTasksList({
   // Optimistic state for instant UI updates
   const [optimisticTasks, setOptimisticTasks] = useOptimistic(
     initialTasks,
-    (state: DailyTask[], { action, task, taskId }: any) => {
+    (state: DailyTask[], { action, task, taskId }: { action: string; task?: DailyTask; taskId?: string }) => {
       switch (action) {
         case "add":
-          return [...state, task];
+          return [...state, task!];
         case "toggle":
           return state.map((t) =>
             t.id === taskId ? { ...t, done: !t.done } : t

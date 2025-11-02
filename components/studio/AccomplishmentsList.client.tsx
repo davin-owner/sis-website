@@ -46,10 +46,10 @@ export default function AccomplishmentsList({
   const [optimisticAccomplishments, setOptimisticAccomplishments] =
     useOptimistic(
       initialAccomplishments,
-      (state: Accomplishment[], { action, accomplishment, accomplishmentId }: any) => {
+      (state: Accomplishment[], { action, accomplishment, accomplishmentId }: { action: string; accomplishment?: Accomplishment; accomplishmentId?: string }) => {
         switch (action) {
           case "add":
-            return [accomplishment, ...state];
+            return [accomplishment!, ...state];
           case "delete":
             return state.filter((a) => a.id !== accomplishmentId);
           default:

@@ -36,7 +36,7 @@ export default async function PipelinePage() {
           Client Pipeline
         </h1>
 
-        <PipelineBoard initialColumns={formatedColumns} workers={workers} />
+        <PipelineBoard initialColumns={formatedColumns} />
       </div>
     </WorkersProvider>
   );

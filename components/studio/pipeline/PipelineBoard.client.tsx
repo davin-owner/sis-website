@@ -44,7 +44,7 @@ import {
 import PipelineColumns from "@/components/studio/pipeline/PipelineColumns.client";
 import DraggableCard from "./DraggableCard.client";
 import { arrayMove } from "@dnd-kit/sortable";
-import { PipelineColumn, ShopLeads, Worker } from "@/lib/database";
+import { PipelineColumn, ShopLeads } from "@/lib/database";
 import { updateClientStageAction } from "@/app/content/pipeline/actions";
 
 // Data Flow:

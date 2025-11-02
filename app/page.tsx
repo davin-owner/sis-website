@@ -107,11 +107,11 @@ export default function LandingPage() {
               <div className="surface p-8 rounded-xl border border-border">
                 <div className="mb-6">
                   <FeatureImage
-                    src="/gifs/drag-drop.gif"
+                    src="/assets/gifs/drag-drop.gif"
                     alt="Pipeline view showing client stages with drag and drop"
                     placeholderIcon={GripVertical}
                     placeholderText="Pipeline Demo"
-                    placeholderPath="public/gifs/drag-drop.gif"
+                    placeholderPath="public/assets/gifs/drag-drop.gif"
                     priority
                   />
                 </div>
@@ -132,11 +132,11 @@ export default function LandingPage() {
               <div className="surface p-8 rounded-xl border border-border">
                 <div className="mb-6">
                   <FeatureImage
-                    src="/gifs/create-client.gif"
+                    src="/assets/gifs/create-client.gif"
                     alt="Creating new clients with instant updates"
                     placeholderIcon={UserCircle}
                     placeholderText="Create Client Demo"
-                    placeholderPath="public/gifs/create-client.gif"
+                    placeholderPath="public/assets/gifs/create-client.gif"
                   />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-foreground">
@@ -155,11 +155,11 @@ export default function LandingPage() {
               <div className="surface p-8 rounded-xl border border-border">
                 <div className="mb-6">
                   <FeatureImage
-                    src="/gifs/edit-client.gif"
+                    src="/assets/gifs/edit-client.gif"
                     alt="Editing client information with instant updates"
                     placeholderIcon={GripVertical}
                     placeholderText="Edit Client Demo"
-                    placeholderPath="public/gifs/edit-client.gif"
+                    placeholderPath="public/assets/gifs/edit-client.gif"
                   />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-foreground">
@@ -178,11 +178,11 @@ export default function LandingPage() {
               <div className="surface p-8 rounded-xl border border-border">
                 <div className="mb-6">
                   <FeatureImage
-                    src="/screenshots/dashboard.png"
+                    src="/assets/images/dashboard.png"
                     alt="Dashboard showing business overview and metrics"
                     placeholderIcon={LayoutDashboard}
                     placeholderText="Dashboard Screenshot"
-                    placeholderPath="public/screenshots/dashboard.png"
+                    placeholderPath="public/assets/images/dashboard.png"
                   />
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-foreground">

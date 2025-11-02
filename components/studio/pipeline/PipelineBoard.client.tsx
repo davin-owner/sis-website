@@ -54,12 +54,10 @@ import { updateClientStageAction } from "@/app/content/pipeline/actions";
 // 4. Passes columns, workers, and move handler to ClientPipelineColumns
 type ClientPipeBoardProps = {
   initialColumns: PipelineColumn[];
-  workers: Worker[];
 };
 
 export default function ClientPipelineBoard({
   initialColumns,
-  workers,
 }: ClientPipeBoardProps) {
   // State for managing columns and the currently dragged client
   const [columns, setColumns] = useState<PipelineColumn[]>(initialColumns);
@@ -182,7 +180,7 @@ export default function ClientPipelineBoard({
           overColumn.id,
           newSortOrder
         );
-      } catch (error) {
+      } catch (_error) {
         // Silently fail - UI already updated optimistically
       }
       return; // Exit early after handling same column
@@ -233,7 +231,7 @@ export default function ClientPipelineBoard({
         newSortOrder
       );
       // Success! Data saved to database
-    } catch (error) {
+    } catch (_error) {
       // TODO: Show error toast to user instead of console logging
     }
   }

@@ -17,7 +17,7 @@ export const createClient = async () => {
             cookiesToSet.forEach(({ name, value, options }) => {
               cookiesStore.set(name, value, options);
             });
-          } catch (error) {
+          } catch (_error) {
             // Ignore cookie errors in server components where cookies can't be modified
             // This happens when reading auth state in pages (which is fine)
           }

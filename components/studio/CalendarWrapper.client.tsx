@@ -100,7 +100,7 @@ export default function CalendarWrapper({
     try {
       await deleteAppointmentAction(appointmentId);
       // Success! UI already updated
-    } catch (error) {
+    } catch (_error) {
       // If server fails, refresh to revert UI
       router.refresh();
     }

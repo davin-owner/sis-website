@@ -17,7 +17,6 @@ import {
   updateReminder,
   deleteReminder,
 } from "@/lib/supabase/data/dashboard-reminders-data";
-import { DailyTask, Accomplishment, Reminder } from "@/lib/database";
 
 // ========================================
 // DAILY TASKS ACTIONS

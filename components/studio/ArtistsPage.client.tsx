@@ -25,7 +25,6 @@ export default function ArtistsPageClient({
   const [workers, setWorkers] = useState<Worker[]>(initialWorkers);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingWorker, setEditingWorker] = useState<Worker | null>(null);
-  const [showWelcomeBanner, setShowWelcomeBanner] = useState(isOnboarding);
 
   // Auto-open add modal if coming from onboarding
   useEffect(() => {

@@ -26,7 +26,7 @@ import Link from "next/link";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import FeatureImage from "@/components/landing/FeatureImage";
-import { Smartphone, Settings, UserCircle, Mail, LayoutDashboard, Image as ImageIcon, GripVertical } from "lucide-react";
+import { Smartphone, Settings, UserCircle, Mail, LayoutDashboard, GripVertical } from "lucide-react";
 
 export default function LandingPage() {
   // State to control if modal is open or closed

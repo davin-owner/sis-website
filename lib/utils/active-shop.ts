@@ -12,7 +12,6 @@
 import { cookies } from "next/headers";
 import { verifyShopAccess } from "./access-control";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { getActiveShop } from "../supabase/data/user-shops";
 
 // read cookie
 export async function getActiveShopId() {
@@ -42,7 +41,7 @@ export async function getActiveShopIdFallback(
     return cookieStore.get("activeShop")?.value;
   } else {
     if (!userId) throw new Error("userId is required");
-    const { data: activeShopdData, error } = await supabase
+    const { data: activeShopdData } = await supabase
       .from("shop_users")
       .select("shop_id")
       .eq("user_id", userId)
@@ -77,7 +76,7 @@ export async function setActiveShopId(
 
   const cookieStore = await cookies();
 
-  const { data: newActiveShopdData, error } = await supabase
+  await supabase
     .from("shop_users")
     .update({
       last_accessed_at: latestActiveShopTime,

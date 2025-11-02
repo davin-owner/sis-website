@@ -1,5 +1,4 @@
 // this file will be able to get
-import { createClient } from "../client";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { verifyShopAccess } from "@/lib/utils/access-control";
 

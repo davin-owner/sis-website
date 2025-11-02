@@ -33,34 +33,58 @@ export async function createClientAction(formData: FormData) {
   if (!shopId) throw Error("No Shops Found Under User!");
 
   const clientData = {
-    name: formData.get("client_name") as string,
-    contact_email: formData.get("client_contact_email") as string,
-    contact_phone: formData.get("client_contact_phone") as string,
-    artists: formData.get("client_prefered_artists") as string,
+    name: (formData.get("client_name") as string)?.trim() || "",
+    contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
+    contact_phone: (formData.get("client_contact_phone") as string)?.trim() || "",
+    artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",
       10
     ),
-    deposit_status: formData.get("client_deposit_status") as string,
-    notes: formData.get("client_notes") as string,
+    deposit_status: (formData.get("client_deposit_status") as string)?.trim() || "pending",
+    notes: (formData.get("client_notes") as string)?.trim() || "",
   };
 
-  // validate phone number
-  if (
-    clientData.contact_phone &&
-    !isValidPhoneNumber(clientData.contact_phone)
-  ) {
-    return { error: "Invalid Phone Number format" };
-  }
-
-  // validate form for client
+  // Validate name
   if (!clientData.name) {
     return { error: "Client name is required" };
+  }
+  if (clientData.name.length < 2) {
+    return { error: "Client name must be at least 2 characters" };
+  }
+  if (clientData.name.length > 100) {
+    return { error: "Client name must be less than 100 characters" };
   }
 
   // Must have email OR phone
   if (!clientData.contact_email && !clientData.contact_phone) {
     return { error: "Please provide either email or phone number" };
+  }
+
+  // Validate email format if provided
+  if (clientData.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.contact_email)) {
+    return { error: "Invalid email format" };
+  }
+
+  // Validate phone number if provided
+  if (clientData.contact_phone && !isValidPhoneNumber(clientData.contact_phone)) {
+    return { error: "Invalid phone number format" };
+  }
+
+  // Validate deposit status
+  const validStatuses = ["pending", "paid", "partial", "none"];
+  if (!validStatuses.includes(clientData.deposit_status)) {
+    return { error: "Invalid deposit status" };
+  }
+
+  // Validate session count
+  if (clientData.session_count < 0 || clientData.session_count > 1000) {
+    return { error: "Session count must be between 0 and 1000" };
+  }
+
+  // Validate notes length
+  if (clientData.notes && clientData.notes.length > 1000) {
+    return { error: "Notes must be less than 1000 characters" };
   }
   try {
     const newClient = await createShopClient(shopId, user.id, clientData, supabase);
@@ -87,18 +111,65 @@ export async function updateClientAction(formData: FormData) {
   if (!shopId) throw Error("No Shops Found Under User!");
 
   const clientId = formData.get("client_id") as string;
+
+  if (!clientId) {
+    return { error: "Client ID is required" };
+  }
+
   const clientData = {
-    name: formData.get("client_name") as string,
-    contact_email: formData.get("client_contact_email") as string,
-    contact_phone: formData.get("client_contact_phone") as string,
-    artists: formData.get("client_prefered_artists") as string,
+    name: (formData.get("client_name") as string)?.trim() || "",
+    contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
+    contact_phone: (formData.get("client_contact_phone") as string)?.trim() || "",
+    artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",
       10
     ),
-    deposit_status: formData.get("client_deposit_status") as string,
-    notes: formData.get("client_notes") as string,
+    deposit_status: (formData.get("client_deposit_status") as string)?.trim() || "pending",
+    notes: (formData.get("client_notes") as string)?.trim() || "",
   };
+
+  // Validate name
+  if (!clientData.name) {
+    return { error: "Client name is required" };
+  }
+  if (clientData.name.length < 2) {
+    return { error: "Client name must be at least 2 characters" };
+  }
+  if (clientData.name.length > 100) {
+    return { error: "Client name must be less than 100 characters" };
+  }
+
+  // Must have email OR phone
+  if (!clientData.contact_email && !clientData.contact_phone) {
+    return { error: "Please provide either email or phone number" };
+  }
+
+  // Validate email format if provided
+  if (clientData.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.contact_email)) {
+    return { error: "Invalid email format" };
+  }
+
+  // Validate phone number if provided
+  if (clientData.contact_phone && !isValidPhoneNumber(clientData.contact_phone)) {
+    return { error: "Invalid phone number format" };
+  }
+
+  // Validate deposit status
+  const validStatuses = ["pending", "paid", "partial", "none"];
+  if (!validStatuses.includes(clientData.deposit_status)) {
+    return { error: "Invalid deposit status" };
+  }
+
+  // Validate session count
+  if (clientData.session_count < 0 || clientData.session_count > 1000) {
+    return { error: "Session count must be between 0 and 1000" };
+  }
+
+  // Validate notes length
+  if (clientData.notes && clientData.notes.length > 1000) {
+    return { error: "Notes must be less than 1000 characters" };
+  }
 
   try {
     await updateShopClient(shopId, user.id, clientId, clientData, supabase);

@@ -2,7 +2,7 @@
 // CLIENT COMPONENT - Artists/Workers management interface
 // Displays workers list and handles CRUD operations
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Worker } from "@/lib/database";
 import { Button } from "@/components/ui/Button";
@@ -55,13 +55,16 @@ export default function ArtistsPageClient({
   };
 
   // Sort workers: active first, then by name
-  const sortedWorkers = [...workers].sort((a, b) => {
-    if (a.status === "active" && b.status !== "active") return -1;
-    if (a.status !== "active" && b.status === "active") return 1;
-    return `${a.first_name} ${a.last_name}`.localeCompare(
-      `${b.first_name} ${b.last_name}`
-    );
-  });
+  // Memoized to avoid O(n log n) sort on every render
+  const sortedWorkers = useMemo(() => {
+    return [...workers].sort((a, b) => {
+      if (a.status === "active" && b.status !== "active") return -1;
+      if (a.status !== "active" && b.status === "active") return 1;
+      return `${a.first_name} ${a.last_name}`.localeCompare(
+        `${b.first_name} ${b.last_name}`
+      );
+    });
+  }, [workers]);
 
   return (
     <div className="space-y-6">

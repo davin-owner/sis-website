@@ -24,7 +24,7 @@ type DraggableClientCardProps = {
   onOptimisticEdit: (updatedClient: ShopLeads) => void;
 };
 
-export default function DraggableClientCard({
+function DraggableClientCard({
   client,
   columnId,
   onOptimisticDelete,
@@ -150,3 +150,18 @@ export default function DraggableClientCard({
     </>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+// Only re-render if the client data actually changes
+export default React.memo(DraggableClientCard, (prevProps, nextProps) => {
+  return (
+    prevProps.client.id === nextProps.client.id &&
+    prevProps.client.name === nextProps.client.name &&
+    prevProps.client.contact_email === nextProps.client.contact_email &&
+    prevProps.client.contact_phone === nextProps.client.contact_phone &&
+    prevProps.client.artists === nextProps.client.artists &&
+    prevProps.client.deposit_status === nextProps.client.deposit_status &&
+    prevProps.client.session_count === nextProps.client.session_count &&
+    prevProps.columnId === nextProps.columnId
+  );
+});

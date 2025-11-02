@@ -68,7 +68,7 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-inline' https://vercel.live; " + // Next.js hydration needs unsafe-inline temporarily
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live; " + // Next.js and React Compiler require unsafe-eval
               "style-src 'self' 'unsafe-inline' https:; " + // CSS-in-JS requires unsafe-inline
               "img-src 'self' data: https: blob:; " +
               `font-src 'self' https: data:; connect-src ${connectSrc}; ` +

@@ -144,7 +144,7 @@ export default function SettingsPageClient({
           }
         >
           <form onSubmit={handleShopSubmit} className="space-y-4">
-            <input type="hidden" name="shop_id" value={shop.id} />
+            <input type="hidden" name="shop_id" value={shop.shop_id} />
 
             <div className="space-y-2">
               <Label htmlFor="shop_name">Shop Name *</Label>

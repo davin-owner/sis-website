@@ -98,13 +98,15 @@ const nextConfig: NextConfig = {
       '@dnd-kit/core',
       '@dnd-kit/sortable',
     ],
-    turbo: {
-      // Turbopack optimizations for faster dev server
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+
+  // Turbopack configuration (moved from experimental.turbo)
+  turbopack: {
+    // Turbopack optimizations for faster dev server
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },

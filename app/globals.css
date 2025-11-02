@@ -410,6 +410,21 @@ body {
   font-weight: 700;
 }
 
+/* Active state for navbar links with icons */
+.active.glowing-text {
+  background: linear-gradient(
+    135deg,
+    rgba(13, 232, 205, 0.2) 0%,
+    rgba(255, 0, 128, 0.2) 100%
+  );
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: var(--brand-cyan-bright);
+  border-left: 4px solid var(--brand-cyan-bright);
+  box-shadow: 0 0 20px rgba(13, 232, 205, 0.3);
+}
+
 .inactive {
   color: #fff;
 }

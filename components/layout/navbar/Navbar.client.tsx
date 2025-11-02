@@ -30,16 +30,14 @@ export default function Navbar({
     >
       {/* Toggle button at top */}
       <button
-        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0 dark:text-white"
+        className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0 dark:text-white flex items-center justify-center py-5"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <p className="pt-5 pb-4 transition-transform duration-200">
-          {!isExpanded ? (
-            <Menu size={36} />
-          ) : (
-            <PanelLeftClose size={36} />
-          )}
-        </p>
+        {!isExpanded ? (
+          <Menu size={36} />
+        ) : (
+          <PanelLeftClose size={36} />
+        )}
       </button>
 
       {/* Main navigation links - centered and evenly spaced */}

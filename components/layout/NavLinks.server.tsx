@@ -17,9 +17,10 @@ function NavLinks({
   isExpanded: boolean;
 }) {
   return (
-    <Link href={href} className={isActive ? "active glowing-text" : "inactive"}>
-      <div className="box-shadow-custom white-pulsing-element text-xl text-center pt-5 pb-5">
-        {icon} {isExpanded && text}
+    <Link href={href}>
+      <div className={`box-shadow-custom white-pulsing-element text-xl text-center py-5 flex items-center justify-center gap-2 ${isActive ? "active glowing-text" : "inactive"}`}>
+        <span className="flex items-center justify-center">{icon}</span>
+        {isExpanded && <span>{text}</span>}
       </div>
     </Link>
   );

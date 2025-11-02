@@ -410,8 +410,8 @@ body {
   font-weight: 700;
 }
 
-/* Active state for navbar links with icons */
-.active.glowing-text {
+/* Active state for navbar links with icons - DARK MODE */
+[data-theme="dark"] .active.glowing-text {
   background: linear-gradient(
     135deg,
     rgba(13, 232, 205, 0.25) 0%,
@@ -426,11 +426,34 @@ body {
   font-weight: 700;
 }
 
-/* Make SVG icons inherit the color */
-.active.glowing-text svg {
+/* Make SVG icons inherit the color - DARK MODE */
+[data-theme="dark"] .active.glowing-text svg {
   color: var(--brand-cyan-bright) !important;
   stroke: var(--brand-cyan-bright);
   filter: drop-shadow(0 0 8px rgba(13, 232, 205, 0.6));
+}
+
+/* Active state for navbar links with icons - LIGHT MODE */
+[data-theme="light"] .active.glowing-text {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(236, 72, 153, 0.2) 100%
+  );
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+  color: #7c3aed !important; /* Purple-600 for better contrast */
+  border-left: 6px solid #7c3aed !important;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.4), inset 0 0 15px rgba(139, 92, 246, 0.15) !important;
+  font-weight: 700;
+}
+
+/* Make SVG icons inherit the color - LIGHT MODE */
+[data-theme="light"] .active.glowing-text svg {
+  color: #7c3aed !important; /* Purple-600 */
+  stroke: #7c3aed;
+  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.5));
 }
 
 .inactive {
@@ -686,24 +709,84 @@ body {
   opacity: 0.5;
 }
 
-/* Events */
-.fc .fc-event {
-  background: linear-gradient(
-    135deg,
-    var(--color-primary),
-    var(--color-accent-primary)
-  );
-  color: #fff;
+/* Events - Light Mode: Purple border with black text and artist color indicator */
+[data-theme="light"] .fc .fc-event {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #000 !important;
+  border: 2px solid #a855f7 !important; /* Neon purple */
   border-radius: 8px;
-  border: none;
   padding: 0.25rem 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding-left: 1.75rem; /* Space for color circle */
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
+  font-weight: 500;
+  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.fc .fc-event:hover {
+[data-theme="light"] .fc .fc-event::before {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--event-color, #a855f7);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .fc .fc-event:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(246, 0, 247, 0.3);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.5), 0 4px 12px rgba(168, 85, 247, 0.3);
+}
+
+/* Force black text for all content in light mode */
+[data-theme="light"] .fc .fc-event * {
+  color: #000 !important;
+}
+
+/* Events - Dark Mode: White border with white text and artist color indicator */
+[data-theme="dark"] .fc .fc-event {
+  background: rgba(30, 30, 30, 0.95) !important;
+  color: #fff !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  padding-left: 1.75rem; /* Space for color circle */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+  font-weight: 500;
+  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+[data-theme="dark"] .fc .fc-event::before {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--event-color, #ffffff);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .fc .fc-event:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Force white text for all content in dark mode */
+[data-theme="dark"] .fc .fc-event * {
+  color: #fff !important;
 }
 
 .fc .fc-event-title {
@@ -732,10 +815,6 @@ body {
 
 [data-theme="dark"] .fc .fc-daygrid-day.fc-day-today {
   background: var(--color-accent-primary);
-}
-
-[data-theme="dark"] .fc .fc-event {
-  box-shadow: 0 2px 8px rgba(246, 0, 247, 0.2);
 }
 
 /*#endregion */

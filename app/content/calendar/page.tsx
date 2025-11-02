@@ -50,27 +50,22 @@ export default async function Page() {
     return luminance > 0.5;
   };
 
-  // 4. Transform appointments to FullCalendar event format with proper contrast
+  // 4. Transform appointments to FullCalendar event format with artist color
   const events = appointments.map((apt) => {
     // Use worker color or fallback to theme primary color
     const baseColor = apt.worker_color || "#0de8cd"; // Theme primary color
-    const backgroundColor = hexToRgba(baseColor, 0.75); // More opaque for better contrast
-
-    // Use dark text for light colors, light text for dark colors
-    const textColor = isLightColor(baseColor) ? "#1f2937" : "#ffffff";
 
     return {
       id: apt.id,
       title: apt.client_name || apt.title || "Appointment",
       start: `${apt.appointment_date}T${apt.start_time}`,
       end: `${apt.appointment_date}T${apt.end_time}`,
-      backgroundColor,
-      borderColor: baseColor,
-      textColor,
+      backgroundColor: baseColor, // Pass artist color directly
       extendedProps: {
         clientName: apt.client_name,
         workerName: apt.worker_name,
         status: apt.status,
+        workerColor: baseColor, // Store for CSS variable
       },
     };
   });

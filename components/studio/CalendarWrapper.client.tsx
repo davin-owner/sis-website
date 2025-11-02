@@ -16,6 +16,12 @@ type CalendarEvent = {
   end?: string;
   backgroundColor?: string;
   borderColor?: string;
+  extendedProps?: {
+    clientName?: string;
+    workerName?: string;
+    status?: string;
+    workerColor?: string;
+  };
 };
 
 interface CalendarWrapperProps {
@@ -71,22 +77,38 @@ export default function CalendarWrapper({
 
   // Optimistic create
   const handleOptimisticCreate = (newAppointment: Appointment) => {
+    // Find worker to get their color
+    const worker = workers.find((w) => w.worker_id === newAppointment.worker_id);
+    const workerColor = worker?.color || "#0de8cd";
+
     const newEvent = {
       id: newAppointment.id,
       title: newAppointment.title || "Appointment",
       start: `${newAppointment.appointment_date}T${newAppointment.start_time}`,
       end: `${newAppointment.appointment_date}T${newAppointment.end_time}`,
+      backgroundColor: workerColor,
+      extendedProps: {
+        workerColor: workerColor,
+      },
     };
     setEvents([...events, newEvent]);
   };
 
   // Optimistic edit
   const handleOptimisticEdit = (updatedAppointment: Appointment) => {
+    // Find worker to get their color
+    const worker = workers.find((w) => w.worker_id === updatedAppointment.worker_id);
+    const workerColor = worker?.color || "#0de8cd";
+
     const updatedEvent = {
       id: updatedAppointment.id,
       title: updatedAppointment.title || "Appointment",
       start: `${updatedAppointment.appointment_date}T${updatedAppointment.start_time}`,
       end: `${updatedAppointment.appointment_date}T${updatedAppointment.end_time}`,
+      backgroundColor: workerColor,
+      extendedProps: {
+        workerColor: workerColor,
+      },
     };
 
     setEvents(events.map((evt) => (evt.id === updatedEvent.id ? updatedEvent : evt)));

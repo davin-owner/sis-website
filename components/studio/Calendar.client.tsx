@@ -322,68 +322,55 @@ export default function CalendarClient({
         dateClick={onDateClick}
         eventClick={onEventClick}
         eventDrop={onEventDrop}
+        eventDidMount={(info) => {
+          // Apply worker color as CSS variable for the color circle
+          const workerColor = info.event.extendedProps?.workerColor || info.event.backgroundColor;
+          if (workerColor && info.el) {
+            info.el.style.setProperty('--event-color', workerColor);
+          }
+        }}
         eventContent={(arg) => {
           const { event, view } = arg;
           const isMonthView = view.type === "dayGridMonth";
           const isDayView = view.type === "timeGridDay";
           const clientName = event.title;
           const workerName = event.extendedProps?.workerName;
-          const status = event.extendedProps?.status;
-
-          // Get status indicator emoji
-          const statusIcons: Record<string, string> = {
-            scheduled: "🔵",
-            completed: "✅",
-            cancelled: "❌",
-            "no-show": "⚫",
-          };
-          const statusIcon = statusIcons[status as string] || "🔵";
 
           return (
-            <div className="h-full w-full px-1 py-0.5 overflow-hidden">
-              <div className="flex items-start gap-1">
-                {/* Status indicator */}
-                {!isMonthView && (
-                  <span className="text-[10px] leading-none mt-0.5 flex-shrink-0">
-                    {statusIcon}
-                  </span>
-                )}
+            <div className="h-full w-full flex items-center justify-center text-center">
+              <div className="flex-1 min-w-0">
+                {/* Client name - always show */}
+                <div
+                  className="font-semibold leading-tight truncate"
+                  style={{
+                    fontSize: isMonthView ? '0.7rem' : '0.875rem'
+                  }}
+                >
+                  {clientName}
+                </div>
 
-                <div className="flex-1 min-w-0">
-                  {/* Client name - always show */}
+                {/* Worker name - show in all views */}
+                {workerName && (
                   <div
-                    className="font-semibold leading-tight truncate"
+                    className="opacity-80 leading-tight truncate"
                     style={{
-                      fontSize: isMonthView ? '0.7rem' : '0.875rem',
-                      color: 'inherit'
+                      fontSize: isMonthView ? '0.6rem' : (isDayView ? '0.75rem' : '0.7rem'),
+                      marginTop: '0.125rem'
                     }}
                   >
-                    {clientName}
+                    {workerName}
                   </div>
+                )}
 
-                  {/* Worker name - show in week/day views */}
-                  {!isMonthView && workerName && (
-                    <div
-                      className="opacity-90 leading-tight truncate mt-0.5"
-                      style={{
-                        fontSize: isDayView ? '0.75rem' : '0.7rem',
-                        color: 'inherit'
-                      }}
-                    >
-                      {workerName}
-                    </div>
-                  )}
-
-                  {/* Time - show in month view */}
-                  {isMonthView && event.start && (
-                    <div className="text-[0.65rem] opacity-80 leading-tight">
-                      {new Date(event.start).toLocaleTimeString("en-US", {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
-                    </div>
-                  )}
-                </div>
+                {/* Time - show in month view only */}
+                {isMonthView && event.start && (
+                  <div className="text-[0.55rem] opacity-70 leading-tight mt-0.5">
+                    {new Date(event.start).toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           );

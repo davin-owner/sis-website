@@ -19,10 +19,10 @@ export function LogoutButton(props: { className: string }) {
   return (
     <button
       onClick={logout}
-      className={`${props.className} box-shadow-custom text-xl text-center  py-6 transition-colors duration-200 hover:bg-red-600/20 hover:text-red-400`}
+      className={`${props.className} box-shadow-custom text-xl py-6 transition-colors duration-200 hover:bg-red-600/20 hover:text-red-400 flex items-center justify-center gap-2`}
     >
       <LogOut size={24} />
-      {isExpanded && <span className="ml-2">Logout</span>}
+      {isExpanded && <span>Logout</span>}
     </button>
   );
 }

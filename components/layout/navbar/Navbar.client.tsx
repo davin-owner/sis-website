@@ -22,6 +22,12 @@ export default function Navbar({
   const { isExpanded, setIsExpanded } = useNavbar();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
+  const handleToggle = () => {
+    console.log("Toggle clicked, current state:", isExpanded);
+    setIsExpanded(!isExpanded);
+    console.log("New state should be:", !isExpanded);
+  };
+
   return (
     <nav
       className={`h-screen flex-none text-accent dark:text-white transition-all duration-600 ease-in-out flex flex-col
@@ -31,7 +37,7 @@ export default function Navbar({
       {/* Toggle button at top */}
       <button
         className="w-full white-pulsing-element transition-colors duration-200 hover:darkcyanbg flex-shrink-0 dark:text-white flex items-center justify-center py-5"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleToggle}
       >
         {!isExpanded ? (
           <Menu size={36} />
@@ -53,21 +59,22 @@ export default function Navbar({
           />
         ))}
 
-        {/* Theme Toggle */}
-
+        {/* Contact Button */}
         <button
           onClick={() => setIsContactModalOpen(true)}
-          className="white-pulsing-element box-shadow-custom text-xl text-center py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400 dark:text-white"
+          className="white-pulsing-element box-shadow-custom text-xl py-6 transition-colors duration-200 hover:bg-blue-600/20 hover:text-blue-400 dark:text-white flex items-center justify-center gap-2"
         >
           <Mail size={24} />
-          {isExpanded && <span className="ml-2">Contact</span>}
+          {isExpanded && <span>Contact</span>}
         </button>
 
-        <LogoutButton className="white-pulsing-element dark:text-white"></LogoutButton>
+        {/* Logout Button */}
+        <LogoutButton className="white-pulsing-element dark:text-white" />
 
-        <div className="text-xl text-center py-6 transition-colors duration-200 flex items-center justify-center dark:text-white">
+        {/* Theme Toggle */}
+        <div className="text-xl py-6 transition-colors duration-200 flex items-center justify-center gap-2 dark:text-white">
           <ThemeToggle />
-          {isExpanded && <span className="ml-3">Theme</span>}
+          {isExpanded && <span>Theme</span>}
         </div>
 
         <ContactModal

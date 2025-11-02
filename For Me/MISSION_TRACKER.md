@@ -267,6 +267,33 @@ This isn't just a coding project - it's my path to creating **lasting wealth for
 
 ## 💪 Weekly Check-ins
 
+**Week of Nov 2-8, 2025:**
+- [x] Completed phases/tasks:
+  - [x] Fixed ESLint warnings (30+ across 18 files) - Production-ready code
+  - [x] Fixed navbar issues (centering, active state visibility, theme-specific styling)
+  - [x] Redesigned calendar appointment cards with theme-specific styling
+  - [x] Added artist/worker name to all calendar views (month, week, day)
+  - [x] Implemented color-coded artist indicators with CSS variables
+  - [x] Cleaned up duplicate files and empty folders
+  - [x] Security improvements (CSP configuration, Supabase key rotation)
+- [x] Challenges faced:
+  - CSP blocking JavaScript execution (required unsafe-eval for Next.js 15 + React Compiler)
+  - Navbar toggle not responding (debugging in progress)
+  - TypeScript strict type checking (eliminated all 'any' types)
+- [x] Lessons learned:
+  - Theme-specific CSS with [data-theme] selectors for better UX
+  - CSS pseudo-elements (::before) for dynamic colored indicators
+  - Proper type safety prevents production bugs
+  - File organization becomes critical as project scales
+- [ ] Next week's focus:
+  - Fix navbar toggle functionality
+  - Continue Polar payment integration
+  - Implement subscription management
+
+**Notes:**
+- Project file structure getting large, needs reorganization
+- Ready to move from MVP polish to monetization phase
+
 **Week of [DATE]:**
 - [ ] Completed phases/tasks:
 - [ ] Challenges faced:

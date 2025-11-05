@@ -147,26 +147,45 @@ This isn't just a coding project - it's my path to creating **lasting wealth for
 ## 💰 Phase 3: Monetization (Week of Nov 4-10) - CURRENT PRIORITY
 *Learn: Payment integration, subscription management, feature gates*
 
-- [ ] **3.1** Polar Payment Integration (DECISION MADE: Use Polar)
-  - [ ] Set up Polar account and API keys
-  - [ ] Decide pricing: Single tier ($79/mo) OR Multiple tiers ($49/$99/$199)
-  - [ ] Create pricing page
-  - [ ] Add checkout flow
-  - [ ] Webhook for subscription events
+**📊 PRICING STRATEGY DECIDED:** See `docs/planning/PRICING_TIERS_PLAN.md` for full details
+- **4 Tiers:** Free (Solo Artist) → Basics ($29) → Pro ($79) → Enterprise ($149)
+- **Phase 1 Launch:** Free + Basics + Pro (defer Enterprise features)
+- **Revenue Tools:** Stripe (billing) + Twilio (SMS) + Resend (Email)
+
+- [ ] **3.1** Database Schema for Tiers
+  - [ ] Add `subscription_tier` column to `shops_tables`
+  - [ ] Add `stripe_customer_id` and `stripe_subscription_id` columns
+  - [ ] Create `shop_usage` table for tracking limits
+  - [ ] Migration file created and tested
+
+- [ ] **3.2** Stripe Integration (Basics + Pro tiers)
+  - [ ] Set up Stripe account and API keys
+  - [ ] Create Stripe products (Basics $29, Pro $79)
+  - [ ] Build checkout flow
+  - [ ] Webhook for subscription events (created, updated, cancelled)
   - [ ] Test payment flow end-to-end
 
-- [ ] **3.2** Subscription Management
-  - [ ] Update database schema for subscriptions
-  - [ ] Billing dashboard for users
-  - [ ] Cancel/upgrade/downgrade flows
-  - [ ] Trial period logic (14 days)
+- [ ] **3.3** Tier Selection & Onboarding
+  - [ ] Build pricing page with tier comparison
+  - [ ] Add tier selection to onboarding flow
+  - [ ] Free tier signup (no credit card required)
+  - [ ] Paid tier signup (Stripe checkout)
 
-- [ ] **3.3** Feature Gates (if using tiered pricing)
-  - [ ] Client count limits by tier
-  - [ ] Feature access based on subscription
-  - [ ] Upgrade prompts when hitting limits
+- [ ] **3.4** Feature Gates
+  - [ ] Create `lib/utils/feature-gates.ts` helper functions
+  - [ ] Enforce artist limits by tier (1, 3, 10, unlimited)
+  - [ ] Enforce appointment limits for Free tier (20/month)
+  - [ ] Gate SMS/Email features (Pro+ only)
+  - [ ] Show upgrade prompts when hitting limits
 
-**Phase 3 Goal**: First paying customer and revenue generation
+- [ ] **3.5** Twilio & Resend Integration (Pro tier)
+  - [ ] Set up Twilio account for SMS
+  - [ ] Set up Resend account for Email
+  - [ ] Build notification templates (appointment reminders, confirmations)
+  - [ ] Test SMS/Email sending
+  - [ ] Track usage in `shop_usage` table
+
+**Phase 3 Goal**: First paying customer and $1,000 MRR (10-12 customers)
 
 ---
 

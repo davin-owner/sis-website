@@ -246,11 +246,32 @@ This isn't just a coding project - it's my path to creating **lasting wealth for
   - [x] Domain setup
   - [x] End-to-end testing with real data
 
-- [ ] **6.3** Customer Acquisition
-  - [ ] Social media marketing (Instagram, TikTok)
-  - [ ] Content marketing (blog, tutorials)
-  - [ ] Partnership with tattoo supply companies
-  - [ ] Word-of-mouth referral program
+- [ ] **6.3** Customer Acquisition & Marketing
+
+  **📋 Marketing Strategy Defined:** See brand voice/positioning below
+
+  **Social Media:**
+  - [ ] Instagram account setup and content calendar
+  - [ ] Post product screenshots and demos
+  - [ ] Share customer success stories
+  - [ ] Engage with tattoo shop owner communities
+  - [ ] Run targeted ads to tattoo shop owners
+
+  **Content Marketing:**
+  - [ ] Blog posts on tattoo shop management tips
+  - [ ] "How we built this" behind-the-scenes content
+  - [ ] Video demos showing key features
+  - [ ] Case studies (when we have customers)
+
+  **Partnerships:**
+  - [ ] Reach out to tattoo supply companies
+  - [ ] Partner with tattoo conventions/events
+  - [ ] Collaborate with tattoo influencers
+
+  **Other Channels:**
+  - [ ] Word-of-mouth referral program (give 1 month free)
+  - [ ] LinkedIn outreach to shop owners
+  - [ ] Reddit/forum engagement (r/tattoo business communities)
 
 - [ ] **6.4** Growth Features
   - [ ] Client portal (clients can book/reschedule)
@@ -323,6 +344,57 @@ This isn't just a coding project - it's my path to creating **lasting wealth for
 
 ---
 
+## 📢 Brand Voice & Positioning
+
+**🎯 Product:** Simple Ink Studios - Client & appointment management for tattoo shops
+
+**👥 Target Audience:**
+- Tattoo shop owners and managers with 1-10+ artists
+- Solo artists who need organization
+- Growing shops tired of losing clients in DMs
+- Established shops wanting professional systems
+
+**💎 Unique Value Proposition:**
+1. **Built specifically for tattoo shops** (not generic salon software)
+2. **Visual pipeline system** (drag-and-drop client tracking)
+3. **Affordable pricing** (Free tier + $29/$79 paid tiers)
+4. **Simple & beautiful** (modern, clean interface)
+5. **Automation that helps** (SMS/Email reminders reduce no-shows 40%+)
+
+**🗣️ Brand Voice:**
+- **Casual & supportive** - We speak tattoo artists' language
+- **No-BS** - Straightforward, honest, no corporate jargon
+- **Artist-first** - Focus on freedom and creativity
+- **Confident but humble** - Great product, not cocky attitude
+
+**✅ Good examples:**
+- "Tired of losing clients in your DMs? We got you."
+- "Your art deserves better than spreadsheets and sticky notes."
+- "Less admin, more ink. That's the goal."
+
+**❌ Avoid:**
+- Corporate buzzwords ("synergy," "paradigm shift")
+- Aggressive sales tactics ("SIGN UP NOW!!!")
+- Generic business speak
+
+**🎨 Visual Style:**
+- Clean, modern, minimalist
+- Dark mode aesthetic (tattoo shop vibe)
+- Product screenshots and demos
+- Authentic tattoo shop photos (not stock images)
+
+**📱 Content Themes:**
+- Time-saving tips for shop owners
+- Behind-the-scenes of building the platform
+- Customer success stories
+- Tattoo industry insights
+- "Organized vs. disorganized shop" comparisons
+
+**🎯 Positioning Statement:**
+"Simple Ink Studios is the CRM and booking system tattoo artists actually want to use. We help shops organize clients, manage artists, and automate reminders - so you can focus on art, not admin."
+
+---
+
 ## 🎯 Why This Matters
 
 Every checkbox is progress toward:
@@ -336,7 +408,7 @@ Every checkbox is progress toward:
 
 *"The mission is family, discipline, and freedom. The SaaS is the vehicle."*
 
-**Last Updated:** November 1, 2025
-**Current Phase:** Phase 3 - Monetization (Polar Integration)
+**Last Updated:** November 5, 2025
+**Current Phase:** Phase 3 - Monetization (Polar Integration + Marketing Strategy)
 **Next Milestone:** First paying customer (Week of Nov 4-10)
 **Status:** ✅ MVP 1.0 LIVE IN PRODUCTION!

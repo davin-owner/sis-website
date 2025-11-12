@@ -1,6 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Polar webhook data types
+interface PolarMetadata {
+  shopId?: string;
+  tier?: string;
+  [key: string]: unknown;
+}
+
+interface PolarCheckoutData {
+  id: string;
+  customer_id?: string;
+  metadata?: PolarMetadata;
+  [key: string]: unknown;
+}
+
+interface PolarOrderData {
+  id: string;
+  customer_id: string;
+  metadata?: PolarMetadata;
+  [key: string]: unknown;
+}
+
+interface PolarSubscriptionData {
+  id: string;
+  customer_id: string;
+  status: string;
+  metadata?: PolarMetadata;
+  [key: string]: unknown;
+}
+
 // Admin client (bypasses RLS)
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -54,12 +83,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handleCheckoutCreated(data: any) {
+async function handleCheckoutCreated(data: PolarCheckoutData) {
   console.log('Checkout created:', data);
   // Just logging for now
 }
 
-async function handleOrderCreated(data: any) {
+async function handleOrderCreated(data: PolarOrderData) {
   console.log('Order created:', data);
 
   const metadata = data.metadata || {};
@@ -84,7 +113,7 @@ async function handleOrderCreated(data: any) {
   console.log(`Shop ${shopId} upgraded to ${tier}`);
 }
 
-async function handleSubscriptionCreated(data: any) {
+async function handleSubscriptionCreated(data: PolarSubscriptionData) {
   console.log('Subscription created:', data);
 
   const metadata = data.metadata || {};
@@ -109,7 +138,7 @@ async function handleSubscriptionCreated(data: any) {
   console.log(`Subscription created for shop ${shopId}: ${tier}`);
 }
 
-async function handleSubscriptionUpdated(data: any) {
+async function handleSubscriptionUpdated(data: PolarSubscriptionData) {
   console.log('Subscription updated:', data);
 
   const metadata = data.metadata || {};
@@ -130,7 +159,7 @@ async function handleSubscriptionUpdated(data: any) {
   console.log(`Subscription updated for shop ${shopId}: ${data.status}`);
 }
 
-async function handleSubscriptionCanceled(data: any) {
+async function handleSubscriptionCanceled(data: PolarSubscriptionData) {
   console.log('Subscription canceled:', data);
 
   const metadata = data.metadata || {};

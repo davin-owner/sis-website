@@ -101,7 +101,7 @@ export default function AppointmentModal({
       // Close modal and refresh
       onClose();
       router.refresh();
-    } catch (_err) {
+    } catch {
       setError("Failed to delete appointment");
       router.refresh(); // Revert optimistic update
     } finally {
@@ -176,7 +176,7 @@ export default function AppointmentModal({
       // Close modal and refresh
       onClose();
       router.refresh();
-    } catch (_err) {
+    } catch {
       setError("Something went wrong");
     } finally {
       setIsSubmitting(false);

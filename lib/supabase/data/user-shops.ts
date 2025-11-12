@@ -48,6 +48,12 @@ export async function getActiveShop(
     shop_address: shopData.shop_address,
     amount_of_workers: shopData.amount_of_workers,
     created_at: shopData.created_at,
+    subscription_tier: shopData.subscription_tier,
+    polar_customer_id: shopData.polar_customer_id,
+    polar_subscription_id: shopData.polar_subscription_id,
+    subscription_status: shopData.subscription_status,
+    trial_ends_at: shopData.trial_ends_at,
+    subscription_created_at: shopData.subscription_created_at,
   };
 
   return flattenedData;

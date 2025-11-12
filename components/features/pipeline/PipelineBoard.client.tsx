@@ -180,7 +180,7 @@ export default function ClientPipelineBoard({
           overColumn.id,
           newSortOrder
         );
-      } catch (_error) {
+      } catch {
         // Silently fail - UI already updated optimistically
       }
       return; // Exit early after handling same column
@@ -231,7 +231,7 @@ export default function ClientPipelineBoard({
         newSortOrder
       );
       // Success! Data saved to database
-    } catch (_error) {
+    } catch {
       // TODO: Show error toast to user instead of console logging
     }
   }

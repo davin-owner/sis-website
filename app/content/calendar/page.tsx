@@ -32,24 +32,6 @@ export default async function Page() {
     getShopWorkerData(shopId, user.id, supabase),
   ]);
 
-  // Helper to convert hex to rgba for translucent colors
-  const hexToRgba = (hex: string, alpha: number): string => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  };
-
-  // Helper to determine if color is light or dark
-  const isLightColor = (hex: string): boolean => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    // Calculate relative luminance
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    return luminance > 0.5;
-  };
-
   // 4. Transform appointments to FullCalendar event format with artist color
   const events = appointments.map((apt) => {
     // Use worker color or fallback to theme primary color

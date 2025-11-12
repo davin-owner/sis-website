@@ -88,7 +88,7 @@ export default function AddClientModal({
 
       // Refresh in background to ensure sync
       router.refresh();
-    } catch (_err) {
+    } catch {
       setError("Something went wrong");
     } finally {
       setIsSubmitting(false);

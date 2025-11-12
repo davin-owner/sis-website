@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Create Polar checkout
-    const checkout = await polar.checkouts.custom.create({
-      productId,
+    const checkout = await polar.checkouts.create({
+      products: [productId],
       successUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/dashboard?checkout=success`,
       customerEmail: user.email,
       metadata: {

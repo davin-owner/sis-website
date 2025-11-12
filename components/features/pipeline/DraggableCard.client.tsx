@@ -57,7 +57,7 @@ function DraggableClientCard({
     try {
       await deleteClientAction(client.id.toString());
       // Success! UI already updated
-    } catch (_error) {
+    } catch {
       // If server fails, refresh to revert UI
       router.refresh();
     }

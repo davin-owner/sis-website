@@ -122,7 +122,7 @@ export default function CalendarWrapper({
     try {
       await deleteAppointmentAction(appointmentId);
       // Success! UI already updated
-    } catch (_error) {
+    } catch {
       // If server fails, refresh to revert UI
       router.refresh();
     }

@@ -95,7 +95,7 @@ export default function EditClientModal({
 
       // Refresh in background to sync with server
       router.refresh();
-    } catch (_err) {
+    } catch {
       setError("Something went wrong");
     } finally {
       setIsSubmitting(false);

@@ -4,6 +4,9 @@
 
 */
 
+export type SubscriptionTier = 'free' | 'basics' | 'pro' | 'enterprise';
+export type SubscriptionStatus = 'active' | 'cancelled' | 'past_due' | 'trialing';
+
 export type Shop = {
   /*
   Combined type from shops_tables + shop_users relationship
@@ -17,6 +20,13 @@ export type Shop = {
   role?: string; // From shop_users junction table
   permissions?: Record<string, boolean>; // From shop_users junction table
   last_accessed_at?: string; // From shop_users junction table
+  // Subscription fields (added in migration 12)
+  subscription_tier: SubscriptionTier;
+  polar_customer_id: string | null;
+  polar_subscription_id: string | null;
+  subscription_status: SubscriptionStatus;
+  trial_ends_at: string | null;
+  subscription_created_at: string | null;
 };
 
 export type ShopLeads = {
@@ -201,6 +211,27 @@ export type Reminder = {
   is_completed: boolean;
   completed_at: string | null;
   priority: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ShopUsage = {
+  /*
+  id uuid
+  shop_id uuid
+  month date (first of month)
+  appointments_created int
+  sms_sent int
+  emails_sent int
+  created_at timestamptz
+  updated_at timestamptz
+  */
+  id: string;
+  shop_id: string;
+  month: string; // YYYY-MM-DD (first of month)
+  appointments_created: number;
+  sms_sent: number;
+  emails_sent: number;
   created_at: string;
   updated_at: string;
 };

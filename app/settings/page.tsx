@@ -34,18 +34,20 @@ export default async function SettingsPage() {
     redirect("/onboarding");
   }
 
-  const activeShop = await getActiveShop(user.id, shopId, supabase);
+  // 3. Fetch shop data and user role in parallel for faster loading
+  const [activeShop, { data: userShop }] = await Promise.all([
+    getActiveShop(user.id, shopId, supabase),
+    supabase
+      .from("shop_users")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("shop_id", shopId)
+      .single(),
+  ]);
+
   if (!activeShop) {
     redirect("/onboarding");
   }
-
-  // 3. Get user's role in this shop
-  const { data: userShop } = await supabase
-    .from("user_shops")
-    .select("role")
-    .eq("user_id", user.id)
-    .eq("shop_id", shopId)
-    .single();
 
   return (
     <div className="min-h-dvh app-canvas">

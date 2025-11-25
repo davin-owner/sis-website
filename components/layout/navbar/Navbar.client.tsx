@@ -23,9 +23,7 @@ export default function Navbar({
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const handleToggle = () => {
-    console.log("Toggle clicked, current state:", isExpanded);
     setIsExpanded(!isExpanded);
-    console.log("New state should be:", !isExpanded);
   };
 
   return (

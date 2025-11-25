@@ -184,3 +184,54 @@ export async function deleteAppointmentAction(appointmentId: string) {
     return { error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
+
+// updateAppointmentDateTimeAction() - For drag & drop
+export async function updateAppointmentDateTimeAction(
+  appointmentId: string,
+  newDate: string,
+  newStartTime: string,
+  newEndTime: string
+) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not Authenticated");
+
+  const shopId = await getActiveShopIdFallback(user.id, supabase);
+  if (!shopId) throw Error("No Shops Found Under User!");
+
+  try {
+    // Get current appointment data
+    const { data: currentAppointment } = await supabase
+      .from("appointments")
+      .select("*")
+      .eq("id", appointmentId)
+      .eq("shop_id", shopId)
+      .single();
+
+    if (!currentAppointment) {
+      return { error: "Appointment not found" };
+    }
+
+    // Update only date and time fields
+    await updateShopAppointment(
+      shopId,
+      user.id,
+      appointmentId,
+      {
+        ...currentAppointment,
+        appointment_date: newDate,
+        start_time: newStartTime,
+        end_time: newEndTime,
+      },
+      supabase
+    );
+
+    revalidatePath("/content/calendar");
+    return { success: true };
+  } catch (error: unknown) {
+    return { error: error instanceof Error ? error.message : "Unknown error" };
+  }
+}

@@ -24,7 +24,14 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import Card from "@/components/shared/Card.server";
-import { Trash2, CornerDownLeft, Check, Bell, Target, AlertCircle } from 'lucide-react';
+import {
+  Trash2,
+  CornerDownLeft,
+  Check,
+  Bell,
+  Target,
+  AlertCircle,
+} from "lucide-react";
 
 interface RemindersListProps {
   initialReminders: Reminder[];
@@ -43,7 +50,14 @@ export default function RemindersList({
   // Optimistic state
   const [optimisticReminders, setOptimisticReminders] = useOptimistic(
     initialReminders,
-    (state: Reminder[], { action, reminder, reminderId }: { action: string; reminder?: Reminder; reminderId?: string }) => {
+    (
+      state: Reminder[],
+      {
+        action,
+        reminder,
+        reminderId,
+      }: { action: string; reminder?: Reminder; reminderId?: string }
+    ) => {
       switch (action) {
         case "add":
           return [reminder!, ...state];
@@ -138,7 +152,7 @@ export default function RemindersList({
       case "urgent":
         return <AlertCircle size={16} />;
       case "goal":
-        return <Target size={16} />;
+        return <Target size={16} className="text-foreground" />;
       default:
         return <Bell size={16} />;
     }

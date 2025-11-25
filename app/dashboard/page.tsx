@@ -68,16 +68,23 @@ export default async function DashboardPage() {
 
   if (!activeShop) redirect("/onboarding");
 
-  // 4. Fetch real data from database
-  const workers = await getShopWorkerData(shopId, user.id, supabase);
-  const leads = await fetchShopLeadData(shopId, user.id, supabase);
-  const dailyTasks = await getShopDailyTasks(shopId, user.id, supabase);
-  const accomplishments = await getShopAccomplishments(shopId, user.id, supabase);
-  const reminders = await getShopReminders(shopId, user.id, supabase, false);
+  // 4. Fetch real data from database in parallel for faster loading
+  const [workers, leads, dailyTasks, accomplishments, reminders] =
+    await Promise.all([
+      getShopWorkerData(shopId, user.id, supabase),
+      fetchShopLeadData(shopId, user.id, supabase),
+      getShopDailyTasks(shopId, user.id, supabase),
+      getShopAccomplishments(shopId, user.id, supabase),
+      getShopReminders(shopId, user.id, supabase, false),
+    ]);
 
   // Calculate pipeline stats from real data
-  const completedLeads = leads.filter((lead) => lead.pipeline_stage === "completed").length;
-  const lostLeads = leads.filter((lead) => lead.pipeline_stage === "lost").length;
+  const completedLeads = leads.filter(
+    (lead) => lead.pipeline_stage === "completed"
+  ).length;
+  const lostLeads = leads.filter(
+    (lead) => lead.pipeline_stage === "lost"
+  ).length;
   const statsData = { flakers: lostLeads, finished: completedLeads };
 
   return (
@@ -95,8 +102,11 @@ export default async function DashboardPage() {
           <Container size="page-container--wide">
             {/* Left column - Task trackers and artist info */}
             <Section className="lg:col-span-3 space-y-6">
-              <DailyTasksList initialTasks={dailyTasks} titleName="Daily Tasks" />
-              <Card title="Artists" subtitle="Your team">
+              <DailyTasksList
+                initialTasks={dailyTasks}
+                titleName="Daily Tasks"
+              />
+              <Card title="Active Artists" subtitle="Artists in house">
                 {workers.length > 0 ? (
                   <ul className="space-y-2">
                     {workers
@@ -110,18 +120,22 @@ export default async function DashboardPage() {
                           <span>
                             {worker.first_name} {worker.last_name}
                           </span>
-                          {worker.specialties && worker.specialties.length > 0 && (
-                            <span className="text-xs text-muted-foreground">
-                              - {worker.specialties[0]}
-                            </span>
-                          )}
+                          {worker.specialties &&
+                            worker.specialties.length > 0 && (
+                              <span className="text-xs text-muted-foreground">
+                                - {worker.specialties[0]}
+                              </span>
+                            )}
                         </li>
                       ))}
                   </ul>
                 ) : (
                   <p className="text-sm text-muted-foreground">
                     No artists added yet.{" "}
-                    <a href="/content/artists" className="text-accent hover:underline">
+                    <a
+                      href="/content/artists"
+                      className="text-accent hover:underline"
+                    >
                       Add your first artist
                     </a>
                   </p>

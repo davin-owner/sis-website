@@ -27,6 +27,9 @@ type CalEvent = {
 interface CalendarClickInfo {
   date: Date;
   dateStr: string;
+  view: {
+    type: string;
+  };
 }
 
 interface EventClickInfo {
@@ -71,222 +74,57 @@ export default function CalendarClient({
   };
 
   return (
-    <div className="surface-elevated p-6 rounded-xl">
-      <style jsx global>{`
-        /* ===== CALENDAR CONTAINER STYLING ===== */
-        .fc {
-          font-family: var(--font-sans);
+    <>
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Make dragged event follow cursor smoothly */
+        .fc-event-dragging {
+          opacity: 0.8 !important;
+          cursor: grabbing !important;
+          z-index: 9999 !important;
         }
 
-        /* Header styling - match site theme */
-        .fc .fc-toolbar {
-          padding: 1rem 0;
-          margin-bottom: 1.5rem;
+        /* Improve drag visual feedback */
+        .fc-event.fc-event-dragging {
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+          transform: scale(1.05);
+          transition: transform 0.1s ease;
         }
 
-        .fc .fc-toolbar-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #0de8cd 0%, #0891b2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+        /* Show drop target feedback */
+        .fc-highlight {
+          background-color: var(--color-accent) !important;
+          opacity: 0.15 !important;
         }
 
-        /* Button styling - match site theme */
-        .fc .fc-button {
-          background: transparent !important;
-          border: 1px solid var(--color-border) !important;
-          color: var(--color-foreground) !important;
-          text-transform: capitalize !important;
-          padding: 0.5rem 1rem !important;
-          border-radius: var(--radius-md) !important;
-          font-weight: 500 !important;
-          transition: all 0.2s ease !important;
+        /* Fix overlapping events - make them flexible and side-by-side */
+        .fc-timegrid-event-harness {
+          min-width: 35px !important;
+          max-width: 48% !important;
         }
 
-        .fc .fc-button:hover:not(:disabled) {
-          background: var(--color-primary) !important;
-          color: white !important;
-          border-color: var(--color-primary) !important;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(13, 232, 205, 0.3) !important;
+        .fc-timegrid-event-harness-inset {
+          left: 1px !important;
+          right: 1px !important;
         }
 
-        .fc .fc-button-active {
-          background: var(--color-primary) !important;
-          color: white !important;
-          border-color: var(--color-primary) !important;
+        .fc-timegrid-event {
+          margin-right: 3px !important;
+          padding: 2px 4px !important;
         }
 
-        .fc .fc-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
+        .fc-event-main {
+          padding: 2px !important;
         }
 
-        /* Calendar grid styling */
-        .fc .fc-scrollgrid {
-          border-color: var(--color-border) !important;
-        }
-
-        .fc th {
-          border-color: var(--color-border) !important;
-          background: var(--color-muted) !important;
-          padding: 0.75rem !important;
-          font-weight: 600 !important;
-          font-size: 0.875rem !important;
-          text-transform: uppercase !important;
-          letter-spacing: 0.05em !important;
-          color: var(--color-text-muted) !important;
-        }
-
-        .fc td {
-          border-color: var(--color-border) !important;
-        }
-
-        /* Day cells - hover effect for clicking */
-        .fc .fc-daygrid-day:hover,
-        .fc .fc-timegrid-slot:hover {
-          background: var(--color-accent) !important;
-          cursor: pointer;
-        }
-
-        /* Today highlighting */
-        .fc .fc-day-today {
-          background: rgba(13, 232, 205, 0.15) !important;
-        }
-
-        .fc .fc-day-today .fc-daygrid-day-number {
-          background: var(--color-primary);
-          color: white;
-          width: 2rem;
-          height: 2rem;
-          border-radius: 50%;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-        }
-
-        /* ===== APPOINTMENT EVENT STYLING ===== */
-        .fc-event {
-          cursor: pointer !important;
-          border: 2px solid !important;
-          border-radius: var(--radius-md) !important;
-          padding: 0.5rem !important;
-          margin: 2px !important;
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
-          overflow: hidden !important;
-          font-weight: 500 !important;
-        }
-
-        /* Hover effect - lift and glow */
-        .fc-event:hover {
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15) !important;
-          z-index: 999 !important;
-          filter: brightness(1.1) !important;
-        }
-
-        /* Active state */
-        .fc-event:active {
-          transform: translateY(-1px) scale(1.01) !important;
-        }
-
-        /* Event text styling */
-        .fc-event-time,
-        .fc-event-title {
-          color: inherit !important;
-          font-weight: 500 !important;
-        }
-
-        /* Month view - compact but readable */
-        .fc-dayGridMonth-view .fc-event {
-          font-size: 0.75rem !important;
-          padding: 0.25rem 0.5rem !important;
-          margin: 1px 2px !important;
-        }
-
-        /* Week/Day view - more spacious */
-        .fc-timeGridWeek-view .fc-event,
-        .fc-timeGridDay-view .fc-event {
-          font-size: 0.875rem !important;
-          padding: 0.5rem !important;
-          min-height: 2rem !important;
-        }
-
-        /* Time labels */
-        .fc-timegrid-slot-label {
-          color: var(--color-text-muted) !important;
-          font-size: 0.75rem !important;
-          font-weight: 500 !important;
-        }
-
-        /* Current time indicator */
-        .fc .fc-timegrid-now-indicator-line {
-          border-color: var(--color-primary) !important;
-          border-width: 2px !important;
-        }
-
-        .fc .fc-timegrid-now-indicator-arrow {
-          border-color: var(--color-primary) !important;
-        }
-
-        /* Day numbers in month view */
-        .fc-daygrid-day-number {
-          color: var(--color-foreground) !important;
-          padding: 0.5rem !important;
-          font-weight: 500 !important;
-        }
-
-        /* More link ("+X more") */
-        .fc .fc-daygrid-more-link {
-          color: var(--color-primary) !important;
-          font-weight: 600 !important;
+        .fc-event-title,
+        .fc-event-time {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           font-size: 0.75rem !important;
         }
-
-        .fc .fc-daygrid-more-link:hover {
-          background: var(--color-accent) !important;
-          border-radius: var(--radius-sm);
-        }
-
-        /* Scrollbar styling */
-        .fc-scroller::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
-
-        .fc-scroller::-webkit-scrollbar-track {
-          background: var(--color-muted);
-          border-radius: var(--radius-sm);
-        }
-
-        .fc-scroller::-webkit-scrollbar-thumb {
-          background: var(--color-border);
-          border-radius: var(--radius-sm);
-        }
-
-        .fc-scroller::-webkit-scrollbar-thumb:hover {
-          background: var(--color-primary);
-        }
-
-        /* Dark mode adjustments */
-        .dark .fc-event {
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        .dark .fc-event:hover {
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 6px 12px rgba(0, 0, 0, 0.4) !important;
-          filter: brightness(1.15) !important;
-        }
-
-        /* Loading state */
-        .fc-loading {
-          opacity: 0.5;
-        }
-      `}</style>
+      `}} />
+      <div className="surface-elevated p-6 rounded-xl">
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -310,6 +148,11 @@ export default function CalendarClient({
         selectable
         editable
         droppable={true}
+        eventStartEditable={true}
+        eventDurationEditable={true}
+        eventDragMinDistance={5}
+        slotEventOverlap={true}
+        eventOverlap={true}
         nowIndicator={true}
         height="auto"
         contentHeight="600px"
@@ -332,18 +175,18 @@ export default function CalendarClient({
         eventContent={(arg) => {
           const { event, view } = arg;
           const isMonthView = view.type === "dayGridMonth";
-          const isDayView = view.type === "timeGridDay";
+          const isWeekView = view.type === "timeGridWeek";
           const clientName = event.title;
           const workerName = event.extendedProps?.workerName;
 
           return (
-            <div className="h-full w-full flex items-center justify-center text-center">
+            <div className="h-full w-full flex items-center justify-center text-center px-1">
               <div className="flex-1 min-w-0">
                 {/* Client name - always show */}
                 <div
                   className="font-semibold leading-tight truncate"
                   style={{
-                    fontSize: isMonthView ? '0.7rem' : '0.875rem'
+                    fontSize: isMonthView ? '0.7rem' : (isWeekView ? '0.8rem' : '0.9rem')
                   }}
                 >
                   {clientName}
@@ -354,8 +197,8 @@ export default function CalendarClient({
                   <div
                     className="opacity-80 leading-tight truncate"
                     style={{
-                      fontSize: isMonthView ? '0.6rem' : (isDayView ? '0.75rem' : '0.7rem'),
-                      marginTop: '0.125rem'
+                      fontSize: isMonthView ? '0.6rem' : (isWeekView ? '0.7rem' : '0.75rem'),
+                      marginTop: isWeekView ? '0.15rem' : '0.125rem'
                     }}
                   >
                     {workerName}
@@ -377,5 +220,6 @@ export default function CalendarClient({
         }}
       />
     </div>
+    </>
   );
 }

@@ -25,9 +25,11 @@ export default async function PipelinePage() {
     redirect("/onboarding");
   }
 
-  // Fetch both pipeline data and workers
-  const formatedColumns = await getPipelineData(shopId, user.id, supabase);
-  const workers = await getShopWorkerData(shopId, user.id, supabase);
+  // Fetch both pipeline data and workers in parallel for faster loading
+  const [formatedColumns, workers] = await Promise.all([
+    getPipelineData(shopId, user.id, supabase),
+    getShopWorkerData(shopId, user.id, supabase),
+  ]);
 
   return (
     <WorkersProvider workers={workers}>

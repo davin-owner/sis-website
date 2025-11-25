@@ -10,14 +10,14 @@ import {
   updateAppointmentAction,
   deleteAppointmentAction,
 } from "@/app/content/calendar/actions";
-import { Appointment, ShopLeads, Worker } from "@/lib/database";
+import { Appointment, ShopLeads } from "@/lib/database";
+import { useWorkers } from "@/lib/contexts/workers-context";
 
 interface AppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
   appointment?: Appointment | null; // If provided, we're editing
   clients?: ShopLeads[];
-  workers?: Worker[];
   onOptimisticCreate?: (newAppointment: Appointment) => void;
   onOptimisticEdit?: (updatedAppointment: Appointment) => void;
   onOptimisticDelete?: (appointmentId: string) => void;
@@ -31,7 +31,6 @@ export default function AppointmentModal({
   onClose,
   appointment,
   clients = [],
-  workers = [],
   onOptimisticCreate,
   onOptimisticEdit,
   onOptimisticDelete,
@@ -41,8 +40,11 @@ export default function AppointmentModal({
 }: AppointmentModalProps) {
   const router = useRouter();
   const isEditMode = !!appointment;
-
+  const workers = useWorkers();
   // Form state
+  const activeWorkers = workers.filter(
+    (workerData) => workerData.status === "active"
+  );
   const [clientId, setClientId] = useState("");
   const [workerId, setWorkerId] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -61,30 +63,40 @@ export default function AppointmentModal({
 
   // Populate form when editing or prefilling
   useEffect(() => {
-    if (appointment) {
-      // Edit mode - populate from appointment
-      setClientId(appointment.client_id.toString());
-      setWorkerId(appointment.worker_id || "");
-      setAppointmentDate(appointment.appointment_date);
-      setStartTime(appointment.start_time);
-      setEndTime(appointment.end_time);
-      setTitle(appointment.title || "");
-      setNotes(appointment.notes || "");
-      setLocation(appointment.location || "");
-      setStatus(appointment.status);
-    } else {
-      // Create mode - use prefilled values or defaults
-      setClientId(preselectedClientId || "");
-      setWorkerId("");
-      setAppointmentDate(prefilledDate || "");
-      setStartTime(prefilledTime || "");
-      setEndTime("");
-      setTitle("");
-      setNotes("");
-      setLocation("");
-      setStatus("scheduled");
+    if (isOpen) {
+      if (preselectedClientId) {
+        setClientId(preselectedClientId || "");
+        setWorkerId("");
+        setAppointmentDate(prefilledDate || "");
+        setStartTime(prefilledTime || "");
+        setEndTime("");
+        setTitle("");
+        setNotes("");
+        setLocation("");
+        setStatus("scheduled");
+      } else if (appointment) {
+        setClientId(appointment.client_id.toString());
+        setWorkerId(appointment.worker_id || "");
+        setAppointmentDate(appointment.appointment_date);
+        setStartTime(appointment.start_time);
+        setEndTime(appointment.end_time);
+        setTitle(appointment.title || "");
+        setNotes(appointment.notes || "");
+        setLocation(appointment.location || "");
+        setStatus(appointment.status);
+      } else {
+        setClientId("");
+        setWorkerId("");
+        setAppointmentDate("");
+        setStartTime("");
+        setEndTime("");
+        setTitle("");
+        setNotes("");
+        setLocation("");
+        setStatus("scheduled");
+      }
     }
-  }, [appointment, prefilledDate, prefilledTime, preselectedClientId]);
+  }, [isOpen, preselectedClientId, appointment, prefilledDate, prefilledTime]);
 
   const handleDelete = async () => {
     if (!appointment) return;
@@ -232,7 +244,7 @@ export default function AppointmentModal({
                 className="w-full px-3 py-2 bg-background border border-input rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors"
               >
                 <option value="">No artist assigned</option>
-                {workers.map((worker) => (
+                {activeWorkers.map((worker) => (
                   <option key={worker.id} value={worker.id}>
                     {worker.first_name} {worker.last_name}
                   </option>

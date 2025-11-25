@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import EditClientModal from "@/components/features/clients/EditClientModal.client";
 import AppointmentModal from "@/components/features/calendar/AppointmentModal.client";
 import { deleteClientAction } from "@/app/content/pipeline/actions";
-import { GripHorizontal, Calendar } from 'lucide-react';
+import { GripHorizontal, Calendar } from "lucide-react";
 
 // Data Flow:
 // 1. Receives client data and columnId from ClientPipelineColumns
@@ -74,6 +74,7 @@ function DraggableClientCard({
         isOpen={showScheduleModal}
         onClose={() => setShowScheduleModal(false)}
         preselectedClientId={client.id.toString()}
+        clients={[client]}
       />
       {/* OUTER DIV: Sets up the drag context but NOT draggable itself */}
       <div

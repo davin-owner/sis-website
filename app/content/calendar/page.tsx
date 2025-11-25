@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { getShopAppointments } from "@/lib/supabase/data/appointment-data";
 import { fetchShopLeadData } from "@/lib/supabase/data/shop-leads-data";
 import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
+import { WorkersProvider } from "@/lib/contexts/workers-context";
 
 export default async function Page() {
   // 1. Auth check
@@ -58,12 +59,14 @@ export default async function Page() {
         <h1 className="text-4xl font-bold gradient-text-ink mb-8 text-center">
           My Calendar
         </h1>
-        <CalendarWrapper
-          initialEvents={events}
-          clients={clients}
-          workers={workers}
-          appointments={appointments}
-        />
+        <WorkersProvider workers={workers}>
+          <CalendarWrapper
+            initialEvents={events}
+            clients={clients}
+            workers={workers}
+            appointments={appointments}
+          />
+        </WorkersProvider>
       </div>
     </main>
   );

@@ -183,14 +183,14 @@ export default function SettingsPageClient({
           <p className="text-sm">
             <span className="font-semibold">Role:</span>{" "}
             <span className="capitalize">{userRole || "None"}</span>
-          </p>
+          </p>  
           <p className="text-xs text-muted-foreground">
             {userRole === "owner" && "You have full control over this shop"}
             {userRole === "admin" &&
               "You can manage settings and workers for this shop"}
             {userRole === "worker" &&
               "You can view and manage your own appointments"}
-            {!userRole && "You don't have a role in this shop"}
+            {!userRole && "You don't have a role in this shop"} 
           </p>
         </div>
       </Card>

@@ -26,7 +26,14 @@ import Link from "next/link";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import FeatureImage from "@/components/landing/FeatureImage";
-import { Smartphone, Settings, UserCircle, Mail, LayoutDashboard, GripVertical } from "lucide-react";
+import {
+  Settings,
+  UserCircle,
+  Mail,
+  LayoutDashboard,
+  GripVertical,
+  Users,
+} from "lucide-react";
 
 export default function LandingPage() {
   // State to control if modal is open or closed
@@ -83,8 +90,8 @@ export default function LandingPage() {
           </div>
 
           {/* Social Proof / Urgency */}
-          <p className="text-sm text-muted-foreground pt-4">
-            14-day free trial • No credit card required
+          <p className="text-sm text-foreground pt-4">
+            30-day free trial • Cancel anytime
           </p>
         </div>
       </section>
@@ -95,7 +102,7 @@ export default function LandingPage() {
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text-ink">
             Everything you need to manage your clients
           </h2>
-          <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto">
+          <p className="text-center text-forground text-lg mb-16 max-w-2xl mx-auto">
             Built by artists, for artists. Simple Ink Studios gives you
             professional tools without the complexity.
           </p>
@@ -208,10 +215,11 @@ export default function LandingPage() {
           <div className="grid sm:grid-cols-2 gap-8 mt-12">
             <div className="surface p-6 rounded-xl border border-border">
               <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <Smartphone size={28} className="text-accent-foreground" />
+            
+                <Users size={28} className="text-accent-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-foreground">
-                Mobile-First Design
+                Usablity First
               </h3>
               <p className="text-muted-foreground">
                 Update clients from anywhere—your phone, tablet, or desktop.
@@ -281,7 +289,7 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="text-sm text-foreground">
-            14-day free trial • No credit card required
+            30-day free trial • Cancel anytime
           </p>
         </div>
       </section>

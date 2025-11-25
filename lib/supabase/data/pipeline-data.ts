@@ -20,6 +20,7 @@ export function formatPipelineColumns(clients: ShopLeads[]): PipelineColumn[] {
     { id: "apts-made", title: "Apts Made", clients: [] },
     { id: "inking", title: "Inking", clients: [] },
     { id: "follow-ups", title: "Follow Ups", clients: [] },
+    { id: "completed", title: "Completed", clients: [] },
   ];
 
   // Step 2: Loop through all clients and distribute to columns

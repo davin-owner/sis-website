@@ -8,13 +8,6 @@ interface PolarMetadata {
   [key: string]: unknown;
 }
 
-interface PolarCheckoutData {
-  id: string;
-  customer_id?: string;
-  metadata?: PolarMetadata;
-  [key: string]: unknown;
-}
-
 interface PolarOrderData {
   id: string;
   customer_id: string;
@@ -46,14 +39,12 @@ export async function POST(req: NextRequest) {
   try {
     const payload = await req.json();
 
-    console.log('Polar webhook received:', payload);
-
     // Polar webhook events
     const eventType = payload.type;
 
     switch (eventType) {
       case 'checkout.created':
-        await handleCheckoutCreated(payload.data);
+        await handleCheckoutCreated();
         break;
 
       case 'order.created':
@@ -83,13 +74,12 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function handleCheckoutCreated(data: PolarCheckoutData) {
-  console.log('Checkout created:', data);
+async function handleCheckoutCreated() {
   // Just logging for now
 }
 
 async function handleOrderCreated(data: PolarOrderData) {
-  console.log('Order created:', data);
+  //console.log('Order created:', data);
 
   const metadata = data.metadata || {};
   const { shopId, tier } = metadata;
@@ -110,12 +100,10 @@ async function handleOrderCreated(data: PolarOrderData) {
     })
     .eq('shop_id', shopId);
 
-  console.log(`Shop ${shopId} upgraded to ${tier}`);
+ // console.log(`Shop ${shopId} upgraded to ${tier}`);
 }
 
 async function handleSubscriptionCreated(data: PolarSubscriptionData) {
-  console.log('Subscription created:', data);
-
   const metadata = data.metadata || {};
   const { shopId, tier } = metadata;
 
@@ -135,12 +123,10 @@ async function handleSubscriptionCreated(data: PolarSubscriptionData) {
     })
     .eq('shop_id', shopId);
 
-  console.log(`Subscription created for shop ${shopId}: ${tier}`);
+  //console.log(`Subscription created for shop ${shopId}: ${tier}`);
 }
 
 async function handleSubscriptionUpdated(data: PolarSubscriptionData) {
-  console.log('Subscription updated:', data);
-
   const metadata = data.metadata || {};
   const { shopId } = metadata;
 
@@ -156,12 +142,10 @@ async function handleSubscriptionUpdated(data: PolarSubscriptionData) {
     })
     .eq('shop_id', shopId);
 
-  console.log(`Subscription updated for shop ${shopId}: ${data.status}`);
+  //console.log(`Subscription updated for shop ${shopId}: ${data.status}`);
 }
 
 async function handleSubscriptionCanceled(data: PolarSubscriptionData) {
-  console.log('Subscription canceled:', data);
-
   const metadata = data.metadata || {};
   const { shopId } = metadata;
 
@@ -177,5 +161,5 @@ async function handleSubscriptionCanceled(data: PolarSubscriptionData) {
     })
     .eq('shop_id', shopId);
 
-  console.log(`Subscription canceled for shop ${shopId}`);
+  //console.log(`Subscription canceled for shop ${shopId}`);
 }

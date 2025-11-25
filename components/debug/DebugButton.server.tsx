@@ -11,5 +11,6 @@ export default function DebugButtonServer(props: {
   endpoint: string;
   dataFunction: () => Promise<unknown[]>;
 }) {
+  
   return <DebugButtonClient label={props.label} endpoint={props.endpoint} />;
 }

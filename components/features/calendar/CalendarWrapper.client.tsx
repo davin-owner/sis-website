@@ -5,9 +5,14 @@ import { useRouter } from "next/navigation";
 import CalendarClient from "./Calendar.client";
 import AppointmentModal from "./AppointmentModal.client";
 import { Button } from "@/components/ui/Button";
-import { Appointment, AppointmentWithDetails, ShopLeads, Worker } from "@/lib/database";
-import { deleteAppointmentAction } from "@/app/content/calendar/actions";
-import { Plus } from 'lucide-react';
+import {
+  Appointment,
+  AppointmentWithDetails,
+  ShopLeads,
+  Worker,
+} from "@/lib/database";
+import { deleteAppointmentAction, updateAppointmentDateTimeAction } from "@/app/content/calendar/actions";
+import { Plus } from "lucide-react";
 
 type CalendarEvent = {
   id: string;
@@ -35,12 +40,13 @@ export default function CalendarWrapper({
   initialEvents,
   clients,
   workers,
-  appointments,
+  appointments: initialAppointments,
 }: CalendarWrapperProps) {
   const router = useRouter();
 
   // State
   const [events, setEvents] = useState(initialEvents);
+  const [appointments, setAppointments] = useState(initialAppointments);
   const [showModal, setShowModal] = useState(false);
   const [editingAppointment, setEditingAppointment] =
     useState<Appointment | null>(null);
@@ -48,13 +54,22 @@ export default function CalendarWrapper({
   const [prefilledTime, setPrefilledTime] = useState<string>("");
 
   // Handle date click (empty calendar slot)
-  const handleDateClick = (info: { date: Date; dateStr: string }) => {
+  const handleDateClick = (info: { date: Date; dateStr: string; view: { type: string } }) => {
     const date = info.date;
     const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
     const timeStr = date.toTimeString().slice(0, 5); // HH:MM
+    const isMonthView = info.view.type === "dayGridMonth";
 
+    // Always pre-fill date
     setPrefilledDate(dateStr);
-    setPrefilledTime(timeStr);
+
+    // Only pre-fill time for day/week views (not month view)
+    if (!isMonthView) {
+      setPrefilledTime(timeStr);
+    } else {
+      setPrefilledTime("");
+    }
+
     setEditingAppointment(null);
     setShowModal(true);
   };
@@ -75,6 +90,62 @@ export default function CalendarWrapper({
     }
   };
 
+  // Handle event drag & drop (reschedule appointment)
+  const handleEventDrop = async (info: {
+    event: {
+      id: string;
+      start: Date | null;
+      end: Date | null;
+    };
+  }) => {
+    if (!info.event.start || !info.event.end) return;
+
+    const newDate = info.event.start.toISOString().split("T")[0]; // YYYY-MM-DD
+    const newStartTime = info.event.start.toTimeString().slice(0, 5); // HH:MM
+    const newEndTime = info.event.end.toTimeString().slice(0, 5); // HH:MM
+
+    // Update events state optimistically
+    const updatedEvents = events.map((evt) => {
+      if (evt.id === info.event.id) {
+        return {
+          ...evt,
+          start: `${newDate}T${newStartTime}`,
+          end: `${newDate}T${newEndTime}`,
+        };
+      }
+      return evt;
+    });
+    setEvents(updatedEvents);
+
+    // Also update appointments state so modal shows correct data
+    const updatedAppointments = appointments.map((apt) => {
+      if (apt.id === info.event.id) {
+        return {
+          ...apt,
+          appointment_date: newDate,
+          start_time: newStartTime,
+          end_time: newEndTime,
+        };
+      }
+      return apt;
+    });
+    setAppointments(updatedAppointments);
+
+    // Update database
+    try {
+      await updateAppointmentDateTimeAction(
+        info.event.id,
+        newDate,
+        newStartTime,
+        newEndTime
+      );
+      // Success! UI already updated
+    } catch {
+      // If server fails, refresh to revert UI
+      router.refresh();
+    }
+  };
+
   // Optimistic create
   const handleOptimisticCreate = (newAppointment: Appointment) => {
     // Find worker to get their color
@@ -92,6 +163,15 @@ export default function CalendarWrapper({
       },
     };
     setEvents([...events, newEvent]);
+
+    // Also add to appointments array
+    const client = clients.find((c) => c.id === newAppointment.client_id);
+    const appointmentWithDetails: AppointmentWithDetails = {
+      ...newAppointment,
+      client_name: client ? client.name : "Unknown",
+      worker_name: worker ? `${worker.first_name} ${worker.last_name}` : undefined,
+    };
+    setAppointments([...appointments, appointmentWithDetails]);
   };
 
   // Optimistic edit
@@ -111,13 +191,27 @@ export default function CalendarWrapper({
       },
     };
 
-    setEvents(events.map((evt) => (evt.id === updatedEvent.id ? updatedEvent : evt)));
+    setEvents(
+      events.map((evt) => (evt.id === updatedEvent.id ? updatedEvent : evt))
+    );
+
+    // Also update appointments array
+    const client = clients.find((c) => c.id === updatedAppointment.client_id);
+    const appointmentWithDetails: AppointmentWithDetails = {
+      ...updatedAppointment,
+      client_name: client ? client.name : "Unknown",
+      worker_name: worker ? `${worker.first_name} ${worker.last_name}` : undefined,
+    };
+    setAppointments(
+      appointments.map((apt) => (apt.id === updatedAppointment.id ? appointmentWithDetails : apt))
+    );
   };
 
   // Optimistic delete
   const handleDelete = async (appointmentId: string) => {
     // Remove from UI immediately
     setEvents(events.filter((evt) => evt.id !== appointmentId));
+    setAppointments(appointments.filter((apt) => apt.id !== appointmentId));
 
     try {
       await deleteAppointmentAction(appointmentId);
@@ -158,6 +252,7 @@ export default function CalendarWrapper({
         events={events}
         onDateClick={handleDateClick}
         onEventClick={handleEventClick}
+        onEventDrop={handleEventDrop}
       />
 
       {/* Appointment Modal */}
@@ -166,7 +261,6 @@ export default function CalendarWrapper({
         onClose={handleCloseModal}
         appointment={editingAppointment}
         clients={clients}
-        workers={workers}
         onOptimisticCreate={handleOptimisticCreate}
         onOptimisticEdit={handleOptimisticEdit}
         onOptimisticDelete={handleDelete}

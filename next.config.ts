@@ -79,11 +79,11 @@ const nextConfig: NextConfig = {
     ]
   },
 
+  // React Compiler - automatic memoization and optimization (Next.js 16+)
+  reactCompiler: true,
+
   // Helpful build-time and runtime flags — keep conservative defaults
   experimental: {
-    // React Compiler - automatic memoization and optimization
-    reactCompiler: true,
-
     // Speed up build and dev server
     optimizePackageImports: [
       'lucide-react',

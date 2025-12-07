@@ -58,9 +58,16 @@ export async function middleware(request: NextRequest) {
 
   // Check if user is authenticated
   // This queries Supabase to see if there's a valid session
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
+    user = authUser;
+  } catch (error) {
+    // If auth check fails, treat as not authenticated
+    console.error('Auth check failed in middleware:', error);
+  }
 
   // Get the current path they're trying to visit
   const path = request.nextUrl.pathname;

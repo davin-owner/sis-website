@@ -7,14 +7,13 @@ import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { WorkersProvider } from "@/lib/contexts/workers-context";
 
 // SERVER COMPONENT - Fetches data and passes it to the client
 export default async function PipelinePage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
 
   if (!user) {
     redirect("/auth/login");

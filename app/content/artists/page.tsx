@@ -2,6 +2,7 @@
 // Fetches worker data and passes to client component
 
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";
 import { getShopWorkerData } from "@/lib/supabase/data/workers-data";
@@ -10,9 +11,7 @@ import ArtistsPageClient from "@/components/features/workers/ArtistsPage.client"
 export default async function ArtistsPage() {
   // 1. Auth check
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
 
   if (!user) {
     redirect("/auth/login");

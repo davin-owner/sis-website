@@ -11,6 +11,7 @@
  * - Role-based access: Only owners/admins can edit shop settings
  */
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { redirect } from "next/navigation";
 import { getActiveShop } from "@/lib/supabase/data/user-shops";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
@@ -20,9 +21,7 @@ export default async function SettingsPage() {
   const supabase = await createClient();
 
   // 1. Check authentication
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
 
   if (!user) {
     redirect("/auth/login");

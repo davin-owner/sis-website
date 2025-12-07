@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getUserSafe } from '@/lib/auth/get-user-safe'
 
 /**
  * Server Action to create a new shop for the authenticated user
@@ -11,9 +12,9 @@ import { createClient } from '@/lib/supabase/server'
 export async function createShop(formData: FormData) {
   // Get the authenticated user from the server session
   const supabase = await createClient()
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  const user = await getUserSafe(supabase)
 
-  if (!user || authError) {
+  if (!user) {
     return { error: 'Not authenticated' }
   }
 

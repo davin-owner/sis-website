@@ -2,6 +2,7 @@
 // SERVER ACTIONS for Workers/Artists management
 
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";
 import {
@@ -18,9 +19,7 @@ export async function createWorkerAction(
   try {
     // 1. Auth check
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getUserSafe(supabase);
 
     if (!user) {
       redirect("/auth/login");
@@ -61,9 +60,7 @@ export async function updateWorkerAction(
   try {
     // 1. Auth check
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getUserSafe(supabase);
 
     if (!user) {
       redirect("/auth/login");
@@ -104,9 +101,7 @@ export async function deleteWorkerAction(
   try {
     // 1. Auth check
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getUserSafe(supabase);
 
     if (!user) {
       redirect("/auth/login");

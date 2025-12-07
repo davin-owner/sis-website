@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { revalidatePath } from "next/cache";
 import {
@@ -24,9 +25,7 @@ import {
 
 export async function createDailyTaskAction(label: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -50,9 +49,7 @@ export async function createDailyTaskAction(label: string) {
 
 export async function toggleDailyTaskAction(taskId: string, currentDone: boolean) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -77,9 +74,7 @@ export async function toggleDailyTaskAction(taskId: string, currentDone: boolean
 
 export async function deleteDailyTaskAction(taskId: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -102,9 +97,7 @@ export async function deleteDailyTaskAction(taskId: string) {
 
 export async function createAccomplishmentAction(description: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -128,9 +121,7 @@ export async function createAccomplishmentAction(description: string) {
 
 export async function deleteAccomplishmentAction(accomplishmentId: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -156,9 +147,7 @@ export async function createReminderAction(
   type: "reminder" | "goal" | "urgent"
 ) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -185,9 +174,7 @@ export async function toggleReminderCompleteAction(
   currentCompleted: boolean
 ) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -212,9 +199,7 @@ export async function toggleReminderCompleteAction(
 
 export async function deleteReminderAction(reminderId: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);

@@ -6,6 +6,7 @@ import {
   updateShopAppointment,
 } from "@/lib/supabase/data/appointment-data";
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { revalidatePath } from "next/cache";
 
@@ -13,9 +14,7 @@ import { revalidatePath } from "next/cache";
 export async function createAppointmentAction(formData: FormData) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -87,9 +86,7 @@ export async function createAppointmentAction(formData: FormData) {
 export async function updateAppointmentAction(formData: FormData) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -168,9 +165,7 @@ export async function updateAppointmentAction(formData: FormData) {
 export async function deleteAppointmentAction(appointmentId: string) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -194,9 +189,7 @@ export async function updateAppointmentDateTimeAction(
 ) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);

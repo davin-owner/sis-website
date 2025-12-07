@@ -7,6 +7,7 @@ import {
   updateShopClient,
 } from "@/lib/supabase/data/shop-leads-data";
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { isValidPhoneNumber } from "@/lib/utils/utils";
 import { revalidatePath } from "next/cache";
@@ -24,9 +25,7 @@ export async function createClientAction(formData: FormData) {
 
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -102,9 +101,7 @@ export async function createClientAction(formData: FormData) {
 export async function updateClientAction(formData: FormData) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -189,9 +186,7 @@ export async function updateClientStageAction(
 ) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
   if (!user) throw new Error("Not Authenticated");
 
   const shopId = await getActiveShopIdFallback(user.id, supabase);
@@ -210,7 +205,7 @@ export async function updateClientStageAction(
 
 export async function deleteClientAction(clientId: string) {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await getUserSafe(supabase);
      if (!user) throw new Error("Not Authenticated");
 
     const shopId = await getActiveShopIdFallback(user.id, supabase);

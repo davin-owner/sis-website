@@ -42,13 +42,12 @@ import { getShopAccomplishments } from "@/lib/supabase/data/dashboard-accomplish
 import { getShopReminders } from "@/lib/supabase/data/dashboard-reminders-data";
 import { redirect } from "next/navigation";
 import ShopProvider from "@/lib/contexts/shop-context";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 
 export default async function DashboardPage() {
   // 1. Make sure we are getting the authentacted user
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
 
   if (!user) {
     redirect("/auth/login");

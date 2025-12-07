@@ -2,6 +2,7 @@
 // Fetches appointment, client, and worker data and passes to CalendarWrapper
 import CalendarWrapper from "@/components/features/calendar/CalendarWrapper.client";
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
 import { redirect } from "next/navigation";
 import { getShopAppointments } from "@/lib/supabase/data/appointment-data";
@@ -12,9 +13,7 @@ import { WorkersProvider } from "@/lib/contexts/workers-context";
 export default async function Page() {
   // 1. Auth check
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserSafe(supabase);
 
   if (!user) {
     redirect("/auth/login");

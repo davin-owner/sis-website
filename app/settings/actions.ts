@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { revalidatePath } from "next/cache";
 
 /**
@@ -10,8 +11,8 @@ export async function updateUserProfileAction(formData: FormData) {
   const supabase = await createClient();
 
   // Get current user
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) {
+  const user = await getUserSafe(supabase);
+  if (!user) {
     return { error: "Not authenticated" };
   }
 
@@ -61,8 +62,8 @@ export async function updateShopSettingsAction(formData: FormData) {
   const supabase = await createClient();
 
   // Get current user
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) {
+  const user = await getUserSafe(supabase);
+  if (!user) {
     return { error: "Not authenticated" };
   }
 

@@ -68,13 +68,14 @@ export default async function DashboardPage() {
   if (!activeShop) redirect("/onboarding");
 
   // 4. Fetch real data from database in parallel for faster loading
+  // Wrapped with error handling to prevent crashes
   const [workers, leads, dailyTasks, accomplishments, reminders] =
     await Promise.all([
-      getShopWorkerData(shopId, user.id, supabase),
-      fetchShopLeadData(shopId, user.id, supabase),
-      getShopDailyTasks(shopId, user.id, supabase),
-      getShopAccomplishments(shopId, user.id, supabase),
-      getShopReminders(shopId, user.id, supabase, false),
+      getShopWorkerData(shopId, user.id, supabase).catch(e => { console.error('Workers fetch failed:', e); return []; }),
+      fetchShopLeadData(shopId, user.id, supabase).catch(e => { console.error('Leads fetch failed:', e); return []; }),
+      getShopDailyTasks(shopId, user.id, supabase).catch(e => { console.error('Tasks fetch failed:', e); return []; }),
+      getShopAccomplishments(shopId, user.id, supabase).catch(e => { console.error('Accomplishments fetch failed:', e); return []; }),
+      getShopReminders(shopId, user.id, supabase, false).catch(e => { console.error('Reminders fetch failed:', e); return []; }),
     ]);
 
   // Calculate pipeline stats from real data

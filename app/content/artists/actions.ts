@@ -19,25 +19,17 @@ export async function createWorkerAction(
   try {
     // 1. Auth check
     const supabase = await createClient();
-    console.log("[createWorkerAction] Step 1: Getting user...");
     const user = await getUserSafe(supabase);
 
     if (!user) {
-      console.error("[createWorkerAction] No user found, redirecting to login");
       redirect("/auth/login");
     }
-
-    console.log("[createWorkerAction] Step 2: User authenticated:", user.id);
 
     // 2. Get shop
     const shopId = await getActiveShopIdFallback(user.id, supabase);
     if (!shopId) {
-      console.error("[createWorkerAction] No shop found, redirecting to onboarding");
       redirect("/onboarding");
     }
-
-    console.log("[createWorkerAction] Step 3: Shop ID:", shopId);
-    console.log("[createWorkerAction] Step 4: Worker data:", formData);
 
     // 3. Create worker
     const newWorker = await createShopWorker(
@@ -47,21 +39,13 @@ export async function createWorkerAction(
       supabase
     );
 
-    console.log("[createWorkerAction] Step 5: Worker created successfully:", newWorker.id);
-
     // 4. Revalidate
     revalidatePath("/content/artists");
     revalidatePath("/content/calendar");
 
     return { success: true, worker: newWorker };
   } catch (error) {
-    console.error("[createWorkerAction] ERROR:", error);
-    console.error("[createWorkerAction] Error type:", typeof error);
-    console.error("[createWorkerAction] Error details:", error instanceof Error ? {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    } : error);
+    console.error("Error creating worker:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to create worker",

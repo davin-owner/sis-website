@@ -49,6 +49,8 @@ export async function createShopWorker(
   const hasAccess = await verifyShopAccess(userId, shopId, supabase);
   if (!hasAccess) throw new Error("Unauthorized");
 
+  console.log("[createShopWorker] Inserting worker:", { shopId, workerData });
+
   const { data: newWorker, error: workerError } = await supabase
     .from("shop_workers")
     .insert({
@@ -68,9 +70,16 @@ export async function createShopWorker(
     .single();
 
   if (workerError) {
+    console.error("[createShopWorker] Database error:", {
+      code: workerError.code,
+      message: workerError.message,
+      details: workerError.details,
+      hint: workerError.hint,
+    });
     throw workerError;
   }
 
+  console.log("[createShopWorker] Worker created successfully:", newWorker.id);
   return newWorker as Worker;
 }
 

@@ -16,22 +16,34 @@ import { revalidatePath } from "next/cache";
 export async function createWorkerAction(
   formData: Partial<Worker>
 ): Promise<{ success: boolean; worker?: Worker; error?: string }> {
+  console.log("[createWorkerAction] START - Form data:", formData);
+
   try {
     // 1. Auth check
+    console.log("[createWorkerAction] Step 1: Creating Supabase client");
     const supabase = await createClient();
+    console.log("[createWorkerAction] Step 2: Getting user");
     const user = await getUserSafe(supabase);
 
     if (!user) {
+      console.log("[createWorkerAction] ERROR: No user found");
       redirect("/auth/login");
     }
 
+    console.log("[createWorkerAction] Step 3: User authenticated:", user.id);
+
     // 2. Get shop
+    console.log("[createWorkerAction] Step 4: Getting shop ID for user:", user.id);
     const shopId = await getActiveShopIdFallback(user.id, supabase);
     if (!shopId) {
+      console.log("[createWorkerAction] ERROR: No shop found for user");
       redirect("/onboarding");
     }
 
+    console.log("[createWorkerAction] Step 5: Shop ID:", shopId);
+
     // 3. Create worker
+    console.log("[createWorkerAction] Step 6: Calling createShopWorker");
     const newWorker = await createShopWorker(
       shopId,
       user.id,
@@ -39,16 +51,26 @@ export async function createWorkerAction(
       supabase
     );
 
+    console.log("[createWorkerAction] Step 7: Worker created:", newWorker);
+
     // 4. Revalidate
     revalidatePath("/content/artists");
     revalidatePath("/content/calendar");
 
+    console.log("[createWorkerAction] SUCCESS");
     return { success: true, worker: newWorker };
   } catch (error) {
-    console.error("Error creating worker:", error);
+    console.error("[createWorkerAction] CAUGHT ERROR:", error);
+    console.error("[createWorkerAction] Error type:", typeof error);
+    console.error("[createWorkerAction] Error instanceof Error:", error instanceof Error);
+    if (error instanceof Error) {
+      console.error("[createWorkerAction] Error.name:", error.name);
+      console.error("[createWorkerAction] Error.message:", error.message);
+      console.error("[createWorkerAction] Error.stack:", error.stack);
+    }
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to create worker",
+      error: error instanceof Error ? error.message : String(error),
     };
   }
 }

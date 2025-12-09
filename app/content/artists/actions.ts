@@ -68,9 +68,25 @@ export async function createWorkerAction(
       console.error("[createWorkerAction] Error.message:", error.message);
       console.error("[createWorkerAction] Error.stack:", error.stack);
     }
+
+    // Better error serialization for Supabase errors
+    let errorMessage = "Failed to create worker";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === "object" && error !== null) {
+      // Handle Supabase error objects
+      if ("message" in error) {
+        errorMessage = String(error.message);
+      } else {
+        errorMessage = JSON.stringify(error);
+      }
+    } else {
+      errorMessage = String(error);
+    }
+
     return {
       success: false,
-      error: error instanceof Error ? error.message : String(error),
+      error: errorMessage,
     };
   }
 }

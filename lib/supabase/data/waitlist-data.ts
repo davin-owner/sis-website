@@ -5,27 +5,19 @@
  *
  * SECURITY NOTE:
  * This uses the PUBLIC supabase client because the waitlist form
- * is accessible to non-authenticated users. The RLS policies on the
- * waitlist table protect the data:
+ * is accessible to non-authenticated users (client component).
+ * The RLS policies on the waitlist table protect the data:
  * - Anyone can INSERT (sign up)
  * - Only authenticated users can SELECT (view leads)
  */
 
-import { supabase } from "../../supabase.js";
+import { createBrowserClient } from "@supabase/ssr";
 
-interface WaitlistSignup {
-  name: string;
-  email?: string | null;
-  phone?: string | null;
-  shop_name?: string | null;
-  city_state?: string | null;
-  message?: string | null;
-}
-
-interface WaitlistRecord extends WaitlistSignup {
-  id: string;
-  created_at: string;
-}
+// Create a client-side Supabase client for public access
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+);
 
 /**
  * SAVE WAITLIST SIGNUP
@@ -33,18 +25,25 @@ interface WaitlistRecord extends WaitlistSignup {
  * Takes signup data from the modal form and inserts it into
  * the Supabase waitlist table
  *
- * @param {Object} data - The signup data
- * @param {string} data.name - Person's name (REQUIRED)
- * @param {string|null} data.email - Email address (optional)
- * @param {string|null} data.phone - Phone number (optional)
- * @param {string|null} data.shop_name - Shop name (optional)
- * @param {string|null} data.city_state - City and state (optional)
- * @param {string|null} data.message - Free-form message (optional)
+ * @param data - The signup data
+ * @param data.name - Person's name (REQUIRED)
+ * @param data.email - Email address (optional)
+ * @param data.phone - Phone number (optional)
+ * @param data.shop_name - Shop name (optional)
+ * @param data.city_state - City and state (optional)
+ * @param data.message - Free-form message (optional)
  *
- * @returns {Promise<Object>} The saved waitlist record
- * @throws {Error} If save fails
+ * @returns The saved waitlist record
+ * @throws Error if save fails
  */
-export const saveWaitlistSignup = async (data: WaitlistSignup): Promise<WaitlistRecord> => {
+export const saveWaitlistSignup = async (data: {
+  name: string;
+  email: string | null;
+  phone: string | null;
+  shop_name: string | null;
+  city_state: string | null;
+  message: string | null;
+}) => {
   // Insert the data into the waitlist table
   const { data: savedData, error } = await supabase
     .from("waitlist")
@@ -63,6 +62,7 @@ export const saveWaitlistSignup = async (data: WaitlistSignup): Promise<Waitlist
 
   // Check if insert failed
   if (error) {
+    console.error("Error saving waitlist signup:", error);
     throw new Error(
       `Failed to save waitlist signup: ${
         error.message || JSON.stringify(error)
@@ -70,11 +70,8 @@ export const saveWaitlistSignup = async (data: WaitlistSignup): Promise<Waitlist
     );
   }
 
-  if (!savedData || savedData.length === 0) {
-    throw new Error('No data returned from waitlist signup');
-  }
-
-  return savedData[0]; // Return the saved record
+  // Success! Return the saved record
+  return savedData[0];
 };
 
 /**
@@ -83,18 +80,19 @@ export const saveWaitlistSignup = async (data: WaitlistSignup): Promise<Waitlist
  * Fetches all waitlist signups from the database
  * Only works if user is authenticated (RLS policy protects this)
  *
- * @returns {Promise<Array>} Array of waitlist signups
- * @throws {Error} If fetch fails or user not authenticated
+ * @returns Array of waitlist signups
+ * @throws Error if fetch fails or user not authenticated
  */
-export const getAllWaitlistSignups = async (): Promise<WaitlistRecord[]> => {
+export const getAllWaitlistSignups = async () => {
   const { data, error } = await supabase
     .from("waitlist")
     .select("*")
     .order("created_at", { ascending: false }); // Newest first
 
   if (error) {
+    console.error("Error fetching waitlist signups:", error);
     throw error;
   }
 
-  return data || [];
+  return data;
 };

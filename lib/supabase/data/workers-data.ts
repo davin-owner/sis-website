@@ -36,20 +36,24 @@ export async function getShopWorkerData(
 
 
 
-// Create a shop worker for the data base using data it pulls from the funciton above
+// Create a shop worker for the data base using data it pulls from the function above
 export async function createShopWorker(
   shopId: string,
   userId: string,
   workerData: Partial<Worker>,
   supabase: SupabaseClient
 ): Promise<Worker> {
-  if (!shopId) throw new Error("shopId is requrired");
+  if (!shopId) throw new Error("shopId is required");
   if (!userId) throw new Error("userId is required");
 
   const hasAccess = await verifyShopAccess(userId, shopId, supabase);
   if (!hasAccess) throw new Error("Unauthorized");
 
-  console.log("[createShopWorker] Inserting worker:", { shopId, workerData });
+  // NOTE: Database requires:
+  // 1. 'color' column exists in shop_workers table (VARCHAR(7))
+  // 2. RLS is enabled on shop_workers table
+  // 3. INSERT policy allows user to add workers to their shop
+  // See DATABASE_FIXES.sql for setup instructions
 
   const { data: newWorker, error: workerError } = await supabase
     .from("shop_workers")
@@ -64,22 +68,16 @@ export async function createShopWorker(
       hourly_rate: workerData.hourly_rate,
       specialties: workerData.specialties,
       notes: workerData.notes,
-      color: workerData.color,
+      color: workerData.color, // Hex color for calendar (e.g., '#3B82F6')
     })
     .select()
     .single();
 
   if (workerError) {
-    console.error("[createShopWorker] Database error:", {
-      code: workerError.code,
-      message: workerError.message,
-      details: workerError.details,
-      hint: workerError.hint,
-    });
+    console.error("[createShopWorker] Database error:", workerError);
     throw workerError;
   }
 
-  console.log("[createShopWorker] Worker created successfully:", newWorker.id);
   return newWorker as Worker;
 }
 

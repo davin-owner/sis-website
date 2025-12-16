@@ -26,10 +26,15 @@ export default async function Page() {
   }
 
   // 3. Fetch all necessary data
+  // NOTE: appointments table may not exist in production yet
+  // Catch error and return empty array to prevent page crash
   const [appointments, clients, workers] = await Promise.all([
-    getShopAppointments(shopId, user.id, supabase),
-    fetchShopLeadData(shopId, user.id, supabase),
-    getShopWorkerData(shopId, user.id, supabase),
+    getShopAppointments(shopId, user.id, supabase).catch((e) => {
+      console.error('Appointments fetch failed (table may not exist):', e);
+      return [];
+    }),
+    fetchShopLeadData(shopId, user.id, supabase).catch(() => []),
+    getShopWorkerData(shopId, user.id, supabase).catch(() => []),
   ]);
 
   // 4. Transform appointments to FullCalendar event format with artist color

@@ -36,6 +36,33 @@ export function isValidPhoneNumber(phone: string | null | undefined): boolean {
 }
 
 /**
+ * Normalizes a phone number for consistent database storage
+ * Accepts any format, strips to digits, removes leading 1
+ *
+ * Examples:
+ * - "(555) 123-4567" → "5551234567"
+ * - "1-555-123-4567" → "5551234567"
+ * - "555.123.4567" → "5551234567"
+ *
+ * @param phone - The phone number to normalize
+ * @returns Normalized 10-digit phone number
+ */
+export function normalizePhoneNumber(phone: string | null | undefined): string {
+  if (!phone) return '';
+
+  // Remove all non-digit characters
+  let digitsOnly = phone.replace(/\D/g, '');
+
+  // Remove leading 1 (country code) if present
+  if (digitsOnly.length === 11 && digitsOnly[0] === '1') {
+    digitsOnly = digitsOnly.slice(1);
+  }
+
+  // Return 10-digit number
+  return digitsOnly;
+}
+
+/**
  * Formats a phone number to a consistent format: (555) 123-4567
  *
  * @param phone - The phone number to format

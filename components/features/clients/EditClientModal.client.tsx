@@ -157,6 +157,9 @@ export default function EditClientModal({
                 onChange={(e) => setContactPhone(e.target.value)}
                 placeholder="(555) 123-4567"
               />
+              <p className="text-xs text-muted-foreground">
+                Any format accepted: 555-123-4567, (555) 123-4567, 1-555-123-4567
+              </p>
             </div>
 
             {/* Row 2 - Field 1: Preferred Artist */}

@@ -9,7 +9,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
-import { isValidPhoneNumber } from "@/lib/utils/utils";
+import { isValidPhoneNumber, normalizePhoneNumber } from "@/lib/utils/utils";
 import { revalidatePath } from "next/cache";
 
 // use getactiveshop id and pass it the shop id and then give it to that funciton
@@ -31,10 +31,13 @@ export async function createClientAction(formData: FormData) {
   const shopId = await getActiveShopIdFallback(user.id, supabase);
   if (!shopId) throw Error("No Shops Found Under User!");
 
+  // Get raw phone and normalize it for consistent storage
+  const rawPhone = (formData.get("client_contact_phone") as string)?.trim() || "";
+
   const clientData = {
     name: (formData.get("client_name") as string)?.trim() || "",
     contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
-    contact_phone: (formData.get("client_contact_phone") as string)?.trim() || "",
+    contact_phone: rawPhone ? normalizePhoneNumber(rawPhone) : "", // Normalize: "1-555-123-4567" → "5551234567"
     artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",
@@ -113,10 +116,13 @@ export async function updateClientAction(formData: FormData) {
     return { error: "Client ID is required" };
   }
 
+  // Get raw phone and normalize it for consistent storage
+  const rawPhone = (formData.get("client_contact_phone") as string)?.trim() || "";
+
   const clientData = {
     name: (formData.get("client_name") as string)?.trim() || "",
     contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
-    contact_phone: (formData.get("client_contact_phone") as string)?.trim() || "",
+    contact_phone: rawPhone ? normalizePhoneNumber(rawPhone) : "", // Normalize: "1-555-123-4567" → "5551234567"
     artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",

@@ -64,7 +64,13 @@ export async function createShopClient(
     .single();
 
   if (clientError) {
-    throw clientError;
+    console.error('[createShopClient] Database error:', clientError);
+    // Serialize Supabase error properly for server actions
+    throw new Error(
+      clientError.message ||
+      JSON.stringify(clientError) ||
+      'Failed to create client'
+    );
   }
 
   return newClient as ShopLeads;

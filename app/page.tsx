@@ -1,21 +1,17 @@
 /**
- * LANDING PAGE - Waitlist Lead Generation
+ * LANDING PAGE - Problem-Focused Lead Generation
  *
  * PURPOSE:
- * This is the FIRST page new visitors see (before they have an account)
- * Goal: Capture leads for Simple Ink Studios
+ * Convert tattoo artists to paid users by showing them EXACTLY
+ * how much money they're losing with their current system
  *
- * FLOW:
- * 1. Visitor sees this landing page
- * 2. Clicks "Join Waitlist" button
- * 3. Modal opens with signup form
- * 4. They submit their info
- * 5. Saved to Supabase waitlist table
- * 6. Modal closes, shows thank you message
- *
- * MIDDLEWARE PROTECTION:
- * - If user IS logged in → middleware auto-redirects to /dashboard
- * - If user NOT logged in → sees this page
+ * STRUCTURE:
+ * 1. Hero - Stop Losing Clients
+ * 2. Problem - Show the pain (buried DMs, forgotten follow-ups, scheduling chaos)
+ * 3. Solution - Here's what changes (features with screenshots)
+ * 4. Pricing - Clear, simple tiers
+ * 5. Trust - Built by someone who gets it
+ * 6. Final CTA - Strong conversion focus
  */
 
 "use client";
@@ -25,291 +21,510 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import FeatureImage from "@/components/landing/FeatureImage";
 import {
-  Settings,
-  UserCircle,
-  Mail,
-  LayoutDashboard,
-  GripVertical,
+  Calendar,
   Users,
+  Bell,
+  Palette,
+  Check,
+  ArrowRight,
+  X,
 } from "lucide-react";
 
 export default function LandingPage() {
-  // State to control if modal is open or closed
-  const [IsContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background/1 via-primary/10 to-accent/20 relative">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10 relative">
       {/* Theme Toggle - Fixed top right */}
       <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />
       </div>
 
-      {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center p-6">
-        <div className="max-w-4xl w-full text-center space-y-8">
+      {/* =================================================================== */}
+      {/* HERO SECTION */}
+      {/* =================================================================== */}
+      <section className="min-h-screen flex items-center justify-center p-6 pt-20">
+        <div className="max-w-5xl w-full text-center space-y-10">
           {/* Main Headline */}
-          <div className="space-y-4">
-            <h1 className="text-5xl md:text-7xl font-bold gradient-text-ink">
-              Simple Ink Studios
+          <div className="space-y-6">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black gradient-text-ink leading-tight">
+              Stop Losing Clients in Your DMs
             </h1>
-            <p className="text-xl md:text-2xl text-foreground">
-              The client tracking system built for tattoo artists
-            </p>
-          </div>
-
-          {/* Value Proposition */}
-          <div className="space-y-3 text-foreground">
-            <p className="text-lg md:text-xl">
-              Stop losing clients in DMs and text threads
-            </p>
-            <p className="text-lg md:text-xl">
-              Track every consultation, deposit, and appointment in one place
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              Tattoo artists lose <span className="text-foreground font-bold">3-5 bookings every month</span> because consultations get buried, follow-ups are forgotten, and scheduling is chaos.
+              <span className="block mt-4 text-foreground">
+                Simple Ink Studios fixes that—so you can spend less time hunting through messages and more time tattooing.
+              </span>
             </p>
           </div>
 
           {/* CTA Buttons */}
-          <div className="pt-8 flex flex-col sm:flex-row gap-5 items-center justify-center">
+          <div className="pt-8 flex flex-col sm:flex-row gap-6 items-center justify-center">
             <Link href="/auth/sign-up" className="w-full sm:w-auto">
               <Button
-                variant={"default"}
-                className="text-xl px-12 py-6 transition-all duration-300 font-semibold w-full"
+                variant="default"
+                size="lg"
+                className="text-xl px-12 py-7 w-full sm:w-auto font-bold shadow-2xl hover:scale-105 transition-transform"
               >
-                Get Started Free
+                Try Free for 90 Days - No Credit Card
               </Button>
             </Link>
-
-            <Button
-              onClick={() => setIsContactModalOpen(true)}
-              variant={"outline"}
-              className="text-xl px-12 py-6 transition-all duration-300 font-semibold w-full sm:w-auto"
+            <button
+              onClick={() => {
+                document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="text-lg text-foreground hover:text-accent transition-colors flex items-center gap-2 group"
             >
-              Contact Us
-            </Button>
+              See how it works in 60 seconds
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
 
-          {/* Social Proof / Urgency */}
-          <p className="text-sm text-foreground pt-4">
-            30-day free trial • Cancel anytime
+          {/* Social Proof */}
+          <p className="text-sm text-muted-foreground pt-6">
+            90-day trial • No credit card required • Cancel anytime
           </p>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-6 bg-card/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text-ink">
-            Everything you need to manage your clients
+      {/* =================================================================== */}
+      {/* PROBLEM SECTION */}
+      {/* =================================================================== */}
+      <section className="py-32 px-6 bg-card/50 border-y border-border">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-6 gradient-text-ink">
+            Your Current System Is Costing You Money
           </h2>
-          <p className="text-center text-forground text-lg mb-16 max-w-2xl mx-auto">
-            Built by artists, for artists. Simple Ink Studios gives you
-            professional tools without the complexity.
+          <p className="text-center text-muted-foreground text-xl mb-16 max-w-3xl mx-auto">
+            Every artist I've talked to has these same problems. Ring any bells?
           </p>
 
-          {/* Feature Grid */}
-          <div className="grid md:grid-cols-2 gap-12 mb-20">
-            {/* Feature 1: Visual Pipeline */}
-            <div className="space-y-4">
-              <div className="surface p-8 rounded-xl border border-border">
-                <div className="mb-6">
-                  <FeatureImage
-                    src="/assets/gifs/drag-drop.gif"
-                    alt="Pipeline view showing client stages with drag and drop"
-                    placeholderIcon={GripVertical}
-                    placeholderText="Pipeline Demo"
-                    placeholderPath="public/assets/gifs/drag-drop.gif"
-                    priority
-                  />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 text-foreground">
-                  Visual Pipeline
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  See all your clients at a glance. Drag and drop cards between
-                  stages: Leads, Consultation, Deposit Paid, Scheduled, and
-                  Completed. No more guessing where each client is in the
-                  process.
-                </p>
+          {/* Problem Cards */}
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* Problem 1 */}
+            <div className="surface p-8 rounded-2xl border-2 border-destructive/30 hover:border-destructive/60 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-destructive/20 flex items-center justify-center mb-6">
+                <X size={32} className="text-destructive" />
               </div>
+              <h3 className="text-2xl font-bold mb-4 text-foreground">
+                Buried Consultations
+              </h3>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                Client asks about a sleeve in your DMs. You mean to respond.
+                Three days later they book with someone else.
+              </p>
             </div>
 
-            {/* Feature 2: Quick Client Creation */}
-            <div className="space-y-4">
-              <div className="surface p-8 rounded-xl border border-border">
-                <div className="mb-6">
-                  <FeatureImage
-                    src="/assets/gifs/create-client.gif"
-                    alt="Creating new clients with instant updates"
-                    placeholderIcon={UserCircle}
-                    placeholderText="Create Client Demo"
-                    placeholderPath="public/assets/gifs/create-client.gif"
-                  />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 text-foreground">
-                  Quick Client Creation
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Add new clients in seconds. Track contact info, preferred
-                  artist, session count, deposit status, and custom notes.
-                  Everything updates instantly—no page refresh needed.
-                </p>
+            {/* Problem 2 */}
+            <div className="surface p-8 rounded-2xl border-2 border-destructive/30 hover:border-destructive/60 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-destructive/20 flex items-center justify-center mb-6">
+                <X size={32} className="text-destructive" />
               </div>
+              <h3 className="text-2xl font-bold mb-4 text-foreground">
+                Forgotten Follow-Ups
+              </h3>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                You consulted someone last week. They said they'd get back to you.
+                You forgot to check in. They forgot about you.
+              </p>
             </div>
 
-            {/* Feature 3: Drag & Drop */}
-            <div className="space-y-4">
-              <div className="surface p-8 rounded-xl border border-border">
-                <div className="mb-6">
-                  <FeatureImage
-                    src="/assets/gifs/edit-client.gif"
-                    alt="Editing client information with instant updates"
-                    placeholderIcon={GripVertical}
-                    placeholderText="Edit Client Demo"
-                    placeholderPath="public/assets/gifs/edit-client.gif"
-                  />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 text-foreground">
-                  Instant Client Updates
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Edit client details on the fly. Update contact info, deposit
-                  status, session counts, and notes. Changes appear instantly—no
-                  waiting, no page refresh needed.
-                </p>
+            {/* Problem 3 */}
+            <div className="surface p-8 rounded-2xl border-2 border-destructive/30 hover:border-destructive/60 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-destructive/20 flex items-center justify-center mb-6">
+                <X size={32} className="text-destructive" />
               </div>
-            </div>
-
-            {/* Feature 4: Dashboard Overview */}
-            <div className="space-y-4">
-              <div className="surface p-8 rounded-xl border border-border">
-                <div className="mb-6">
-                  <FeatureImage
-                    src="/assets/images/dashboard.png"
-                    alt="Dashboard showing business overview and metrics"
-                    placeholderIcon={LayoutDashboard}
-                    placeholderText="Dashboard Screenshot"
-                    placeholderPath="public/assets/images/dashboard.png"
-                  />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 text-foreground">
-                  Dashboard Insights
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Get a quick overview of your business. See pending deposits,
-                  upcoming appointments, and recent activity. Your business
-                  metrics at a glance.
-                </p>
-              </div>
+              <h3 className="text-2xl font-bold mb-4 text-foreground">
+                Scheduling Chaos
+              </h3>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                You double-booked Tuesday. Your client drove an hour.
+                Now you're explaining why you can't take them. Awkward.
+              </p>
             </div>
           </div>
+
+          {/* Bottom Text */}
+          <p className="text-center text-xl text-foreground font-semibold mt-16">
+            Sound familiar? You're not disorganized. <br className="hidden sm:block" />
+            <span className="gradient-text-ink">You just don't have the right tools.</span>
+          </p>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text-ink">
-            Why artists choose Simple Ink Studios
+      {/* =================================================================== */}
+      {/* SOLUTION SECTION */}
+      {/* =================================================================== */}
+      <section id="solution" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-20 gradient-text-ink">
+            Here's What Changes
           </h2>
-          <div className="grid sm:grid-cols-2 gap-8 mt-12">
-            <div className="surface p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-            
-                <Users size={28} className="text-accent-foreground" />
+
+          {/* Feature 1 */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
+            <div className="space-y-6 order-2 lg:order-1">
+              <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
+                <Check size={32} className="text-accent" />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">
-                Usablity First
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                Every Client, One View
               </h3>
-              <p className="text-muted-foreground">
-                Update clients from anywhere—your phone, tablet, or desktop.
-                Works seamlessly on all devices.
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                See exactly who's at consultation, who's ready to book, who needs a follow-up.
+                <span className="block mt-3 text-foreground font-semibold">
+                  Nothing slips through the cracks.
+                </span>
               </p>
             </div>
-
-            <div className="surface p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <Settings size={28} className="text-accent-foreground" />
+            <div className="order-1 lg:order-2 surface p-4 rounded-2xl border border-border">
+              <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Pipeline Screenshot</p>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">
-                Simple & Powerful
+            </div>
+          </div>
+
+          {/* Feature 2 */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
+            <div className="surface p-4 rounded-2xl border border-border">
+              <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Calendar Screenshot</p>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
+                <Check size={32} className="text-accent" />
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                Your Schedule, Unfucked
               </h3>
-              <p className="text-muted-foreground">
-                No complex setup or training needed. If you can use Instagram,
-                you can use Simple Ink Studios.
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Color-coded calendar by artist. No more double-bookings.
+                <span className="block mt-3 text-foreground font-semibold">
+                  No more "wait, who's coming in?"
+                </span>
               </p>
             </div>
+          </div>
 
-            <div className="surface p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <UserCircle size={28} className="text-accent-foreground" />
+          {/* Feature 3 */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
+            <div className="space-y-6 order-2 lg:order-1">
+              <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
+                <Check size={32} className="text-accent" />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">
-                Client-Focused
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                Reminders That Actually Work
               </h3>
-              <p className="text-muted-foreground">
-                Never lose track of a client again. Every detail, every
-                interaction, all in one place.
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Set follow-up reminders for consultations. Get notified when it's time to check in.
+                <span className="block mt-3 text-foreground font-semibold">
+                  Close more bookings.
+                </span>
               </p>
             </div>
-
-            <div className="surface p-6 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-                <Mail size={28} className="text-accent-foreground" />
+            <div className="order-1 lg:order-2 surface p-4 rounded-2xl border border-border">
+              <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Dashboard/Reminders Screenshot</p>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">
-                Built for You
+            </div>
+          </div>
+
+          {/* Feature 4 */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="surface p-4 rounded-2xl border border-border">
+              <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Artist Management Screenshot</p>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
+                <Check size={32} className="text-accent" />
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                Multiple Artists, No Drama
               </h3>
-              <p className="text-muted-foreground">
-                Designed by artists who understand the tattoo business. We know
-                what you need.
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Managing a shop? Track every artist's schedule and clients in one place.
+                <span className="block mt-3 text-foreground font-semibold">
+                  Switch between locations instantly.
+                </span>
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-20 px-6 bg-card/30">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-bold gradient-text-ink">
-            Ready to simplify your business?
+      {/* =================================================================== */}
+      {/* PRICING SECTION */}
+      {/* =================================================================== */}
+      <section className="py-32 px-6 bg-card/50 border-y border-border">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-6 gradient-text-ink">
+            Pricing That Makes Sense
           </h2>
-          <p className="text-xl text-foreground">
-            Start managing your clients better today
+          <p className="text-center text-muted-foreground text-xl mb-16 max-w-3xl mx-auto">
+            No hidden fees. No surprises. Just honest pricing for working artists.
           </p>
-          <div className="pt-4">
+
+          {/* Pricing Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {/* Solo Artist - FREE */}
+            <div className="surface p-8 rounded-2xl border-2 border-accent hover:border-accent/80 transition-all hover:scale-105">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Solo Artist</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-black gradient-text-ink">FREE</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">Forever</p>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Up to 50 clients</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">1 artist (you)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Calendar & appointments</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Client pipeline</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Perfect for independent artists</span>
+                </li>
+              </ul>
+              <Link href="/auth/sign-up" className="block">
+                <Button variant="outline" className="w-full py-6 text-lg font-semibold">
+                  Get Started Free
+                </Button>
+              </Link>
+            </div>
+
+            {/* Small Shop - $29 */}
+            <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Small Shop</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-black gradient-text-ink">$29</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Up to 200 clients</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Up to 3 artists</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Everything in Solo</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Multi-artist scheduling</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Shop dashboard</span>
+                </li>
+              </ul>
+              <Link href="/auth/sign-up" className="block">
+                <Button variant="default" className="w-full py-6 text-lg font-semibold">
+                  Start 90-Day Trial
+                </Button>
+              </Link>
+            </div>
+
+            {/* Growing Shop - $59 */}
+            <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105 relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent px-4 py-1 rounded-full">
+                <span className="text-xs font-bold text-accent-foreground">POPULAR</span>
+              </div>
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Growing Shop</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-black gradient-text-ink">$59</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Unlimited clients</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Up to 10 artists</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Everything in Small Shop</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Multiple locations</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Priority support</span>
+                </li>
+              </ul>
+              <Link href="/auth/sign-up" className="block">
+                <Button variant="default" className="w-full py-6 text-lg font-semibold">
+                  Start 90-Day Trial
+                </Button>
+              </Link>
+            </div>
+
+            {/* Enterprise */}
+            <div className="surface p-8 rounded-2xl border-2 border-border hover:border-border/80 transition-all hover:scale-105">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Enterprise</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-black gradient-text-ink">Custom</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">Let's talk</p>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Unlimited everything</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Dedicated support</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Custom integrations</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Training & onboarding</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Custom features</span>
+                </li>
+              </ul>
+              <Button
+                variant="outline"
+                onClick={() => setIsContactModalOpen(true)}
+                className="w-full py-6 text-lg font-semibold"
+              >
+                Contact Sales
+              </Button>
+            </div>
+          </div>
+
+          {/* Pricing Footer */}
+          <p className="text-center text-muted-foreground text-lg">
+            <span className="font-semibold text-foreground">90-day free trial on all paid plans.</span> No credit card required.
+          </p>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* ABOUT/TRUST SECTION */}
+      {/* =================================================================== */}
+      <section className="py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black mb-8 gradient-text-ink">
+            Built By Someone Who Gets It
+          </h2>
+          <div className="surface p-10 rounded-2xl border border-border">
+            <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+              I'm <span className="text-foreground font-bold">Davin</span>, an active-duty Marine who saw tattoo artists grinding their asses off but
+              <span className="text-foreground font-bold"> losing money</span> because their "system" was a mix of Instagram DMs,
+              Google Calendar, and memory.
+            </p>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              I built Simple Ink Studios because <span className="text-foreground font-bold">every artist I talked to had the same problems</span>—and
+              nobody was solving them. This isn't some generic CRM. This is built specifically for how you actually work.
+            </p>
+          </div>
+          {/* Placeholder for testimonial */}
+          <p className="text-sm text-muted-foreground mt-8">
+            Beta testimonials coming soon...
+          </p>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* FINAL CTA SECTION */}
+      {/* =================================================================== */}
+      <section className="py-32 px-6 bg-gradient-to-br from-primary/10 via-accent/10 to-background border-t border-border">
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black gradient-text-ink leading-tight">
+            Stop Losing Money on Forgotten Follow-Ups
+          </h2>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            Try Simple Ink Studios free for 90 days.
+            <span className="block mt-3 text-foreground font-semibold">
+              If it doesn't save you at least 5 hours a week, don't pay.
+            </span>
+          </p>
+          <div className="pt-6">
             <Link href="/auth/sign-up">
               <Button
-                variant={"default"}
-                className="text-xl px-12 py-6 transition-all duration-300 font-semibold"
+                variant="default"
+                size="lg"
+                className="text-2xl px-16 py-8 font-black shadow-2xl hover:scale-105 transition-transform"
               >
-                Get Started Free
+                Start Your Free Trial
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-foreground">
-            30-day free trial • Cancel anytime
+          <p className="text-muted-foreground text-lg">
+            No credit card required • Cancel anytime • <span className="text-foreground font-semibold">Solo artists stay free forever</span>
           </p>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-foreground">
-          <p>&copy; 2024 Simple Ink Studios. All rights reserved.</p>
-          <button
-            onClick={() => setIsContactModalOpen(true)}
-            className="hover:text-foreground transition-colors"
-          >
-            Contact Us
-          </button>
+      {/* =================================================================== */}
+      {/* FOOTER */}
+      {/* =================================================================== */}
+      <footer className="py-12 px-6 border-t border-border bg-card/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="text-center md:text-left">
+              <p className="text-2xl font-bold gradient-text-ink mb-2">Simple Ink Studios</p>
+              <p className="text-sm text-muted-foreground">
+                Built by artists, for artists
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-6 items-center text-sm">
+              <button
+                onClick={() => setIsContactModalOpen(true)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contact Us
+              </button>
+              <Link href="/auth/login" className="text-muted-foreground hover:text-foreground transition-colors">
+                Login
+              </Link>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+            <p>&copy; 2025 Simple Ink Studios. All rights reserved.</p>
+          </div>
         </div>
       </footer>
 
       {/* Modals */}
       <ContactModal
-        isOpen={IsContactModalOpen}
+        isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
       />
     </div>

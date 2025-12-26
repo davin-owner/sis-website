@@ -19,6 +19,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import Image from "next/image";
 import ContactModal from "@/components/contact/ContactModal.client";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
@@ -52,9 +53,15 @@ export default function LandingPage() {
               Stop Losing Clients in Your DMs
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Tattoo artists lose <span className="text-foreground font-bold">3-5 bookings every month</span> because consultations get buried, follow-ups are forgotten, and scheduling is chaos.
+              Tattoo artists lose{" "}
+              <span className="text-foreground font-bold">
+                3-5 bookings every month
+              </span>{" "}
+              because consultations get buried, follow-ups are forgotten, and
+              scheduling is chaos.
               <span className="block mt-4 text-foreground">
-                Simple Ink Studios fixes that—so you can spend less time hunting through messages and more time tattooing.
+                Simple Ink Studios fixes that—so you can spend less time hunting
+                through messages and more time tattooing.
               </span>
             </p>
           </div>
@@ -72,12 +79,17 @@ export default function LandingPage() {
             </Link>
             <button
               onClick={() => {
-                document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' });
+                document
+                  .getElementById("solution")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
               className="text-lg text-foreground hover:text-accent transition-colors flex items-center gap-2 group"
             >
               See how it works in 60 seconds
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </button>
           </div>
 
@@ -125,8 +137,8 @@ export default function LandingPage() {
                 Forgotten Follow-Ups
               </h3>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                You consulted someone last week. They said they'd get back to you.
-                You forgot to check in. They forgot about you.
+                You consulted someone last week. They said they'd get back to
+                you. You forgot to check in. They forgot about you.
               </p>
             </div>
 
@@ -139,16 +151,19 @@ export default function LandingPage() {
                 Scheduling Chaos
               </h3>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                You double-booked Tuesday. Your client drove an hour.
-                Now you're explaining why you can't take them. Awkward.
+                You double-booked Tuesday. Your client drove an hour. Now you're
+                explaining why you can't take them. Awkward.
               </p>
             </div>
           </div>
 
           {/* Bottom Text */}
           <p className="text-center text-xl text-foreground font-semibold mt-16">
-            Sound familiar? You're not disorganized. <br className="hidden sm:block" />
-            <span className="gradient-text-ink">You just don't have the right tools.</span>
+            Sound familiar? You're not disorganized.{" "}
+            <br className="hidden sm:block" />
+            <span className="gradient-text-ink">
+              You just don't have the right tools.
+            </span>
           </p>
         </div>
       </section>
@@ -172,15 +187,22 @@ export default function LandingPage() {
                 Every Client, One View
               </h3>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                See exactly who's at consultation, who's ready to book, who needs a follow-up.
+                See exactly who's at consultation, who's ready to book, who
+                needs a follow-up.
                 <span className="block mt-3 text-foreground font-semibold">
                   Nothing slips through the cracks.
                 </span>
               </p>
             </div>
             <div className="order-1 lg:order-2 surface p-4 rounded-2xl border border-border">
-              <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center">
-                <p className="text-muted-foreground text-sm">Pipeline Screenshot</p>
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <Image
+                  src="/landing/Cleint_Pipeline_photo.png"
+                  alt="Client pipeline management view"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -188,8 +210,14 @@ export default function LandingPage() {
           {/* Feature 2 */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
             <div className="surface p-4 rounded-2xl border border-border">
-              <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl flex items-center justify-center">
-                <p className="text-muted-foreground text-sm">Calendar Screenshot</p>
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <Image
+                  src="/landing/Calendar_Photo.png"
+                  alt="Color-coded calendar with appointments"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             <div className="space-y-6">
@@ -218,15 +246,22 @@ export default function LandingPage() {
                 Reminders That Actually Work
               </h3>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Set follow-up reminders for consultations. Get notified when it's time to check in.
+                Set follow-up reminders for consultations. Get notified when
+                it's time to check in.
                 <span className="block mt-3 text-foreground font-semibold">
                   Close more bookings.
                 </span>
               </p>
             </div>
             <div className="order-1 lg:order-2 surface p-4 rounded-2xl border border-border">
-              <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center">
-                <p className="text-muted-foreground text-sm">Dashboard/Reminders Screenshot</p>
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <Image
+                  src="/landing/Dashboard_Photo.png"
+                  alt="Dashboard with reminders and tasks"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -234,8 +269,14 @@ export default function LandingPage() {
           {/* Feature 4 */}
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="surface p-4 rounded-2xl border border-border">
-              <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/20 rounded-xl flex items-center justify-center">
-                <p className="text-muted-foreground text-sm">Artist Management Screenshot</p>
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <Image
+                  src="/landing/Workers_Photo.png"
+                  alt="Artist management interface"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             <div className="space-y-6">
@@ -246,7 +287,8 @@ export default function LandingPage() {
                 Multiple Artists, No Drama
               </h3>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Managing a shop? Track every artist's schedule and clients in one place.
+                Managing a shop? Track every artist's schedule and clients in
+                one place.
                 <span className="block mt-3 text-foreground font-semibold">
                   Switch between locations instantly.
                 </span>
@@ -265,7 +307,8 @@ export default function LandingPage() {
             Pricing That Makes Sense
           </h2>
           <p className="text-center text-muted-foreground text-xl mb-16 max-w-3xl mx-auto">
-            No hidden fees. No surprises. Just honest pricing for working artists.
+            No hidden fees. No surprises. Just honest pricing for working
+            artists.
           </p>
 
           {/* Pricing Grid */}
@@ -273,36 +316,64 @@ export default function LandingPage() {
             {/* Solo Artist - FREE */}
             <div className="surface p-8 rounded-2xl border-2 border-accent hover:border-accent/80 transition-all hover:scale-105">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Solo Artist</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  Solo Artist
+                </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black gradient-text-ink">FREE</span>
+                  <span className="text-5xl font-black gradient-text-ink">
+                    FREE
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">Forever</p>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Up to 50 clients</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Up to 50 clients
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-muted-foreground">1 artist (you)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Calendar & appointments</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Calendar & appointments
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-muted-foreground">Client pipeline</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Perfect for independent artists</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Perfect for independent artists
+                  </span>
                 </li>
               </ul>
               <Link href="/auth/sign-up" className="block">
-                <Button variant="outline" className="w-full py-6 text-lg font-semibold">
+                <Button
+                  variant="outline"
+                  className="w-full py-6 text-lg font-semibold"
+                >
                   Get Started Free
                 </Button>
               </Link>
@@ -311,36 +382,64 @@ export default function LandingPage() {
             {/* Small Shop - $29 */}
             <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Small Shop</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  Small Shop
+                </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black gradient-text-ink">$29</span>
+                  <span className="text-5xl font-black gradient-text-ink">
+                    $29
+                  </span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Up to 200 clients</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Up to 200 clients
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-muted-foreground">Up to 3 artists</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Everything in Solo</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Everything in Solo
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Multi-artist scheduling</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Multi-artist scheduling
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-muted-foreground">Shop dashboard</span>
                 </li>
               </ul>
               <Link href="/auth/sign-up" className="block">
-                <Button variant="default" className="w-full py-6 text-lg font-semibold">
+                <Button
+                  variant="default"
+                  className="w-full py-6 text-lg font-semibold"
+                >
                   Start 90-Day Trial
                 </Button>
               </Link>
@@ -348,40 +447,74 @@ export default function LandingPage() {
 
             {/* Growing Shop - $59 */}
             <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent px-4 py-1 rounded-full">
-                <span className="text-xs font-bold text-accent-foreground">POPULAR</span>
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#f600f7]/75 px-4 py-1 rounded-full">
+                <span className="text-xs font-bold text-white">
+                  POPULAR
+                </span>
               </div>
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Growing Shop</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  Growing Shop
+                </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black gradient-text-ink">$59</span>
+                  <span className="text-5xl font-black gradient-text-ink">
+                    $59
+                  </span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Unlimited clients</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Unlimited clients
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Up to 10 artists</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Up to 10 artists
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Everything in Small Shop</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Everything in Small Shop
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Multiple locations</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Multiple locations
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Priority support</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Priority support
+                  </span>
                 </li>
               </ul>
               <Link href="/auth/sign-up" className="block">
-                <Button variant="default" className="w-full py-6 text-lg font-semibold">
+                <Button
+                  variant="default"
+                  className="w-full py-6 text-lg font-semibold"
+                >
                   Start 90-Day Trial
                 </Button>
               </Link>
@@ -390,31 +523,58 @@ export default function LandingPage() {
             {/* Enterprise */}
             <div className="surface p-8 rounded-2xl border-2 border-border hover:border-border/80 transition-all hover:scale-105">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Enterprise</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  Enterprise
+                </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black gradient-text-ink">Custom</span>
+                  <span className="text-4xl font-black gradient-text-ink">
+                    Custom
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">Let's talk</p>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Unlimited everything</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Unlimited everything
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Dedicated support</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Dedicated support
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Custom integrations</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Custom integrations
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Training & onboarding</span>
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Training & onboarding
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Check size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <Check
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-muted-foreground">Custom features</span>
                 </li>
               </ul>
@@ -429,8 +589,11 @@ export default function LandingPage() {
           </div>
 
           {/* Pricing Footer */}
-          <p className="text-center text-muted-foreground text-lg">
-            <span className="font-semibold text-foreground">90-day free trial on all paid plans.</span> No credit card required.
+          <p className="text-center text-foreground text-lg">
+            <span className="font-semibold text-foreground">
+              90-day free trial on all paid plans.
+            </span>{" "}
+            No credit card required.
           </p>
         </div>
       </section>
@@ -445,17 +608,27 @@ export default function LandingPage() {
           </h2>
           <div className="surface p-10 rounded-2xl border border-border">
             <p className="text-xl text-muted-foreground leading-relaxed mb-6">
-              I'm <span className="text-foreground font-bold">Davin</span>, an active-duty Marine who saw tattoo artists grinding their asses off but
-              <span className="text-foreground font-bold"> losing money</span> because their "system" was a mix of Instagram DMs,
-              Google Calendar, and memory.
+              I'm <span className="text-foreground font-bold">Davin</span>, an
+              active-duty Marine who saw tattoo artists grinding their asses off
+              but
+              <span className="text-foreground font-bold">
+                {" "}
+                losing money
+              </span>{" "}
+              because their "system" was a mix of Instagram DMs, Google
+              Calendar, and memory.
             </p>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              I built Simple Ink Studios because <span className="text-foreground font-bold">every artist I talked to had the same problems</span>—and
-              nobody was solving them. This isn't some generic CRM. This is built specifically for how you actually work.
+              I built Simple Ink Studios because{" "}
+              <span className="text-foreground font-bold">
+                every artist I talked to had the same problems
+              </span>
+              —and nobody was solving them. This isn't some generic CRM. This is
+              built specifically for how you actually work.
             </p>
           </div>
           {/* Placeholder for testimonial */}
-          <p className="text-sm text-muted-foreground mt-8">
+          <p className="text-sm text-foreground mt-8">
             Beta testimonials coming soon...
           </p>
         </div>
@@ -469,7 +642,7 @@ export default function LandingPage() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black gradient-text-ink leading-tight">
             Stop Losing Money on Forgotten Follow-Ups
           </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-accent max-w-3xl mx-auto">
             Try Simple Ink Studios free for 90 days.
             <span className="block mt-3 text-foreground font-semibold">
               If it doesn't save you at least 5 hours a week, don't pay.
@@ -486,8 +659,11 @@ export default function LandingPage() {
               </Button>
             </Link>
           </div>
-          <p className="text-muted-foreground text-lg">
-            No credit card required • Cancel anytime • <span className="text-foreground font-semibold">Solo artists stay free forever</span>
+          <p className="text-accent text-lg">
+            No credit card required • Cancel anytime •{" "}
+            <span className="text-foreground font-semibold">
+              Solo artists stay free forever
+            </span>
           </p>
         </div>
       </section>
@@ -499,8 +675,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-              <p className="text-2xl font-bold gradient-text-ink mb-2">Simple Ink Studios</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-2xl font-bold gradient-text-ink mb-2">
+                Simple Ink Studios
+              </p>
+              <p className="text-sm text-accent ">
                 Built by artists, for artists
               </p>
             </div>
@@ -511,7 +689,10 @@ export default function LandingPage() {
               >
                 Contact Us
               </button>
-              <Link href="/auth/login" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href="/auth/login"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Login
               </Link>
             </div>

@@ -28,21 +28,21 @@
   /* ===== LIGHT MODE (DEFAULT) - Bold & Creative ===== */
   /* Base */
   --color-background: #ffffff;
-  --color-foreground: #1f2937;
+  --color-foreground: #111827;
 
   /* Surfaces & Cards */
   --color-surface: #ffffff;
   --color-card: #ffffff;
-  --color-card-foreground: #1f2937;
+  --color-card-foreground: #111827;
 
   /* Text */
   --color-text: #1f2937;
-  --color-text-muted: #6b7280;
+  --color-text-muted: #374151;
   --color-text-inverse: #ffffff;
 
   /* Accents - Bold with brand colors (darker cyan for visibility in light mode) */
-  --color-accent: #f0fdfa;
-  --color-accent-foreground: #0891b2; /* Darker cyan for better contrast on white */
+  --color-accent: #111827; /* Dark color matching text */
+  --color-accent-foreground: #111827; /* Dark color for better contrast on white */
   --color-accent-hover: var(--brand-pink-bright);
 
   /* UI Components */
@@ -53,7 +53,7 @@
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
   --color-muted: #f9fafb;
-  --color-muted-foreground: #9ca3af;
+  --color-muted-foreground: #374151;
 
   /* Borders & Inputs */
   --color-border: #e5e7eb;

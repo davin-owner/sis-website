@@ -313,11 +313,11 @@ export default function LandingPage() {
 
           {/* Pricing Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {/* Solo Artist - FREE */}
+            {/* Solo Free - $0 */}
             <div className="surface p-8 rounded-2xl border-2 border-accent hover:border-accent/80 transition-all hover:scale-105">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  Solo Artist
+                  Solo Free
                 </h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-black gradient-text-ink">
@@ -379,11 +379,11 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Small Shop - $29 */}
+            {/* Studio Starter - $29 */}
             <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  Small Shop
+                  Studio Starter
                 </h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-black gradient-text-ink">
@@ -391,6 +391,7 @@ export default function LandingPage() {
                   </span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
+                <p className="text-sm text-muted-foreground mt-2">2-3 artists</p>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
@@ -399,7 +400,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Up to 200 clients
+                    Unlimited clients
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -415,7 +416,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Everything in Solo
+                    Everything in Solo Free
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -445,7 +446,7 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Growing Shop - $59 */}
+            {/* Studio Pro - $49 */}
             <div className="surface p-8 rounded-2xl border-2 border-primary hover:border-primary/80 transition-all hover:scale-105 relative">
               <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[#f600f7]/75 px-4 py-1 rounded-full">
                 <span className="text-xs font-bold text-white">
@@ -454,14 +455,15 @@ export default function LandingPage() {
               </div>
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  Growing Shop
+                  Studio Pro
                 </h3>
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-black gradient-text-ink">
-                    $59
+                    $49
                   </span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
+                <p className="text-sm text-muted-foreground mt-2">4-8 artists</p>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
@@ -479,7 +481,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Up to 10 artists
+                    Up to 8 artists
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -488,7 +490,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Everything in Small Shop
+                    Everything in Starter
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -497,7 +499,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Multiple locations
+                    SMS & Email notifications
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -520,18 +522,19 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Enterprise */}
+            {/* Studio Plus - $89 */}
             <div className="surface p-8 rounded-2xl border-2 border-border hover:border-border/80 transition-all hover:scale-105">
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-foreground mb-2">
-                  Enterprise
+                  Studio Plus
                 </h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black gradient-text-ink">
-                    Custom
+                  <span className="text-5xl font-black gradient-text-ink">
+                    $89
                   </span>
+                  <span className="text-muted-foreground">/month</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">Let's talk</p>
+                <p className="text-sm text-muted-foreground mt-2">9-15 artists</p>
               </div>
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start gap-3">
@@ -540,7 +543,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Unlimited everything
+                    Up to 15 artists
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -549,7 +552,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Dedicated support
+                    Everything in Pro
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -558,7 +561,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Custom integrations
+                    Payment processing
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -567,7 +570,7 @@ export default function LandingPage() {
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
                   <span className="text-muted-foreground">
-                    Training & onboarding
+                    Multi-location support
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -575,16 +578,17 @@ export default function LandingPage() {
                     size={20}
                     className="text-accent mt-0.5 flex-shrink-0"
                   />
-                  <span className="text-muted-foreground">Custom features</span>
+                  <span className="text-muted-foreground">API access</span>
                 </li>
               </ul>
-              <Button
-                variant="outline"
-                onClick={() => setIsContactModalOpen(true)}
-                className="w-full py-6 text-lg font-semibold"
-              >
-                Contact Sales
-              </Button>
+              <Link href="/auth/sign-up" className="block">
+                <Button
+                  variant="outline"
+                  className="w-full py-6 text-lg font-semibold"
+                >
+                  Start 90-Day Trial
+                </Button>
+              </Link>
             </div>
           </div>
 

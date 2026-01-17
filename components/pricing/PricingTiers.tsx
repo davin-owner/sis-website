@@ -6,7 +6,7 @@ import { Check } from 'lucide-react';
 
 const tiers = [
   {
-    name: 'Solo Artist',
+    name: 'Solo Free',
     price: 0,
     period: 'Forever free',
     description: 'Perfect for individual artists',
@@ -15,16 +15,16 @@ const tiers = [
       'Up to 50 clients',
       'Up to 20 appointments/month',
       'Basic calendar',
-      'Client list',
+      'Client pipeline',
     ],
     cta: 'Get Started Free',
     tier: 'free',
   },
   {
-    name: 'Studio Basics',
+    name: 'Studio Starter',
     price: 29,
     period: 'per month',
-    description: 'For small tattoo studios',
+    description: 'For small tattoo studios (2-3 artists)',
     features: [
       'Up to 3 artists',
       'Unlimited clients',
@@ -35,17 +35,17 @@ const tiers = [
       'Remove branding',
     ],
     cta: 'Start Free Trial',
-    tier: 'basics',
+    tier: 'starter',
     popular: false,
   },
   {
     name: 'Studio Pro',
-    price: 79,
+    price: 49,
     period: 'per month',
-    description: 'Automation for growing studios',
+    description: 'For growing studios (4-8 artists)',
     features: [
-      'Up to 10 artists',
-      'Everything in Basics',
+      'Up to 8 artists',
+      'Everything in Starter',
       'SMS notifications',
       'Email notifications',
       'Analytics dashboard',
@@ -57,12 +57,12 @@ const tiers = [
     popular: true,
   },
   {
-    name: 'Studio Enterprise',
-    price: 149,
+    name: 'Studio Plus',
+    price: 89,
     period: 'per month',
-    description: 'For established shops',
+    description: 'For established shops (9-15 artists)',
     features: [
-      'Unlimited artists',
+      'Up to 15 artists',
       'Everything in Pro',
       'Payment processing',
       'Multi-location support',
@@ -71,7 +71,7 @@ const tiers = [
       'Dedicated account manager',
     ],
     cta: 'Start Free Trial',
-    tier: 'enterprise',
+    tier: 'plus',
     popular: false,
   },
 ];

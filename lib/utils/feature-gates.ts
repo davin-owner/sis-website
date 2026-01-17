@@ -1,6 +1,7 @@
 import { SubscriptionTier } from '@/lib/database';
 
 // Tier limits configuration
+// Solo Free: $0, Studio Starter: $29, Studio Pro: $49, Studio Plus: $89
 export const TIER_LIMITS = {
   free: {
     artists: 1,
@@ -14,7 +15,7 @@ export const TIER_LIMITS = {
     multiLocation: false,
     apiAccess: false,
   },
-  basics: {
+  starter: {
     artists: 3,
     clients: Infinity,
     appointmentsPerMonth: Infinity,
@@ -27,7 +28,7 @@ export const TIER_LIMITS = {
     apiAccess: false,
   },
   pro: {
-    artists: 10,
+    artists: 8,
     clients: Infinity,
     appointmentsPerMonth: Infinity,
     sms: true,
@@ -38,8 +39,8 @@ export const TIER_LIMITS = {
     multiLocation: false,
     apiAccess: false,
   },
-  enterprise: {
-    artists: Infinity,
+  plus: {
+    artists: 15,
     clients: Infinity,
     appointmentsPerMonth: Infinity,
     sms: true,
@@ -85,11 +86,11 @@ export function isAtLimit(
 export function getUpgradeMessage(tier: SubscriptionTier): string {
   switch (tier) {
     case 'free':
-      return 'Upgrade to Studio Basics ($29/mo) to add more artists and remove limits';
-    case 'basics':
-      return 'Upgrade to Studio Pro ($79/mo) to unlock SMS/Email automation';
+      return 'Upgrade to Studio Starter ($29/mo) to add more artists and remove limits';
+    case 'starter':
+      return 'Upgrade to Studio Pro ($49/mo) to unlock SMS/Email automation and up to 8 artists';
     case 'pro':
-      return 'Upgrade to Studio Enterprise ($149/mo) for unlimited artists and payment processing';
+      return 'Upgrade to Studio Plus ($89/mo) for up to 15 artists and payment processing';
     default:
       return '';
   }
@@ -97,7 +98,7 @@ export function getUpgradeMessage(tier: SubscriptionTier): string {
 
 // Get next tier in upgrade path
 export function getNextTier(tier: SubscriptionTier): SubscriptionTier | null {
-  const tiers: SubscriptionTier[] = ['free', 'basics', 'pro', 'enterprise'];
+  const tiers: SubscriptionTier[] = ['free', 'starter', 'pro', 'plus'];
   const currentIndex = tiers.indexOf(tier);
   return currentIndex < tiers.length - 1 ? tiers[currentIndex + 1] : null;
 }
@@ -105,10 +106,10 @@ export function getNextTier(tier: SubscriptionTier): SubscriptionTier | null {
 // Get tier display name
 export function getTierDisplayName(tier: SubscriptionTier): string {
   const names = {
-    free: 'Solo Artist',
-    basics: 'Studio Basics',
+    free: 'Solo Free',
+    starter: 'Studio Starter',
     pro: 'Studio Pro',
-    enterprise: 'Studio Enterprise',
+    plus: 'Studio Plus',
   };
   return names[tier];
 }
@@ -117,9 +118,9 @@ export function getTierDisplayName(tier: SubscriptionTier): string {
 export function getTierPrice(tier: SubscriptionTier): number {
   const prices = {
     free: 0,
-    basics: 29,
-    pro: 79,
-    enterprise: 149,
+    starter: 29,
+    pro: 49,
+    plus: 89,
   };
   return prices[tier];
 }

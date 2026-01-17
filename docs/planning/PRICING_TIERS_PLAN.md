@@ -1,3 +1,4 @@
+
 # 💰 Pricing & Tiers Strategy
 
 **Last Updated:** 2025-11-05

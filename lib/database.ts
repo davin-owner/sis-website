@@ -4,7 +4,7 @@
 
 */
 
-export type SubscriptionTier = 'free' | 'basics' | 'pro' | 'enterprise';
+export type SubscriptionTier = 'free' | 'starter' | 'pro' | 'plus';
 export type SubscriptionStatus = 'active' | 'cancelled' | 'past_due' | 'trialing';
 
 export type Shop = {

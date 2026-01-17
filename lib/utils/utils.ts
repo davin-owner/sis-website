@@ -36,7 +36,7 @@ export function isValidPhoneNumber(phone: string | null | undefined): boolean {
 }
 
 /**
- * Normalizes a phone number for consistent database storage
+ * Normalizes a phone number to 10 digits only
  * Accepts any format, strips to digits, removes leading 1
  *
  * Examples:
@@ -63,24 +63,66 @@ export function normalizePhoneNumber(phone: string | null | undefined): string {
 }
 
 /**
- * Formats a phone number to a consistent format: (555) 123-4567
+ * Formats a phone number for database storage: +1-(123)-456-7890
+ * Accepts any input format, always outputs consistent format with country code
+ *
+ * Examples:
+ * - "5551234567" → "+1-(555)-123-4567"
+ * - "(555) 123-4567" → "+1-(555)-123-4567"
+ * - "1-555-123-4567" → "+1-(555)-123-4567"
+ * - "+1 555.123.4567" → "+1-(555)-123-4567"
  *
  * @param phone - The phone number to format
- * @returns Formatted phone number or original if invalid
+ * @returns Formatted phone number with country code or empty string if invalid
  */
 export function formatPhoneNumber(phone: string | null | undefined): string {
   if (!phone) return '';
 
   // Remove all non-digit characters
-  const digitsOnly = phone.replace(/\D/g, '');
+  let digitsOnly = phone.replace(/\D/g, '');
 
-  // Format based on length
-  if (digitsOnly.length === 10) {
-    return `(${digitsOnly.slice(0, 3)}) ${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`;
-  } else if (digitsOnly.length === 11 && digitsOnly[0] === '1') {
-    return `+1 (${digitsOnly.slice(1, 4)}) ${digitsOnly.slice(4, 7)}-${digitsOnly.slice(7)}`;
+  // Remove leading 1 (country code) if present to normalize to 10 digits
+  if (digitsOnly.length === 11 && digitsOnly[0] === '1') {
+    digitsOnly = digitsOnly.slice(1);
   }
 
-  // Return original if we can't format it
-  return phone;
+  // Must have exactly 10 digits for US number
+  if (digitsOnly.length !== 10) {
+    return phone; // Return original if we can't format it
+  }
+
+  // Format as +1-(123)-456-7890
+  return `+1-(${digitsOnly.slice(0, 3)})-${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`;
+}
+
+/**
+ * Formats a phone number for Twilio/E.164 format: +15551234567
+ * This is required for Twilio API calls and Supabase Auth phone verification
+ *
+ * Examples:
+ * - "5551234567" → "+15551234567"
+ * - "(555) 123-4567" → "+15551234567"
+ * - "+1-(555)-123-4567" → "+15551234567"
+ *
+ * @param phone - The phone number to format
+ * @returns E.164 formatted phone number or empty string if invalid
+ */
+export function formatPhoneForTwilio(phone: string | null | undefined): string {
+  if (!phone) return '';
+
+  // Remove all non-digit characters
+  let digitsOnly = phone.replace(/\D/g, '');
+
+  // Remove leading 1 (country code) if present to normalize to 10 digits
+  if (digitsOnly.length === 11 && digitsOnly[0] === '1') {
+    digitsOnly = digitsOnly.slice(1);
+  }
+
+  // Must have exactly 10 digits for US number
+  if (digitsOnly.length !== 10) {
+    return ''; // Return empty if invalid
+  }
+
+  // Format as E.164: +15551234567
+  return `+1${digitsOnly}`;
 }

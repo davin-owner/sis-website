@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { revalidatePath } from "next/cache";
+import { formatPhoneForTwilio, isValidPhoneNumber } from "@/lib/utils/utils";
 
 /**
  * Update user profile (email, phone)
@@ -17,11 +18,20 @@ export async function updateUserProfileAction(formData: FormData) {
   }
 
   const email = formData.get("email") as string;
-  const phone = formData.get("phone") as string;
+  const rawPhone = formData.get("phone") as string;
 
   // Validate inputs
   if (!email?.trim()) {
     return { error: "Email is required" };
+  }
+
+  // Validate and format phone number if provided
+  let formattedPhone = '';
+  if (rawPhone?.trim()) {
+    if (!isValidPhoneNumber(rawPhone)) {
+      return { error: "Invalid phone number format. Please enter a valid US phone number." };
+    }
+    formattedPhone = formatPhoneForTwilio(rawPhone);
   }
 
   try {
@@ -36,10 +46,10 @@ export async function updateUserProfileAction(formData: FormData) {
       }
     }
 
-    // Update phone if changed
-    if (phone !== user.phone) {
+    // Update phone if changed (use E.164 format for Twilio)
+    if (formattedPhone && formattedPhone !== user.phone) {
       const { error: phoneError } = await supabase.auth.updateUser({
-        phone: phone,
+        phone: formattedPhone,
       });
 
       if (phoneError) {

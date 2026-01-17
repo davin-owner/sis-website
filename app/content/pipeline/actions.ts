@@ -9,7 +9,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { getUserSafe } from "@/lib/auth/get-user-safe";
 import { getActiveShopIdFallback } from "@/lib/utils/active-shop";
-import { isValidPhoneNumber, normalizePhoneNumber } from "@/lib/utils/utils";
+import { isValidPhoneNumber, formatPhoneNumber } from "@/lib/utils/utils";
 import { revalidatePath } from "next/cache";
 
 // use getactiveshop id and pass it the shop id and then give it to that funciton
@@ -31,13 +31,18 @@ export async function createClientAction(formData: FormData) {
   const shopId = await getActiveShopIdFallback(user.id, supabase);
   if (!shopId) throw Error("No Shops Found Under User!");
 
-  // Get raw phone and normalize it for consistent storage
+  // Get raw phone and validate before formatting
   const rawPhone = (formData.get("client_contact_phone") as string)?.trim() || "";
+
+  // Validate phone format early (before building clientData)
+  if (rawPhone && !isValidPhoneNumber(rawPhone)) {
+    return { error: "Invalid phone number format" };
+  }
 
   const clientData = {
     name: (formData.get("client_name") as string)?.trim() || "",
     contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
-    contact_phone: rawPhone ? normalizePhoneNumber(rawPhone) : "", // Normalize: "1-555-123-4567" → "5551234567"
+    contact_phone: rawPhone ? formatPhoneNumber(rawPhone) : "", // Format: "5551234567" → "+1-(555)-123-4567"
     artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",
@@ -66,11 +71,6 @@ export async function createClientAction(formData: FormData) {
   // Validate email format if provided
   if (clientData.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.contact_email)) {
     return { error: "Invalid email format" };
-  }
-
-  // Validate phone number if provided
-  if (clientData.contact_phone && !isValidPhoneNumber(clientData.contact_phone)) {
-    return { error: "Invalid phone number format" };
   }
 
   // Validate deposit status
@@ -116,13 +116,18 @@ export async function updateClientAction(formData: FormData) {
     return { error: "Client ID is required" };
   }
 
-  // Get raw phone and normalize it for consistent storage
+  // Get raw phone and validate before formatting
   const rawPhone = (formData.get("client_contact_phone") as string)?.trim() || "";
+
+  // Validate phone format early (before building clientData)
+  if (rawPhone && !isValidPhoneNumber(rawPhone)) {
+    return { error: "Invalid phone number format" };
+  }
 
   const clientData = {
     name: (formData.get("client_name") as string)?.trim() || "",
     contact_email: (formData.get("client_contact_email") as string)?.trim() || "",
-    contact_phone: rawPhone ? normalizePhoneNumber(rawPhone) : "", // Normalize: "1-555-123-4567" → "5551234567"
+    contact_phone: rawPhone ? formatPhoneNumber(rawPhone) : "", // Format: "5551234567" → "+1-(555)-123-4567"
     artists: (formData.get("client_prefered_artists") as string)?.trim() || "",
     session_count: parseInt(
       (formData.get("client_session_count") as string) || "0",
@@ -151,11 +156,6 @@ export async function updateClientAction(formData: FormData) {
   // Validate email format if provided
   if (clientData.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientData.contact_email)) {
     return { error: "Invalid email format" };
-  }
-
-  // Validate phone number if provided
-  if (clientData.contact_phone && !isValidPhoneNumber(clientData.contact_phone)) {
-    return { error: "Invalid phone number format" };
   }
 
   // Validate deposit status
